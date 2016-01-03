@@ -23,10 +23,10 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 		this.districtDetailsDao = districtDetailsDao;
 	}
 	
-	public List<DistrictDetails> getDistrictDetailsTable(String serchq) {
+	public List<DistrictDetails> getDistrictDetailsTable(String sortField, int order, int start, int length,String searchq) {
 		List<DistrictDetails>  list =null;
 		try {
-			list = districtDetailsDao.getDistrictDetailsTable(serchq);
+			list = districtDetailsDao.getDistrictDetailsTable(sortField,order,start,length, searchq);
 		}catch (Exception e){
 			System.out.println("Error :"+e);
 		}
@@ -72,6 +72,17 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 			System.out.println(e);
 		}
 		return status;
+	}
+
+	public DistrictDetails getDistrictDetailsByDDID(HttpServletRequest request) {
+		DistrictDetails  districtDetails =null;
+		Long ddid = ServletRequestUtils.getLongParameter(request, "hiddenDDID",0L);
+		try {
+			districtDetails = districtDetailsDao.getDistrictDetailsByDDID(ddid);
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return districtDetails;
 	}
 
 }

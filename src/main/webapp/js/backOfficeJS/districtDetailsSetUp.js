@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	$('#districtFormDivId').hide();
-	//loadDistrictDetailsTable();
+	clearValues();
+	loadDistrictDetailsTable();
 })
 
 function loadDistrictDetailsTable() {
@@ -21,6 +22,15 @@ function loadDistrictDetailsTable() {
 
 function newDistrictDetails() {
 	$('#districtFormDivId').show();
+	clearValues();
+}
+
+function clearValues() {
+	$('#hiddenDDID').val('');
+	$('#districtCodeId').val('');
+	$('#districtNameId').val('');
+	$('#districtDetailsSearchId').val('');
+	
 }
 
 function districtDetailsSave() {
@@ -33,10 +43,37 @@ function districtDetailsSave() {
 		districtCode : districtCode,
 		districtName : districtName
 	}, function(data) {
-		if (data.status == 'success') {
-			console.log(data.status);
+		
+		if (data.status == 'saved' ||data.status == 'updated') {
+			$('#districtFormDivId').hide();
+			loadDistrictDetailsTable();
+			clearValues();
 		} else {
 			console.log(data.status);
 		}
 	});
+}
+
+function districtDetailsEdit(ddid) {
+	newDistrictDetails();
+	var hiddenDDID = ddid;
+	$('#hiddenDDID').val(ddid);
+	
+	$.get('districtSetUp/getDistrictDetails', {
+		hiddenDDID : hiddenDDID
+	}, function(data) {
+		if (data.status == 'success') {
+			if(data.result != null) {
+				$('#districtCodeId').val(data.result.districtCode);
+				$('#districtNameId').val(data.result.districtName);
+			}
+		} else {
+			console.log(data.status);
+		}
+	});
+	
+}
+
+function districtDetailsDelete(ddid) {
+	
 }

@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE>
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+<link href='css/common-style.css' rel='stylesheet' type='text/css'>
+
 <script src="js/jquery.js"></script>
+<script src="js/common.js"></script>
+<script src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script src="js/backOfficeJS/districtDetailsSetUp.js"></script>
 <html>
 <head>

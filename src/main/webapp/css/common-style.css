@@ -689,3 +689,20 @@ label{
     padding-top: 20px;
     padding-bottom: 20px;
 }
+
+.edit-btn{
+    background: #00acee;
+    padding: 3px 11px;
+    border-radius: 2px;
+    color: #fff;
+    top: -3px;
+    position: relative;
+}
+.delete-btn{
+    background: #ff6b50;
+    padding: 3px 11px;
+    border-radius: 2px;
+    color: #fff;
+    top: -3px;
+    position: relative;
+}
