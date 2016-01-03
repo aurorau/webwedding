@@ -286,7 +286,7 @@
             <div class="col-xs-12 col-md-10 filter">
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                     <label>Select a Service</label>
-                    <select class="form-control" >
+                    <select class="form-control" id="serviceCategoryDD" >
                         <option>Wedding Attire</option>
                         <option>Wedding Dress Designers</option>
                         <option>Beautician</option>
