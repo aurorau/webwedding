@@ -8,7 +8,8 @@ import com.aurora.model.DistrictDetails;
 import com.aurora.model.SupplierCategory;
 
 public interface SupplierCategoryService {
-	public List<SupplierCategory> getSupplierCategoryTable(String serchq);
+	public List<SupplierCategory> getSupplierCategoryTable(String sortField,int order,int start, int length, String searchq);
 	public int getSupplierCategoryTableCount(String serchq);
 	public String saveSupplierCategory(HttpServletRequest request);
+	public SupplierCategory getSupplierCategoryBySCID(HttpServletRequest request);
 }

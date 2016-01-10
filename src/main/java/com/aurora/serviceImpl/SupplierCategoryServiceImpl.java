@@ -25,12 +25,26 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		this.supplierCategoryDao = supplierCategoryDao;
 	}
 	
-	public List<SupplierCategory> getSupplierCategoryTable(String serchq) {
-		return null;
+	public List<SupplierCategory> getSupplierCategoryTable(String sortField,int order,int start, int length, String searchq) {
+		List<SupplierCategory>  list =null;
+		try {
+			list = supplierCategoryDao.getSupplierCategoryTable(sortField,order,start,length, searchq);
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return list;
 	}
 
 	public int getSupplierCategoryTableCount(String serchq) {
-		return 0;
+		int count = 0;
+		
+		try {
+			count = supplierCategoryDao.getSupplierCategoryTableCount(serchq);
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		
+		return count;
 	}
 
 	public String saveSupplierCategory(HttpServletRequest request) {
@@ -60,6 +74,17 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 			System.out.println(e);
 		}
 		return status;
+	}
+
+	public SupplierCategory getSupplierCategoryBySCID(HttpServletRequest request) {
+		SupplierCategory  supplierCategory =null;
+		Long scid = ServletRequestUtils.getLongParameter(request, "hiddenSCID",0L);
+		try {
+			supplierCategory = supplierCategoryDao.getSupplierCategoryBySCID(scid);
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return supplierCategory;
 	}
 
 }

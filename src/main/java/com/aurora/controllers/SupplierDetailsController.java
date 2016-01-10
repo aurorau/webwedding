@@ -1,10 +1,8 @@
 package com.aurora.controllers;
 
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,57 +14,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.aurora.model.DistrictDetails;
 import com.aurora.model.SupplierCategory;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.service.SupplierCategoryService;
+import com.aurora.service.SupplierDetailsService;
 import com.aurora.util.Constant;
 import com.aurora.util.JsonResponce;
 
 @Controller
-@RequestMapping("/supplierCategorySetUp")
-public class SupplierCategorySetUpController {
-	 SupplierCategoryService supplierCategoryService = null;
+@RequestMapping("/supplierDetailsController")
+public class SupplierDetailsController {
+	 
+	 SupplierDetailsService supplierDetailsService = null;
 
 	 
 	 @Autowired
-	 public void setSupplierCategoryService(SupplierCategoryService supplierCategoryService) {
-		 this.supplierCategoryService = supplierCategoryService;
+	 public void setSupplierDetailsService( SupplierDetailsService supplierDetailsService) {
+		 this.supplierDetailsService = supplierDetailsService;
 	 }
-	
+	 
 	
 	 @RequestMapping(method = RequestMethod.GET)
 	 public ModelAndView supplierCategory() throws Exception {
-		 return new ModelAndView("supplierCategorySetUp");
+		 return new ModelAndView("supplierDetails");
 	 }
 	 
-	 @RequestMapping(method = RequestMethod.POST, value="/saveSupplierCategory")
-	 public @ResponseBody JsonResponce saveSupplierCategory(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 @RequestMapping(method = RequestMethod.POST, value="/saveSupplierDetails")
+	 public @ResponseBody JsonResponce saveSupplierDetails(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
-		 String status = supplierCategoryService.saveSupplierCategory(request);
+		 String status = supplierDetailsService.saveSupplierPersonalDetails(request);
 		 
 		 res.setStatus(status);
 		 
 		 return res;
 	 }
 	 
-	 @RequestMapping(method = RequestMethod.GET, value="/getSupplierCategoryBySCID")
-	 public @ResponseBody JsonResponce getSupplierCategoryBySCID(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 @RequestMapping(method = RequestMethod.GET, value="/getSupplierPersonalDetailsBySPDID")
+	 public @ResponseBody JsonResponce getSupplierPersonalDetailsBySPDID(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
-		 SupplierCategory supplierCategory = supplierCategoryService.getSupplierCategoryBySCID(request);
+		 SupplierPersonalDetails SupplierPersonalDetails = supplierDetailsService.getSupplierPersonalDetailsBySPDID(request);
 		 
 		 res.setStatus("success");
-		 res.setResult(supplierCategory);
+		 res.setResult(SupplierPersonalDetails);
 		 
 		 return res;
 	 }
 	 
-	 @RequestMapping(method = RequestMethod.GET, value="/getSupplierCategoryTable")
-	 public ModelAndView getSupplierCategoryTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 @RequestMapping(method = RequestMethod.GET, value="/getSupplierDetailsTable")
+	 public ModelAndView getSupplierDetailsTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 Model model = new ExtendedModelMap();
-		 ParamEncoder paramEncoder = new ParamEncoder(Constant.TABLE_SUPPLIER_CATEGORY);
+		 ParamEncoder paramEncoder = new ParamEncoder(Constant.TABLE_SUPPLIER_DETAILS);
 		 
 	    	try{
 	    		String sortField = ServletRequestUtils.getStringParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_SORT));
@@ -75,17 +74,17 @@ public class SupplierCategorySetUpController {
 	    		int start = (page>0) ? (page - 1) * Constant.GRID_TABLE_SIZE : 0;
 	    		String searchq = ServletRequestUtils.getStringParameter(request, Constant.PARAMETER_SEARCH);
 			
-	    		List<SupplierCategory> supplierCategoryList = supplierCategoryService.getSupplierCategoryTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
-	    		int supplierCategoryCount = supplierCategoryService.getSupplierCategoryTableCount(searchq);
+	    		List<SupplierPersonalDetails> supplierPersonalDetailsList = supplierDetailsService.getSupplierPersonalDetailsable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
+	    		int SupplierPersonalDetailsCount = supplierDetailsService.getSupplierPersonalDetailsCount(searchq);
 			
-	    		request.setAttribute(Constant.TABLE_SIZE, supplierCategoryCount );
+	    		request.setAttribute(Constant.TABLE_SIZE, SupplierPersonalDetailsCount );
 	    		request.setAttribute(Constant.GRID_TABLE_SIZE_KEY, Constant.GRID_TABLE_SIZE);
-	    		model.addAttribute(Constant.TABLE_SUPPLIER_CATEGORY, supplierCategoryList);
+	    		model.addAttribute(Constant.TABLE_SUPPLIER_DETAILS, supplierPersonalDetailsList);
 	    	} catch (Exception e) {
 	    		System.out.println(e);
 	    	}
 		 
 		 
-		 return new ModelAndView("dynamicTables/dynamicSupplierCategoryTable", model.asMap());
+		 return new ModelAndView("dynamicTables/dynamicSupplierDetailsTable", model.asMap());
 	 }
 }

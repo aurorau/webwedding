@@ -8,7 +8,7 @@ import com.aurora.model.DistrictDetails;
 import com.aurora.model.SupplierCategory;
 
 public interface SupplierCategoryDao {
-	public List<SupplierCategory> getSupplierCategoryTable(String serchq)throws Exception;
+	public List<SupplierCategory> getSupplierCategoryTable(String sortField,int order,int start, int length, String searchq)throws Exception;
 	public int getSupplierCategoryTableCount(String serchq)throws Exception;
 	public void saveSupplierCategory(SupplierCategory supplierCategory)throws Exception;
 	public SupplierCategory getSupplierCategoryBySCID(Long scid) throws Exception;

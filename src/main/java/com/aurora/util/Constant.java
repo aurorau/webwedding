@@ -38,4 +38,12 @@ public class Constant {
 	   * This is districtTable table id
 	   */
 	public static final String TABLE_DISTRICT = "districtTable";
+	  /**
+	   * This is districtTable table id
+	   */
+	public static final String TABLE_SUPPLIER_CATEGORY = "supplierCategoryTable";
+	  /**
+	   * This is supplierDetails table id
+	   */
+	public static final String TABLE_SUPPLIER_DETAILS = "supplierDetailsTable";
 }

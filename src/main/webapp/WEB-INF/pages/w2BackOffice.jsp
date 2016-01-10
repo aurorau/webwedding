@@ -15,11 +15,12 @@
 				<ul><a href="#">Article Set up</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
 				<ul><a href="#">Category Gallery</a></ul>
-				<ul><a href="#">Company Category</a></ul>
+				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
-				<ul><a href="#">Supplier Company Details</a></ul>
-				<ul><a href="#">Supplier Personal Details</a></ul>
+				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
+				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
+				<ul><a href="fileUploadController">FILE UPLOAD TEST</a></ul>
 			</div>
 		</div>
 		<div style="width:80%;float: right" id="content">

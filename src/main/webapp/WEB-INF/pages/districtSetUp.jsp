@@ -19,13 +19,13 @@
 		<h3>W2-Back Office</h3>
 			<div>
 				<ul><a href="#">Article Set up</a></ul>
-				<ul><a >District Details</a></ul>
+				<ul><b>District Details</b></ul>
 				<ul><a href="#">Category Gallery</a></ul>
-				<ul><a href="#">Company Category</a></ul>
+				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
-				<ul><a href="#">Supplier Company Details</a></ul>
-				<ul><a href="#">Supplier Personal Details</a></ul>
+				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
+				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
 			</div>
 		</div>
 					
@@ -51,11 +51,11 @@
 				<table>
 					<tr>
 						<td>District Code :</td>
-						<td><input type="text" id="districtCodeId" title="District Code"></td>
+						<td><input type="text" id="districtCodeId" placeholder="District Code"></td>
 					</tr>
 					<tr>
 						<td>District Name :</td>
-						<td><input type="text" id="districtNameId" title="District Name"></td>
+						<td><input type="text" id="districtNameId" placeholder="District Name"></td>
 					</tr>
 					<tr>
 						<td></td>

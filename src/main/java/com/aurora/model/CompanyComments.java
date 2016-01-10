@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="company_comments")
@@ -22,7 +22,7 @@ public class CompanyComments implements Serializable {
 	private String commentedUser;
 	private String commentedUserDistrict;
 	private String commentedUserEmail;
-	private SupplierCompanyDetails supplierCompanyDetails;
+	private CompanyDetails supplierCompanyDetails;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -69,10 +69,10 @@ public class CompanyComments implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="FSCDID", nullable=false)
 	@JsonIgnore
-	public SupplierCompanyDetails getSupplierCompanyDetails() {
+	public CompanyDetails getSupplierCompanyDetails() {
 		return supplierCompanyDetails;
 	}
-	public void setSupplierCompanyDetails(SupplierCompanyDetails supplierCompanyDetails) {
+	public void setSupplierCompanyDetails(CompanyDetails supplierCompanyDetails) {
 		this.supplierCompanyDetails = supplierCompanyDetails;
 	}
 	@Override

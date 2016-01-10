@@ -1,7 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE>
+
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href='css/common-style.css' rel='stylesheet' type='text/css'>
+
 <script src="js/jquery.js"></script>
+<script src="js/common.js"></script>
+<script src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script src="js/backOfficeJS/supplierCategorySetUp.js"></script>
 <html>
 <head>
@@ -14,11 +21,11 @@
 				<ul><a href="#">Article Set up</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
 				<ul><a href="#">Category Gallery</a></ul>
-				<ul><a href="#">Company Category</a></ul>
+				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
-				<ul><a >Supplier Category</a></ul>
-				<ul><a href="#">Supplier Company Details</a></ul>
-				<ul><a href="#">Supplier Personal Details</a></ul>
+				<ul><b>Supplier Category</b></ul>
+				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
+				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
 			</div>
 		</div>
 				
@@ -28,7 +35,7 @@
 				<table style="float: right">
 					<tr>
 						<td><input type="text" id="supplierCategorySearchId" placeholder="Search and Filter"/></td>
-						<td><button onclick="supplierCategoryTable()">Search</button></td>
+						<td><button onclick="loadSupplierCategoryTable()">Search</button></td>
 					</tr>
 				</table>
 			</div>
@@ -43,11 +50,11 @@
 			<input type="hidden" id="hiddenSCID" />
 				<table>
 					<tr>
-						<td>Supplier Category Type :</td>
+						<td>Category Type :</td>
 						<td><input type="text" id="supplierCategoryTypeId" placeholder="Supplier Category Type"></td>
 					</tr>
 					<tr>
-						<td>Supplier Category Name :</td>
+						<td>Category Name :</td>
 						<td><input type="text" id="supplierCategoryNameId" placeholder="Supplier Category Name"></td>
 					</tr>
 					<tr>

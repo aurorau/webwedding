@@ -1,18 +1,12 @@
 package com.aurora.model;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="supplier_personal_details")
@@ -22,9 +16,9 @@ public class SupplierPersonalDetails implements Serializable {
 	private String supplierFirstName;
 	private String supplierLastName;
 	private String supplierEmail;
-	private String supplierTp;
+	private String supplierTp1;
+	private String supplierTp2;
 	private String supplierSkypeAddress;
-	private SupplierCompanyDetails supplierCompanyDetails;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -59,43 +53,38 @@ public class SupplierPersonalDetails implements Serializable {
 	public void setSupplierEmail(String supplierEmail) {
 		this.supplierEmail = supplierEmail;
 	}
-	
-	@Column(name="supplier_tp", nullable=true, length=100)
-	public String getSupplierTp() {
-		return supplierTp;
-	}
-	public void setSupplierTp(String supplierTp) {
-		this.supplierTp = supplierTp;
-	}
-	
 	@Column(name="supplier_skype_address", nullable=true, length=100)
 	public String getSupplierSkypeAddress() {
 		return supplierSkypeAddress;
 	}
+	@Column(name="supplier_tp1", nullable=true, length=100)
+	public String getSupplierTp1() {
+		return supplierTp1;
+	}
+	public void setSupplierTp1(String supplierTp1) {
+		this.supplierTp1 = supplierTp1;
+	}
+	@Column(name="supplier_tp2", nullable=true, length=100)
+	public String getSupplierTp2() {
+		return supplierTp2;
+	}
+	public void setSupplierTp2(String supplierTp2) {
+		this.supplierTp2 = supplierTp2;
+	}
 	public void setSupplierSkypeAddress(String supplierSkypeAddress) {
 		this.supplierSkypeAddress = supplierSkypeAddress;
-	}
-	
-	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="FSCDID", nullable=false)
-	@JsonIgnore
-	public SupplierCompanyDetails getSupplierCompanyDetails() {
-		return supplierCompanyDetails;
-	}
-	public void setSupplierCompanyDetails(SupplierCompanyDetails supplierCompanyDetails) {
-		this.supplierCompanyDetails = supplierCompanyDetails;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((SPDID == null) ? 0 : SPDID.hashCode());
-		result = prime * result + ((supplierCompanyDetails == null) ? 0 : supplierCompanyDetails.hashCode());
 		result = prime * result + ((supplierEmail == null) ? 0 : supplierEmail.hashCode());
 		result = prime * result + ((supplierFirstName == null) ? 0 : supplierFirstName.hashCode());
 		result = prime * result + ((supplierLastName == null) ? 0 : supplierLastName.hashCode());
 		result = prime * result + ((supplierSkypeAddress == null) ? 0 : supplierSkypeAddress.hashCode());
-		result = prime * result + ((supplierTp == null) ? 0 : supplierTp.hashCode());
+		result = prime * result + ((supplierTp1 == null) ? 0 : supplierTp1.hashCode());
+		result = prime * result + ((supplierTp2 == null) ? 0 : supplierTp2.hashCode());
 		return result;
 	}
 	@Override
@@ -111,11 +100,6 @@ public class SupplierPersonalDetails implements Serializable {
 			if (other.SPDID != null)
 				return false;
 		} else if (!SPDID.equals(other.SPDID))
-			return false;
-		if (supplierCompanyDetails == null) {
-			if (other.supplierCompanyDetails != null)
-				return false;
-		} else if (!supplierCompanyDetails.equals(other.supplierCompanyDetails))
 			return false;
 		if (supplierEmail == null) {
 			if (other.supplierEmail != null)
@@ -137,19 +121,22 @@ public class SupplierPersonalDetails implements Serializable {
 				return false;
 		} else if (!supplierSkypeAddress.equals(other.supplierSkypeAddress))
 			return false;
-		if (supplierTp == null) {
-			if (other.supplierTp != null)
+		if (supplierTp1 == null) {
+			if (other.supplierTp1 != null)
 				return false;
-		} else if (!supplierTp.equals(other.supplierTp))
+		} else if (!supplierTp1.equals(other.supplierTp1))
+			return false;
+		if (supplierTp2 == null) {
+			if (other.supplierTp2 != null)
+				return false;
+		} else if (!supplierTp2.equals(other.supplierTp2))
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "SupplierPersonalDetails [SPDID=" + SPDID + ", supplierFirstName=" + supplierFirstName
-				+ ", supplierLastName=" + supplierLastName + ", supplierEmail=" + supplierEmail + ", supplierTp="
-				+ supplierTp + ", supplierSkypeAddress=" + supplierSkypeAddress + ", supplierCompanyDetails="
-				+ supplierCompanyDetails + "]";
+				+ ", supplierLastName=" + supplierLastName + ", supplierEmail=" + supplierEmail + ", supplierTp1="
+				+ supplierTp1 + ", supplierTp2=" + supplierTp2 + ", supplierSkypeAddress=" + supplierSkypeAddress + "]";
 	}
-	
 }
