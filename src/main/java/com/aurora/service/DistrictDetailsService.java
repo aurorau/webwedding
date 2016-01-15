@@ -9,4 +9,5 @@ public interface DistrictDetailsService {
 	public int getDistrictDetailsTableCount(String serchq);
 	public String saveDistrictDetails(HttpServletRequest request);
 	public DistrictDetails getDistrictDetailsByDDID(HttpServletRequest request);
+	public List<DistrictDetails> getAllDistricts();
 }

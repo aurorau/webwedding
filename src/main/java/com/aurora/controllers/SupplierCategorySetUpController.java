@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.aurora.model.DistrictDetails;
 import com.aurora.model.SupplierCategory;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.service.SupplierCategoryService;
 import com.aurora.util.Constant;
 import com.aurora.util.JsonResponce;
@@ -47,6 +48,19 @@ public class SupplierCategorySetUpController {
 		 String status = supplierCategoryService.saveSupplierCategory(request);
 		 
 		 res.setStatus(status);
+		 
+		 return res;
+	 }
+	 
+	 @RequestMapping(method = RequestMethod.GET, value="/getAllCategories")
+	 public @ResponseBody JsonResponce getAllCategories(HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 List<SupplierCategory> list = null;
+		 
+		 list= supplierCategoryService.getAllCategories();
+		 
+		 res.setResult(list);
 		 
 		 return res;
 	 }

@@ -9,4 +9,5 @@ public interface SupplierDetailsService {
 	public int getSupplierPersonalDetailsCount(String serchq);
 	public String saveSupplierPersonalDetails(HttpServletRequest request);
 	public SupplierPersonalDetails getSupplierPersonalDetailsBySPDID(HttpServletRequest request);
+	public List<SupplierPersonalDetails> getAllSuppliers();
 }

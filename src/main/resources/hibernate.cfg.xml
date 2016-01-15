@@ -24,9 +24,9 @@
 <!-- 		
 		Database connection settings for postgres
 		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-		<property name="hibernate.connection.url">jdbc:postgresql://ec2-54-204-8-138.compute-1.amazonaws.com:5432/dcvd0cmv47aq0q</property>
-		<property name="hibernate.connection.username">cvrxlrwerpritn</property>
-		<property name="hibernate.connection.password">ID0xtmGX1OA9RLH5_DEe_NrnIN</property>
+		<property name="hibernate.connection.url">jdbc:postgresql://ec2-54-83-40-119.compute-1.amazonaws.com:5432/dfj059gj5g2bf2</property>
+		<property name="hibernate.connection.username">lukfnfagcmomlm</property>
+		<property name="hibernate.connection.password">EA0HwKzwRGwAZNJxwYD8LoLVex</property>
 
 		SQL dialect
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
@@ -35,7 +35,7 @@
 		<property name="hibernate.current_session_context_class">thread</property>
 		<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 		<property name="show_sql">true</property>
-		<property name="hbm2ddl.auto">create</property>
+		<property name="hbm2ddl.auto">update</property>
 
  -->
  
@@ -48,7 +48,7 @@
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
 
-       <!--  SQL dialect -->
+        <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
         <!-- Enable Hibernate's automatic session context management -->
@@ -57,22 +57,24 @@
         <!-- Disable the second-level cache -->
         <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 
-       <!--  Echo all executed SQL to stdout -->
+        <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
         <!-- Drop and re-create the database schema on startup -->
-        <property name="hbm2ddl.auto">create</property>
+        <property name="hbm2ddl.auto">update</property>
 
 
 		<!-- Models -->
 		<mapping class="com.aurora.model.ArticleDetails"></mapping>
-		<mapping class="com.aurora.model.CategoryGallery"></mapping>
+		<!-- <mapping class="com.aurora.model.CategoryGallery"></mapping> -->
 		<mapping class="com.aurora.model.CompanyComments"></mapping>
-		<mapping class="com.aurora.model.CompanyGallery"></mapping>
+		<mapping class="com.aurora.model.UploadFiles"></mapping>
 		<mapping class="com.aurora.model.DistrictDetails"></mapping>
 		<mapping class="com.aurora.model.SupplierCategory"></mapping>
 		<mapping class="com.aurora.model.SupplierPersonalDetails"></mapping>
 		<mapping class="com.aurora.model.CompanyDetails"></mapping>
+		<mapping class="com.aurora.model.AddDetails"></mapping>
+		<mapping class="com.aurora.model.CompanyNews"></mapping>
 	</session-factory>
 
 </hibernate-configuration>

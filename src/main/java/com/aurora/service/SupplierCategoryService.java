@@ -12,4 +12,5 @@ public interface SupplierCategoryService {
 	public int getSupplierCategoryTableCount(String serchq);
 	public String saveSupplierCategory(HttpServletRequest request);
 	public SupplierCategory getSupplierCategoryBySCID(HttpServletRequest request);
+	public List<SupplierCategory> getAllCategories();
 }

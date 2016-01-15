@@ -50,6 +50,19 @@ public class SupplierDetailsController {
 		 return res;
 	 }
 	 
+	 @RequestMapping(method = RequestMethod.GET, value="/getAllSuppliers")
+	 public @ResponseBody JsonResponce getAllSuppliers(HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 List<SupplierPersonalDetails> list = null;
+		 
+		 list= supplierDetailsService.getAllSuppliers();
+		 
+		 res.setResult(list);
+		 
+		 return res;
+	 }
+	 
 	 @RequestMapping(method = RequestMethod.GET, value="/getSupplierPersonalDetailsBySPDID")
 	 public @ResponseBody JsonResponce getSupplierPersonalDetailsBySPDID(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();

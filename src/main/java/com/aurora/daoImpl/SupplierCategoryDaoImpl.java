@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.aurora.dao.SupplierCategoryDao;
 import com.aurora.model.DistrictDetails;
 import com.aurora.model.SupplierCategory;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.util.HibernateBase;
 
 @Repository("supplierCategoryDao")
@@ -85,6 +86,14 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		session.getTransaction().commit();
 		session.close();
 		return supplierCategory;
+	}
+
+	public List<SupplierCategory> getAllSuppliers() {
+		List<SupplierCategory> list = null;
+		
+		Criteria criteria = getSession().createCriteria(SupplierCategory.class,"supplierCategory");
+		list = criteria.list();
+		return list;
 	}
 
 }

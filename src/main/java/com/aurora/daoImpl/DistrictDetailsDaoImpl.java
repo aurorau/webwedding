@@ -13,6 +13,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import com.aurora.dao.DistrictDetailsDao;
 import com.aurora.model.DistrictDetails;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.util.HibernateBase;
 
 @Repository("districtDetailsDao")
@@ -82,6 +83,14 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		session.getTransaction().commit();
 		session.close();
 		return districtDetails;
+	}
+
+	public List<DistrictDetails> getAllDistricts() {
+		List<DistrictDetails> list = null;
+		
+		Criteria criteria = getSession().createCriteria(DistrictDetails.class,"districtDetails");
+		list = criteria.list();
+		return list;
 	}
 
 }

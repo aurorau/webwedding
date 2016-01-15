@@ -12,20 +12,22 @@
 <script src="js/backOfficeJS/supplierCategorySetUp.js"></script>
 <html>
 <head>
+<title>Supplier Category</title>
 </head>
 <body>
 	<div>
 		<div style="width:20%;float: left">
-		<h3>W2-Back Office</h3>
+		<h3><a href="backOffice">W2-Back Office</a></h3>
 			<div>
-				<ul><a href="#">Article Set up</a></ul>
+				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
-				<ul><a href="#">Category Gallery</a></ul>
+				<!-- <ul><a href="#">Category Gallery</a></ul> -->
 				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
 				<ul><b>Supplier Category</b></ul>
 				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
 				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
+				<ul><a href="fileUploadController">File Image Upload</a></ul>
 			</div>
 		</div>
 				

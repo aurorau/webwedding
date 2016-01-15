@@ -12,6 +12,7 @@ import com.aurora.dao.DistrictDetailsDao;
 import com.aurora.dao.SupplierCategoryDao;
 import com.aurora.model.DistrictDetails;
 import com.aurora.model.SupplierCategory;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.service.SupplierCategoryService;
 import com.aurora.util.Constant;
 
@@ -85,6 +86,16 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 			System.out.println("Error :"+e);
 		}
 		return supplierCategory;
+	}
+
+	public List<SupplierCategory> getAllCategories() {
+		List<SupplierCategory>  list =null;
+		try {
+			list = supplierCategoryDao.getAllSuppliers();
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return list;
 	}
 
 }

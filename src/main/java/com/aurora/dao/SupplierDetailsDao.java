@@ -8,4 +8,5 @@ public interface SupplierDetailsDao {
 	public int getSupplierPersonalDetailsCount(String serchq) throws Exception;
 	public void saveSupplierPersonalDetails(SupplierPersonalDetails supplierPersonalDetails)throws Exception;
 	public SupplierPersonalDetails getSupplierPersonalDetailsBySPDID(Long spdid)throws Exception;
+	public List<SupplierPersonalDetails> getAllSuppliers();
 }

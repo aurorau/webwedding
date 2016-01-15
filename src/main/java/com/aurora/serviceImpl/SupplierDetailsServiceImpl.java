@@ -92,4 +92,14 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		return supplierPersonalDetails;
 	}
 
+	public List<SupplierPersonalDetails> getAllSuppliers() {
+		List<SupplierPersonalDetails>  list =null;
+		try {
+			list = supplierDetailsDao.getAllSuppliers();
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return list;
+	}
+
 }

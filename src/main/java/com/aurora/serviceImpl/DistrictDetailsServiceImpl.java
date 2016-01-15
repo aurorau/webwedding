@@ -10,6 +10,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 
 import com.aurora.dao.DistrictDetailsDao;
 import com.aurora.model.DistrictDetails;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.service.DistrictDetailsService;
 import com.aurora.util.Constant;
 
@@ -83,6 +84,16 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 			System.out.println("Error :"+e);
 		}
 		return districtDetails;
+	}
+
+	public List<DistrictDetails> getAllDistricts() {
+		List<DistrictDetails>  list =null;
+		try {
+			list = districtDetailsDao.getAllDistricts();
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return list;
 	}
 
 }

@@ -46,4 +46,12 @@ public class Constant {
 	   * This is supplierDetails table id
 	   */
 	public static final String TABLE_SUPPLIER_DETAILS = "supplierDetailsTable";
+	  /**
+	   * This is companyDetails table id
+	   */
+	public static final String TABLE_COMPANY_DETAILS = "companyDetailsTable";
+	  /**
+	   * This is fileDetails table id
+	   */
+	public static final String TABLE_FILE_DETAILS = "fileDetailsTable";
 }

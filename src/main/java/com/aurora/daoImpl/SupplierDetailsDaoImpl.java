@@ -90,4 +90,12 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 		return supplierPersonalDetails;
 	}
 
+	public List<SupplierPersonalDetails> getAllSuppliers() {
+		List<SupplierPersonalDetails> list = null;
+		
+		Criteria criteria = getSession().createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails");
+		list = criteria.list();
+		return list;
+	}
+
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aurora.model.DistrictDetails;
+import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.service.DistrictDetailsService;
 import com.aurora.util.Constant;
 import com.aurora.util.JsonResponce;
@@ -60,6 +61,19 @@ public class DistrictSetUpController {
 		 
 		 res.setStatus("success");
 		 res.setResult(districtDetails);
+		 
+		 return res;
+	 }
+	 
+	 @RequestMapping(method = RequestMethod.GET, value="/getAllDistricts")
+	 public @ResponseBody JsonResponce getAllDistricts(HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 List<DistrictDetails> list = null;
+		 
+		 list= districtDetailsService.getAllDistricts();
+		 
+		 res.setResult(list);
 		 
 		 return res;
 	 }

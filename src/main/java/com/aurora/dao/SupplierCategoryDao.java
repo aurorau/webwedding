@@ -12,4 +12,5 @@ public interface SupplierCategoryDao {
 	public int getSupplierCategoryTableCount(String serchq)throws Exception;
 	public void saveSupplierCategory(SupplierCategory supplierCategory)throws Exception;
 	public SupplierCategory getSupplierCategoryBySCID(Long scid) throws Exception;
+	public List<SupplierCategory> getAllSuppliers();
 }

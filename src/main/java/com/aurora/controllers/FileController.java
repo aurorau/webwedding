@@ -1,14 +1,26 @@
 package com.aurora.controllers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.displaytag.tags.TableTagParameters;
+import org.displaytag.util.ParamEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,26 +29,38 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.aurora.model.FileMeta;
+import com.aurora.model.UploadFiles;
+import com.aurora.service.FileUploadService;
+import com.aurora.util.Constant;
+import com.aurora.util.JsonResponce;
 
 @Controller
 @RequestMapping("/fileUploadController")
 public class FileController implements ServletContextAware{
 	
-    LinkedList<FileMeta> files = new LinkedList<FileMeta>();
+	 FileUploadService fileUploadService = null;
+
+	 @Autowired
+	 public void setFileUploadService(FileUploadService fileUploadService) {
+		 this.fileUploadService = fileUploadService;
+	 }
+
+	
+    LinkedList<FileMeta> files = null; 
     FileMeta fileMeta = null;
-    private ServletContext servletContext;
+    ServletContext servletContext;
     
 	 @RequestMapping(method = RequestMethod.GET)
 	 public ModelAndView districtDetails() throws Exception {
-		 return new ModelAndView("fileUploadTest");
+		 return new ModelAndView("fileImageUpload");
 	 }
+	 
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
 
-    protected ServletContext getServletContext() {
+    public ServletContext getServletContext() {
         return servletContext;
     }
     
@@ -49,11 +73,12 @@ public class FileController implements ServletContextAware{
      ****************************************************/
     @RequestMapping(value="/upload", method = RequestMethod.POST)
     public @ResponseBody LinkedList<FileMeta> upload(MultipartHttpServletRequest request, HttpServletResponse response) {
- 
+    	 files = new LinkedList<FileMeta>();
         //1. build an iterator
          Iterator<String> itr =  request.getFileNames();
          MultipartFile mpf = null;
- 
+         String testFileUploadLocation = "/media/aurora/Other/fileUpload";
+        
          //2. get each file
          while(itr.hasNext()){
  
@@ -64,46 +89,27 @@ public class FileController implements ServletContextAware{
              //2.2 if files > 10 remove the first from the list
              if(files.size() >= 10)
                  files.pop();
- 
              //2.3 create new fileMeta
              fileMeta = new FileMeta();
              fileMeta.setFileName(mpf.getOriginalFilename());
              fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
              fileMeta.setFileType(mpf.getContentType());
- 
              try {
-                fileMeta.setBytes(mpf.getBytes());
+               fileMeta.setBytes(mpf.getBytes());
                 
-                //File.separator + 
+               String UPLOAD_DIRECTORY ="img"+File.separator+"otherImages";
+               String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
                 
-               //String UPLOAD_DIRECTORY ="other";
-                //String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
                 
-                String uploadDir = servletContext.getRealPath("src/main/webapp/img/otherImages");
-                System.out.println(uploadDir);
+              //  System.out.println("uploadPath with image:"+uploadPath+File.separator+mpf.getOriginalFilename());
+               System.out.println("uploadPath with image:"+mpf.getOriginalFilename());
                 
-                // The following seems to happen when running jetty:run
-                if (uploadDir == null) {
-                    uploadDir = new File("src/main/webapp/img/otherImages").getAbsolutePath();
-                }
-                //uploadDir += "/" + request.getRemoteUser() + "/";
-
-                // Create the directory if it doesn't exist
-                File dirPath = new File(uploadDir);
-                if (!dirPath.exists()) {
-                    boolean rusult=dirPath.mkdirs();if(rusult){
-                    	System.out.println(dirPath);
-                    }
-                }
+               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(testFileUploadLocation+File.separator+mpf.getOriginalFilename()));
                 
-                ///media/aurora/Other/fileUpload/
-                 // copy file to local disk (make sure the path "e.g. D:/temp/files" exists)            
-                // FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(dirPath+mpf.getOriginalFilename()));
- 
             } catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+               System.out.println("File upload error :"+e);
             }
+
              //2.4 add to files
              files.add(fileMeta);
          }
@@ -126,8 +132,162 @@ public class FileController implements ServletContextAware{
                 response.setHeader("Content-disposition", "attachment; filename=\""+getFile.getFileName()+"\"");
                 FileCopyUtils.copy(getFile.getBytes(), response.getOutputStream());
          }catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+        	 System.out.println("File get Error :"+e);
          }
      }
+    /***************************************************
+     * URL: /rest/controller/deleteFile/{value}
+     * deleteFile(): delete file from physical location
+     * @param response : passed by the server
+     * @param value : value from the URL
+     * @return void
+     ****************************************************/
+    @RequestMapping(value = "/deleteFile", method = RequestMethod.GET)
+     public void deleteFile(HttpServletRequest request,HttpServletResponse response){
+    	
+        String testFileUploadLocation = "/media/aurora/Other/fileUpload";
+        boolean status = false;
+         try {        	
+        	 Long fileId = ServletRequestUtils.getLongParameter(request, "fileId");
+        	 String fileName = ServletRequestUtils.getStringParameter(request, "fileUrl");
+        	 System.out.println("File Name :"+fileName);
+        	 
+        	 String deleteStatus = fileUploadService.deleteImage(fileId);
+        	 
+        	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
+            	 File file = new File(testFileUploadLocation+File.separator+fileName);
+            	 status = file.delete();
+        	 }
+        	 if(status){
+        		System.out.println("Deleted :"+fileName); 
+        	 } else {
+        		 System.out.println("Delete operation is failed.");
+        	 }
+         }catch (Exception e) {
+                System.out.println("Delete file error:"+e);
+         }
+     }
+    /***************************************************
+     * URL: /rest/controller/saveFile
+     * saveFile(): saveFile to db
+     * @param response : passed by the server
+     * @param value : value from the URL
+     * @return void
+     ****************************************************/
+    @RequestMapping(value = "/saveFile", method = RequestMethod.POST)
+     public  @ResponseBody JsonResponce saveFile(HttpServletRequest request,HttpServletResponse response){
+		 JsonResponce res= new JsonResponce();
+		 
+		 String[] images  = request.getParameterValues("ar");
+		 
+		 String status = fileUploadService.saveFile(request);
+		 
+		 res.setStatus(status);
+		 
+		 return res;
+     }
+    /***************************************************
+     * URL: /rest/controller/saveFile
+     * saveFile(): saveFile to db
+     * @param response : passed by the server
+     * @param value : value from the URL
+     * @return void
+     ****************************************************/
+	 @RequestMapping(method = RequestMethod.GET, value="/getFileDetailsTable")
+	 public ModelAndView getFileDetailsTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 Model model = new ExtendedModelMap();
+		 ParamEncoder paramEncoder = new ParamEncoder(Constant.TABLE_FILE_DETAILS);
+		 
+	    	try{
+	    		String sortField = ServletRequestUtils.getStringParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_SORT));
+	    		int order = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_ORDER), 0);
+	    		int page = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_PAGE), 0);
+	    		int start = (page>0) ? (page - 1) * 5 : 0;
+	    		String searchq = ServletRequestUtils.getStringParameter(request, Constant.PARAMETER_SEARCH);
+	    		Long caterogyId = ServletRequestUtils.getLongParameter(request, "fileCategoryId");
+	    		Long companyId = ServletRequestUtils.getLongParameter(request, "fileCompanyId");
+			
+	    		List<UploadFiles> uploadFilesList = fileUploadService.getFileDetailsTable(sortField,order,start, 5,caterogyId,companyId, searchq);
+	    		int uploadFilesCount = fileUploadService.getFileDetailsTableCount(caterogyId,companyId,searchq);
+			
+	    		request.setAttribute(Constant.TABLE_SIZE, uploadFilesCount );
+	    		request.setAttribute(Constant.GRID_TABLE_SIZE_KEY, 5);
+	    		model.addAttribute(Constant.TABLE_FILE_DETAILS, uploadFilesList);
+	    	} catch (Exception e) {
+	    		System.out.println(e);
+	    	}
+		 
+		 
+		 return new ModelAndView("dynamicTables/dynamicFileDetailsTable", model.asMap());
+	 }
+	 
+	    /**
+	     * ImageDownloader
+		 * @param request
+		 * @param response
+		 * @return FileSystemResource
+		 * @throws Exception
+		 */
+		 @RequestMapping(value = "/imageDownloader", method = RequestMethod.GET)
+		 public @ResponseBody void imageDownloader(HttpServletRequest request, HttpServletResponse response) throws Exception {	
+
+			 String filename = null;
+			 String testFileUploadLocation = "/media/aurora/Other/fileUpload";
+		     Pattern p = Pattern.compile("([^\\s]+(\\.(?i)(xlsx|xlsm|xlsb|xls|xlm|xltx|xlam|xla|xlw|jpg|png|gif|bmp|jpeg|pdf|doc|docx))$)");
+
+
+		        filename = testFileUploadLocation+File.separator+request.getParameter("fileName");
+		        Matcher m = p.matcher(filename);
+		        
+		        FileInputStream in = null;
+		        OutputStream out = null;
+		        try {
+		        	if (m.matches()) {
+
+			            System.out.println("file Name: " + filename);
+			            
+			            //filename = filename;
+			            
+			            // Get the MIME type of the PDF
+			            ServletContext sc = getServletContext();
+			            String mimeType = sc.getMimeType(filename);
+			            System.out.println("mimeType" + mimeType);
+			            if (mimeType == null) {
+			                mimeType = "application/octet-stream";
+			            }
+
+			            // Set content type
+			            response.setContentType(mimeType);
+
+			            // Set content size
+			            File file = new File(filename);
+			        
+			            response.setContentLength((int) file.length());
+			            
+			            // Open the file and output streams
+			            in = new FileInputStream(file);
+			            out = response.getOutputStream();
+
+			            // Copy the contents of the file to the output stream
+			            byte[] buf = new byte[1024];
+			            int count = 0;
+			            while ((count = in.read(buf)) >= 0) {
+			                out.write(buf, 0, count);
+			            }
+
+			        }
+		        	
+				} catch (RuntimeException e) {
+				    throw e;
+				}  catch (Exception e) {
+				} finally{
+					try {
+			            out.flush();
+			            in.close();
+			            out.close();
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+				}
+		 }
 }

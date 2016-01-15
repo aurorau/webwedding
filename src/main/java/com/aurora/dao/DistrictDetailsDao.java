@@ -9,4 +9,5 @@ public interface DistrictDetailsDao {
 	public int getDistrictDetailsTableCount(String serchq)throws Exception;
 	public void saveDistrictDetails(DistrictDetails districtDetails)throws Exception;
 	public DistrictDetails getDistrictDetailsByDDID(Long ddid) throws Exception;
+	public List<DistrictDetails> getAllDistricts();
 }
