@@ -85,6 +85,7 @@
 							<td><select id="fileTypeId">
 								<option value="">Select Type</option>
 								<option value="1">Image</option>
+								<option value="2">Logo</option>
 								<!-- <option value="2">Article</option>
 								<option value="3">Pending</option>
 								<option value="4">Suspend</option> -->

@@ -1,6 +1,9 @@
 package com.aurora.util;
 
 import java.util.Date;
+import java.util.List;
+
+import com.aurora.model.SupplierPersonalDetails;
 
 public class CompanyDetailsDTO {
 	private Long SCDID;
@@ -12,6 +15,7 @@ public class CompanyDetailsDTO {
 	private String companyFaxNo;
 	private String companyWebURl;
 	private String companyFbPage;
+	private String logoUrl;
 	private Long budget;
 	private String status;
 	private Date companyRegisteredDate;
@@ -19,8 +23,10 @@ public class CompanyDetailsDTO {
 	private Date activeDate;
 	private Long activePeriod;
 	private Long supplierPersonalDetails;
+	private String supplierPersonalDetailsFName;
 	private Long supplierCategory;
 	private Long districtDetails;
+	private List<String> companyImageUrls;
 	
 	public Long getSCDID() {
 		return SCDID;
@@ -112,6 +118,7 @@ public class CompanyDetailsDTO {
 	public void setActivePeriod(Long activePeriod) {
 		this.activePeriod = activePeriod;
 	}
+
 	public Long getSupplierPersonalDetails() {
 		return supplierPersonalDetails;
 	}
@@ -129,5 +136,23 @@ public class CompanyDetailsDTO {
 	}
 	public void setDistrictDetails(Long districtDetails) {
 		this.districtDetails = districtDetails;
+	}
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
+	public String getSupplierPersonalDetailsFName() {
+		return supplierPersonalDetailsFName;
+	}
+	public void setSupplierPersonalDetailsFName(String supplierPersonalDetailsFName) {
+		this.supplierPersonalDetailsFName = supplierPersonalDetailsFName;
+	}
+	public List<String> getCompanyImageUrls() {
+		return companyImageUrls;
+	}
+	public void setCompanyImageUrls(List<String> companyImageUrls) {
+		this.companyImageUrls = companyImageUrls;
 	}
 }

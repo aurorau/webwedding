@@ -77,6 +77,17 @@ public class SupplierCategorySetUpController {
 		 return res;
 	 }
 	 
+	 @RequestMapping(method = RequestMethod.GET, value="/supplierCategoryDelete")
+	 public @ResponseBody JsonResponce supplierCategoryDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 String status= supplierCategoryService.supplierCategoryDelete(request);
+		 
+		 res.setStatus(status);
+		 
+		 return res;
+	 }
+	 
 	 @RequestMapping(method = RequestMethod.GET, value="/getSupplierCategoryTable")
 	 public ModelAndView getSupplierCategoryTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 Model model = new ExtendedModelMap();

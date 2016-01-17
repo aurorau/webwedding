@@ -22,9 +22,13 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 
 	@Transactional
 	public List<SupplierCategory> getSupplierCategoryTable(String sortField,int order,int start, int length, String searchq) throws Exception {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		List<SupplierCategory> list = null;
 		
-		Criteria criteria = getSession().createCriteria(SupplierCategory.class,"supplierCategory")
+		Criteria criteria = session.createCriteria(SupplierCategory.class,"supplierCategory")
 				.setFirstResult(start)
 				.setMaxResults(length);
 		if(!searchq.isEmpty()) {
@@ -32,21 +36,22 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 			        .add(Restrictions.ilike("scType", searchq, MatchMode.ANYWHERE))
 			        .add(Restrictions.ilike("scName", searchq,MatchMode.ANYWHERE)));
 		}
-/*		if(!sortField.isEmpty()) {
-			if(order == 0) {
-				criteria.addOrder(Order.asc(sortField));
-			} else if(order == 1) {
-				criteria.addOrder(Order.desc(sortField));
-			}
-		}*/
 		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return list;
 	}
 	
 	@Transactional
 	public int getSupplierCategoryTableCount(String serchq) throws Exception {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		int totalRowCount =0;
-		Criteria criteria = getSession().createCriteria(SupplierCategory.class,"supplierCategory")
+		Criteria criteria = session.createCriteria(SupplierCategory.class,"supplierCategory")
 				.setProjection(Projections.count("SCID"));
 		
 		if(!serchq.isEmpty()) {
@@ -58,13 +63,15 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		Long value = (Long) criteria.uniqueResult();
 		totalRowCount = Integer.valueOf(value.intValue());
 		
+		session.getTransaction().commit();
+		session.close();
+		
 		return totalRowCount;
 	}
 
 	@Transactional
 	public void saveSupplierCategory(SupplierCategory supplierCategory) throws Exception {
 		Session session = getSession();
-		
 		session.getTransaction().begin();
 		session.saveOrUpdate(supplierCategory);
 		session.getTransaction().commit();
@@ -89,11 +96,31 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 	}
 
 	public List<SupplierCategory> getAllSuppliers() {
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		List<SupplierCategory> list = null;
 		
-		Criteria criteria = getSession().createCriteria(SupplierCategory.class,"supplierCategory");
+		Criteria criteria = session.createCriteria(SupplierCategory.class,"supplierCategory");
 		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return list;
+	}
+
+	@Transactional
+	public void companyDetailsDelete(Long scid) throws Exception{
+
+		Session session = getSession();
+		session.getTransaction().begin();
+		
+		String hql = "delete from SupplierCategory where SCID= :id"; 
+		session.createQuery(hql).setParameter("id", scid).executeUpdate();
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 }

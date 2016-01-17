@@ -102,4 +102,16 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		return list;
 	}
 
+	public String supplierDetailsDelete(HttpServletRequest request) {
+		String status = Constant.FAIL;
+		try {
+			Long spdid = ServletRequestUtils.getLongParameter(request, "hiddenSPDID",0L);
+			supplierDetailsDao.supplierDetailsDelete(spdid);
+			status = Constant.SUCCESS;
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return status;
+	}
+
 }

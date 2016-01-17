@@ -127,7 +127,9 @@ function fileDetailsDelete(ufid, url1) {
 		fileUrl : fileUrl
 	}, function(data) {
 		if(data.status == 'success') {
-			
+			loadFileDetailsTable();
+		}else if(data.status == 'fail') {
+			alert("Record in used, Unable to delete");
 		}
 	});
 }

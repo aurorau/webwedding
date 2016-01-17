@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.aurora.model.SupplierCategory;
 import com.aurora.model.SupplierPersonalDetails;
-import com.aurora.service.SupplierCategoryService;
 import com.aurora.service.SupplierDetailsService;
 import com.aurora.util.Constant;
 import com.aurora.util.JsonResponce;
@@ -26,13 +24,11 @@ import com.aurora.util.JsonResponce;
 public class SupplierDetailsController {
 	 
 	 SupplierDetailsService supplierDetailsService = null;
-
 	 
 	 @Autowired
 	 public void setSupplierDetailsService( SupplierDetailsService supplierDetailsService) {
 		 this.supplierDetailsService = supplierDetailsService;
 	 }
-	 
 	
 	 @RequestMapping(method = RequestMethod.GET)
 	 public ModelAndView supplierCategory() throws Exception {
@@ -71,6 +67,17 @@ public class SupplierDetailsController {
 		 
 		 res.setStatus("success");
 		 res.setResult(SupplierPersonalDetails);
+		 
+		 return res;
+	 }
+	 
+	 @RequestMapping(method = RequestMethod.GET, value="/supplierDetailsDelete")
+	 public @ResponseBody JsonResponce supplierDetailsDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 String status= supplierDetailsService.supplierDetailsDelete(request);
+		 
+		 res.setStatus(status);
 		 
 		 return res;
 	 }

@@ -4,12 +4,15 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import com.aurora.model.CompanyDetails;
 import com.aurora.util.CompanyDetailsDTO;
+import com.aurora.util.CompanyDetailsW2DTO;
 
 public interface CompanyDetailsService {
-	public List<CompanyDetails> getCompanyDetailsTable(String sortField,int order,int start, int length, String searchq);
+	public List<CompanyDetailsDTO> getCompanyDetailsTable(String sortField,int order,int start, int length, String searchq);
 	public int getCompanyDetailsTableCount(String serchq);
 	public String saveCompanyDetails(HttpServletRequest request);
 	public CompanyDetailsDTO getCompanyDetailsBySCDID(HttpServletRequest request);
 	public String companyDetailsDelete(HttpServletRequest request);
 	public List<CompanyDetails> getAllCompaniesByCategory(HttpServletRequest request);
+	public List<CompanyDetailsW2DTO> getCompanyDetailsTableW2(String sortField, int order, int start, int gridTableSize,Long serviceCategoryDD, Long districtDD, Long budget);
+	public int getCompanyDetailsTableCountW2(Long serviceCategoryDD, Long districtDD, Long budget);
 }

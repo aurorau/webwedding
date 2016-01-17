@@ -1,5 +1,5 @@
 // when click cart button in services, it changes the background color and when reverts, it reverts the background color again.
-$("#add-to-cart1").click(function(){
+/*$("#add-to-cart1").click(function(){
      if($(this).hasClass("add-to-cart")){
          $(this).removeClass('add-to-cart').addClass('add-to-cart-click');
      }
@@ -9,7 +9,7 @@ $("#add-to-cart1").click(function(){
      else {
          
      }
-});
+});*/
 
 // ads column
 if ($(window).width() < 991) {
@@ -32,7 +32,7 @@ $("#translate-english").click(function(){
 // remove background color of badget (top bar)    
 
 $(document).ready(function(e) {
-    e.preventDefault();
+    //e.preventDefault();
 });
 
 

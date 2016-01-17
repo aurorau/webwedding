@@ -18,11 +18,15 @@ import com.aurora.util.HibernateBase;
 
 @Repository("districtDetailsDao")
 public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDetailsDao {
-
+	@Transactional
 	public List<DistrictDetails> getDistrictDetailsTable(String sortField, int order, int start, int length,String searchq) throws Exception {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		List<DistrictDetails> list = null;
 		
-		Criteria criteria = getSession().createCriteria(DistrictDetails.class,"districtDetails")
+		Criteria criteria = session.createCriteria(DistrictDetails.class,"districtDetails")
 				.setFirstResult(start)
 				.setMaxResults(length);
 		if(!searchq.isEmpty()) {
@@ -30,20 +34,21 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 			        .add(Restrictions.ilike("districtCode", searchq, MatchMode.ANYWHERE))
 			        .add(Restrictions.ilike("districtName", searchq,MatchMode.ANYWHERE)));
 		}
-/*		if(!sortField.isEmpty()) {
-			if(order == 0) {
-				criteria.addOrder(Order.asc(sortField));
-			} else if(order == 1) {
-				criteria.addOrder(Order.desc(sortField));
-			}
-		}*/
 		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return list;
 	}
-
+	@Transactional
 	public int getDistrictDetailsTableCount(String serchq) throws Exception {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		int totalRowCount =0;
-		Criteria criteria = getSession().createCriteria(DistrictDetails.class,"districtDetails")
+		Criteria criteria =session.createCriteria(DistrictDetails.class,"districtDetails")
 				.setProjection(Projections.count("DDID"));
 		
 		if(!serchq.isEmpty()) {
@@ -55,13 +60,15 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		Long value = (Long) criteria.uniqueResult();
 		totalRowCount = Integer.valueOf(value.intValue());
 		
+		session.getTransaction().commit();
+		session.close();
+		
 		return totalRowCount;
 	}
 
 	@Transactional
 	public void saveDistrictDetails(DistrictDetails districtDetails) throws Exception {
 		Session session = getSession();
-		
 		session.getTransaction().begin();
 		session.saveOrUpdate(districtDetails);
 		session.getTransaction().commit();
@@ -84,13 +91,31 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		session.close();
 		return districtDetails;
 	}
-
+	@Transactional
 	public List<DistrictDetails> getAllDistricts() {
+		Session session = getSession();
+		session.getTransaction().begin();
 		List<DistrictDetails> list = null;
 		
-		Criteria criteria = getSession().createCriteria(DistrictDetails.class,"districtDetails");
+		Criteria criteria = session.createCriteria(DistrictDetails.class,"districtDetails");
 		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
 		return list;
+	}
+	@Transactional
+	public void districtDetailsDelete(Long ddid) throws Exception{
+
+		Session session = getSession();
+		session.getTransaction().begin();
+		
+		String hql = "delete from DistrictDetails where DDID= :id"; 
+		session.createQuery(hql).setParameter("id", ddid).executeUpdate();
+		
+		session.getTransaction().commit();
+		session.close();
+		
 	}
 
 }

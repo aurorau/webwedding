@@ -1,6 +1,17 @@
 package com.aurora.util;
 
+import java.io.File;
+
 public class Constant {
+	  /**
+	   * This is file upload local path
+	   */
+	public static final String FILE_UPLOAD_LOCAL = "/media/aurora/Other/fileUpload";
+	   /**
+	   * This is file upload server path
+	   */
+	public static final String FILE_UPLOAD_SERVER = "img"+File.separator+"otherImages";
+	
 	/**
 	   * name of the parameter specifying the success.
 	*/
@@ -29,7 +40,7 @@ public class Constant {
     /**
      * size of the grid table .
      */
-    public static final int GRID_TABLE_SIZE = 10;
+    public static final int GRID_TABLE_SIZE = 5;
     /**
      * key for parse the grid table .
      */
@@ -50,6 +61,10 @@ public class Constant {
 	   * This is companyDetails table id
 	   */
 	public static final String TABLE_COMPANY_DETAILS = "companyDetailsTable";
+	  /**
+	   * This is companyDetailW2 table id
+	   */
+	public static final String TABLE_COMPANY_DETAILW2 = "companyDetailsTableW2";
 	  /**
 	   * This is fileDetails table id
 	   */

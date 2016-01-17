@@ -9,4 +9,5 @@ public interface SupplierDetailsDao {
 	public void saveSupplierPersonalDetails(SupplierPersonalDetails supplierPersonalDetails)throws Exception;
 	public SupplierPersonalDetails getSupplierPersonalDetailsBySPDID(Long spdid)throws Exception;
 	public List<SupplierPersonalDetails> getAllSuppliers();
+	public void supplierDetailsDelete(Long spdid) throws Exception;
 }

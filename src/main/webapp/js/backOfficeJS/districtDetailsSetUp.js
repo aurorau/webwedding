@@ -75,5 +75,16 @@ function districtDetailsEdit(ddid) {
 }
 
 function districtDetailsDelete(ddid) {
+	var hiddenDDID = ddid;
+	$('#hiddenDDID').val(ddid);
 	
+	$.get('districtSetUp/districtDetailsDelete', {
+		hiddenDDID : hiddenDDID
+	}, function(data) {
+		if(data.status == 'success') {
+			loadDistrictDetailsTable();
+		} else if(data.status == 'fail') {
+			alert("Record in used, Unable to delete");
+		}
+	});
 }

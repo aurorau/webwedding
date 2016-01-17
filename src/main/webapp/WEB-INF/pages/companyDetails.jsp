@@ -15,6 +15,8 @@
 <script src="js/common.js"></script>
 <script src="js/jquery.displaytag-ajax-1.2.js"></script>
 <script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+<script src="js/fileUpload/jquery.iframe-transport.js"></script>
+<script src="js/fileUpload/jquery.fileupload.js"></script>
 <script src="js/backOfficeJS/companyDetails.js"></script>
 <html>
 <head>
@@ -87,6 +89,15 @@
 							<tr>
 								<td>Company Address :</td>
 								<td><textarea rows="5" cols="" id="companyDetailsAddressId" placeholder="Company Address"></textarea></td>
+							</tr>
+							<tr>
+								<td>Upload Logo :</td>
+									<td><input id="fileupload" type="file" name="files[]" data-url="fileUploadController/upload" multiple>
+								</td>
+							</tr>	
+							<tr>
+								<td></td>
+								<td><input type="hidden" id="fileHiddenUrl"></td>
 							</tr>
 						</table>
 					</td>

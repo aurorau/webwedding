@@ -66,9 +66,9 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle page-scroll" data-toggle="dropdown" role="button" aria-haspopup="true">Services <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#portfolio">Wedding Attire</a></li>
+                        <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true">Services <span class="caret"></span></a>
+                        <ul class="dropdown-menu" id="categoryMainDropDown">
+<!--                             <li><a href="#portfolio">Wedding Attire</a></li>
                             <li><a href="#portfolio">Wedding Dress Designers</a></li>
                             <li><a href="#portfolio">Beautician</a></li>
                             <li><a href="#portfolio">Jewelary</a></li>
@@ -79,7 +79,7 @@
                             <li><a href="#portfolio">Food</a></li>
                             <li><a href="#portfolio">Invitation Cards</a></li>
                             <li><a href="#portfolio">Cake Boxes</a></li>
-                            <li><a href="#portfolio">Transport</a></li>
+                            <li><a href="#portfolio">Transport</a></li> -->
                          </ul>
                     </li>
                     
@@ -94,7 +94,10 @@
                     </li>
                     <li>
                        <div class="budget">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" id="nav-cart" ><span class="fa fa-shopping-cart fa-2x"></span><label class="badge" id="cart-value">3</label></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" id="nav-cart" onclick="displayBudget()">
+                        	<span class="fa fa-shopping-cart fa-2x"></span>
+                        		<label class="badge" id="cart-value"></label>
+                        </a>
                         
                         <ul class="dropdown-menu show-budget">
                            <table class="table table-responsive">
@@ -104,8 +107,8 @@
                                       <th>Budget Rs.</th>
                                   </tr>
                               </thead>
-                               <tbody>
-                                   <tr>
+                               <tbody id="budgetTableId">
+<!--                                    <tr>
                                        <td>Hilton</td>
                                        <td>300000</td>
                                     </tr>
@@ -120,16 +123,16 @@
                                     <tr>
                                        <td>Total Budget</td>
                                        <td id="total">500000</td>
-                                   </tr>
+                                   </tr> -->
                                </tbody>
                            </table>
                          </ul>
                          </div>
                      </li>
-                     <li class="translate">  
+<!--                      <li class="translate">  
                          <span id="translate-sinhala" role="button">SI</span>
                          <span id="translate-english" role="button">EN</span>
-                      </li>      
+                      </li>  -->     
                 </ul>
                 
                 
@@ -157,8 +160,8 @@
                                 <th colspan=3>Browse Our Categories</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
+                        <tbody id="serviceCategoryDynamicTableW2">
+<!--                             <tr>
                                 <td><a href="#portfolio">Wedding Attire</a>
                                 </td>
                                 <td><a href="#portfolio">Dress Designers</a>
@@ -197,7 +200,7 @@
                                 </td>
                                 <td><a href="#portfolio">Honeymoon</a>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -208,71 +211,6 @@
 
 
     </header>
-
-   <!--About us-->
-   <section id="aboutus">
-        <div class="container">
-        <div class="col-lg-6">
-<!--                <div class="intro-lead-in">Welcome to webwedding.lk</div>-->
-                <h3>Sri Lanka's largest Wedding Directory</h3>
-                <div class="">You can choose your own Wedding Suppliers from our free directory and make your BIG DREAM comes true.</div>
-
-                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
-                    <table class="table table-responsive" id="category">
-                        <thead>
-                            <tr>
-                                <th colspan=3>Browse Our Categories</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="#portfolio">Wedding Attire</a>
-                                </td>
-                                <td><a href="#portfolio">Dress Designers</a>
-                                </td>
-                                <td><a href="#portfolio">Beauticians</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Jewelary</a>
-                                </td>
-                                <td><a href="#portfolio">Cultural Requirement</a>
-                                </td>
-                                <td><a href="#portfolio">Photography</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Wedding Planning</a>
-                                </td>
-                                <td><a href="#portfolio">Wedding Venues</a>
-                                </td>
-                                <td><a href="#portfolio">Food</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Invitation Cards</a>
-                                </td>
-                                <td><a href="#portfolio">Cake Boxes</a>
-                                </td>
-                                <td><a href="#portfolio">Transport</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Floral</a>
-                                </td>
-                                <td><a href="#portfolio">Dowry</a>
-                                </td>
-                                <td><a href="#portfolio">Honeymoon</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-          </div>
-       </div>
-    </section>
-   
-   
    
     <!-- Services Section -->
     <section id="portfolio" class="bg-light-gray">
@@ -287,32 +225,31 @@
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                     <label>Select a Service</label>
                     <select class="form-control" id="serviceCategoryDD" >
-                        <option>Wedding Attire</option>
-                        <option>Wedding Dress Designers</option>
-                        <option>Beautician</option>
+                        <option value="">Select a Service</option>
                     </select>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                     <label>Select a District</label>
-                    <select class="form-control" >
-                        <option>Colombo</option>
-                        <option>Gampaha</option>
-                        <option>Kalutara</option>
+                    <select class="form-control" id="districtDD">
+                        <option value="">Select a District</option>
                     </select>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                    <label>Expected Budget Rs.</label>
-                    <input class="form-control"/>
+                    <input class="form-control" type="text" id="budgetId"/>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
-                    <button type="button" class="btn btn-success margin-top20"><span class="fa fa-search"></span>Search</button>
+                    <button type="button" class="btn btn-success margin-top20" onclick="loadCompanyDetailsTableW2()"><span class="fa fa-search"></span>Search</button>
                 </div>
 
             </div>
             <div class="clearfix"></div>
             <div class="col-md-10 col-sm-12 category-box">
+            <table id="dynamicCompanyTableW2">
+            
+            </table>
                 <div class="clearfix"></div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
+<!--                 <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
                     <a href="#service1" class="portfolio-link" data-toggle="modal">
                         <div class="portfolio-hover">
                             <div class="portfolio-hover-content">
@@ -352,7 +289,7 @@
                     <div class="portfolio-caption">
                         <span>100,000 upwards</span>
                         <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
+                    </div> 
                 </div>
                 <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
                     <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
@@ -423,9 +360,9 @@
                         <span>100,000 upwards</span>
                         <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
                     </div>
-                </div>
+                </div> -->
                 <div class="clearfix"></div>
-                <div class="col-lg-12 portfolio-item">
+<!--                 <div class="col-lg-12 portfolio-item">
                     <nav class="">
                         <ul class="pagination">
                             <li>
@@ -450,7 +387,7 @@
                             </li>
                         </ul>
                     </nav>
-                </div>
+                </div> -->
             </div>
             <div class="col-md-2 col-sm-12 padding-right0" id="ads">
                 <div class="ads">
@@ -762,7 +699,7 @@
             <div class="container">
                 <div class="row">
                     <div class="modal-body">
-                        <h2>Hilton Colombo</h2>
+                        <h2><span id="comapnyNameW2"></span></h2>
                         <div class="col-lg-12">
                             <div id="myCarousel" class="carousel slide" data-ride="carousel">
 
@@ -774,16 +711,9 @@
                                 </ol>
 
 
-                                <div class="carousel-inner product-images" role="listbox">
-                                    <div class="item active">
-                                        <img src="img/portfolio/hotel1.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img src="img/portfolio/hotel2.jpg" alt="">
-                                    </div>
-                                    <div class="item">
-                                        <img src="img/portfolio/hotel3.jpg" alt="">
-                                    </div>
+                                <div class="carousel-inner product-images" role="listbox" id="companyProfileImageGallery">
+                                   <div class="item active" id="itemActiveDiv">
+                                   </div>
                                 </div>
                                 <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                                     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -797,28 +727,28 @@
                             <p>Awarded the title of Sri Lanka’s Leading Hotel and Sri Lanka’s Leading Business Hotel at the World Travel Awards, this Colombo hotel is centrally located in Colombo’s business district. With a range of accommodation, from guest rooms and executive rooms to suites, this hotel in Colombo offers stunning views over the Indian Ocean. For relaxation and business alike, Guests will enjoy the endless luxurious accommodations we have to offer.</p>
                         </div>
                         <div class="col-lg-12">
-                            <span class="price-tag label">Rs. 20,000.00 upward</span>
+                            <span class="price-tag label" id="priceW2"></span>
                             <div class="clearfix"></div>
                             <span class="pull-left">Negotiable</span>
                         </div>
                         <div class="clearfix"></div>
                         <div class="col-md-6">
                             <div class=" contact-details">
-                                <span class="fa fa-user"></span>Mr. John Smith
+                                <span class="fa fa-user" id="ownernameW2"></span><span id="companyOwnerW2"></span>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-map-marker"></span>2, Sir Chiiampalam A Gardiner Mw, Colombo 2, Sri Lanka.
+                                <span class="fa fa-map-marker"></span><span id="companyAddW2"></span>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-sitemap"></span>No Branches
+                                <span class="fa fa-sitemap"></span><span>No Branches</span>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-phone"></span>+94-11-249-2492
+                                <span class="fa fa-phone"></span><span id="companyTpW2"></span>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-envelope"></span><a href="mailto:hilton@gmail.com">hilton@gmail.com</a>
+                                <span class="fa fa-envelope"></span><a href="mailto:hilton@gmail.com"><span id="companyEmailW2"></span></a>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-facebook"></span><a href="https://www.facebook.com/hilton/" target="_blank">https://www.facebook.com/hilton</a>
+                                <span class="fa fa-facebook"></span><a href="https://www.facebook.com/hilton/" target="_blank"><span id="companyFbW2"></span></a>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-skype"></span>call.hiton
+                                <span class="fa fa-skype"></span><span id="companySkypW2"></span>
                                 <div class="clearfix"></div>
-                                <span class="fa fa-globe"></span><a href="hilton.com" target="_blank">hilton.com</a>
+                                <span class="fa fa-globe"></span><a href="hilton.com" target="_blank"><span id="companyWebW2"></span></a>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -1137,7 +1067,11 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/agency.js"></script>
     <script src="js/site.js"></script>
-    <script src="js/rti.js"></script>
+    <script src="js/webwedding.js"></script>
+    <script src="js/jquery.displaytag-ajax-1.2.js"></script>
+	<script src="js/common.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <!-- <script src="js/rti.js"></script> -->
     <script>
     </script>
 

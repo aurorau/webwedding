@@ -1,3 +1,6 @@
+
+var arr;
+
 $(document).ready(function() {
 	$('#companyDetailsFormDivId').hide();
 	clearValues();
@@ -10,17 +13,15 @@ $(document).ready(function() {
 		clearValues();
 	});
 	
-})
+});
 
 
 function loadOwnerDetails() {
 	$.ajax({
         type: "GET",
         url: "supplierDetailsController/getAllSuppliers",
-        //data: formdata,
         success: function(data) {
         	if(data.result != null) {
-        		//$('#companyDetailsOwnerId').append(new Option('',''));
         		for(var x=0 ; x< data.result.length ; x++ ){
         			$('#companyDetailsOwnerId').append(new Option(''+data.result[x].supplierFirstName+' '+data.result[x].supplierLastName+'',''+data.result[x].spdid+''))
         		}
@@ -32,10 +33,8 @@ function loadCategoryDetails() {
 	$.ajax({
         type: "GET",
         url: "supplierCategorySetUp/getAllCategories",
-        //data: formdata,
         success: function(data) {
         	if(data.result != null) {
-        		//$('#companyDetailsCategoryId').append(new Option('',''));
         		for(var x=0 ; x< data.result.length ; x++ ){
         			$('#companyDetailsCategoryId').append(new Option(''+data.result[x].scName+'',''+data.result[x].scid+''))
         		}
@@ -47,10 +46,8 @@ function loadDistrictDetails(){
 	$.ajax({
         type: "GET",
         url: "districtSetUp/getAllDistricts",
-        //data: formdata,
         success: function(data) {
         	if(data.result != null) {
-        		//$('#companyDetailsDistrictId').append(new Option('',''));
         		for(var x=0 ; x< data.result.length ; x++ ){
         			$('#companyDetailsDistrictId').append(new Option(''+data.result[x].districtName+'',''+data.result[x].ddid+''))
         		}
@@ -98,10 +95,23 @@ function clearValues() {
 	$('#companyDetailsCategoryId').val('');
 	$('#companyDetailsDistrictId').val('');
 	$('#companyDetailsRegdateId').val('');
-	
+	$('#fileHiddenUrl').val('');
+	arr = new Array();
 }
 
 function companyDetailsSave() {
+	var ar ;
+	if($('#fileHiddenUrl').val() != 'No Logo' && $('#fileHiddenUrl').val() !='') {
+		ar = $('#fileHiddenUrl').val();
+	} else if(arr[0] != null && arr[0] !=''){
+		ar = arr[0];
+	} else {
+		ar = 'No Logo';
+	}
+	 
+	
+	console.log("ar :"+ar);
+	
 	var hiddenSCDID = $('#hiddenSCDID').val();
 	var companyRegistrationNumber= $('#companyDetailsRegId').val();
 	var companyName = $('#companyDetailsNameId').val();
@@ -141,12 +151,13 @@ function companyDetailsSave() {
 			activePeriod : activePeriod,
 			supplierPersonalDetails : supplierPersonalDetails,
 			supplierCategory : supplierCategory,
-			districtDetails : districtDetails
+			districtDetails : districtDetails,
+			ar : ar
 		}, function(data) {
 			if (data.status == 'saved' ||data.status == 'updated') {
-				$('#supplierCategoryFormDivId').hide();
 				loadCompanyDetailsTable();
 				clearValues();
+				$('#companyDetailsFormDivId').hide();
 			} else {
 				console.log(data.status);
 			}
@@ -170,7 +181,9 @@ function companyDetailsDelete(scdid) {
 		hiddenSCDID : hiddenSCDID
 	}, function(data) {
 		if(data.status == 'success') {
-			
+			loadCompanyDetailsTable();
+		} else if(data.status == 'fail') {
+			alert("Record in used, Unable to delete");
 		}
 	});
 }
@@ -201,9 +214,28 @@ function getCompanyDetails(scdid) {
 				$('#companyDetailsCategoryId').val(data.result.supplierCategory);
 				$('#companyDetailsDistrictId').val(data.result.districtDetails);
 				$('#companyDetailsRegdateId').val(data.result.companyRegisteredDate);
+				$('#fileHiddenUrl').val(data.result.logoUrl);
 			}
 		} else {
 			console.log(data.status);
 		}
 	});
 }
+
+$(function () {
+	//arr = new Array();
+    $('#fileupload').fileupload({
+        dataType: 'json',
+ 
+        done: function (e, data) {
+            $.each(data.result, function (index, file) {
+            		console.log("File Name :"+file.fileName);
+            		arr.push(file.fileName);
+           }); 
+        },
+ 
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+        },
+    });
+});

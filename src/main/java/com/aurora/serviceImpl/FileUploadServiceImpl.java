@@ -22,6 +22,7 @@ import com.aurora.model.SupplierCategory;
 import com.aurora.model.UploadFiles;
 import com.aurora.service.FileUploadService;
 import com.aurora.util.Constant;
+import com.aurora.util.FileUploadDTO;
 
 @Service("fileUploadService")
 public class FileUploadServiceImpl implements FileUploadService {
@@ -112,8 +113,8 @@ public class FileUploadServiceImpl implements FileUploadService {
 		
         return dateOut;
 	}
-	public List<UploadFiles> getFileDetailsTable(String sortField, int order, int start, int gridTableSize,Long caterogyId, Long companyId, String searchq) {
-		List<UploadFiles>  list =null;
+	public List<FileUploadDTO> getFileDetailsTable(String sortField, int order, int start, int gridTableSize,Long caterogyId, Long companyId, String searchq) {
+		List<FileUploadDTO>  list =null;
 		try {
 			list = fileUploadDao.getFileDetailsTable(sortField,order,start,gridTableSize,caterogyId,companyId, searchq);
 		}catch (Exception e){
@@ -133,12 +134,11 @@ public class FileUploadServiceImpl implements FileUploadService {
 		return count;
 	}
 	public String deleteImage(long parseLong) {
-		String status = null;
+		String status = Constant.FAIL;
 		try {
 			fileUploadDao.deleteImage(parseLong);
 			status = Constant.SUCCESS;
 		}catch(Exception e){
-			status = Constant.FAIL;
 			System.out.println("Delete image error:"+e);
 		}
 		return status;

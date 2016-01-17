@@ -2,7 +2,7 @@
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
-<display:table name="supplierCategoryTable" class="tblDisplay display table table-bordered table-striped dynamic-table display_header_class" cellspacing="0" requestURI="./districtSetUp/getDistrictDetailsTable" id="supplierCategoryTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
+<display:table name="supplierCategoryTable" class="tblDisplay display table table-bordered table-striped dynamic-table display_header_class" cellspacing="0" requestURI="./supplierCategorySetUp/getSupplierCategoryTable" id="supplierCategoryTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
 
 	 <display:column property="scType" sortable="true" sortName="scType" headerClass="text-left sortable sorted order1" class="text-left" title="Category Type"/>
      <display:column property="scName" sortable="true" sortName="scName" headerClass="text-left sortable sorted order1" class="text-left" title="Category Name"/>

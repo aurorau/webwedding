@@ -47,7 +47,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 	}
 
 	public String saveDistrictDetails(HttpServletRequest request) {
-		String status = null;
+		String status =  Constant.FAIL;
 		DistrictDetails districtDetails = null;
 		Long ddid = null;
 		try {
@@ -69,7 +69,6 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 			districtDetailsDao.saveDistrictDetails(districtDetails);
 			
 		}catch(Exception e) {
-			status = Constant.FAIL;
 			System.out.println(e);
 		}
 		return status;
@@ -94,6 +93,18 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 			System.out.println("Error :"+e);
 		}
 		return list;
+	}
+
+	public String districtDetailsDelete(HttpServletRequest request) {
+		String status = Constant.FAIL;
+		try {
+			Long ddid = ServletRequestUtils.getLongParameter(request, "hiddenDDID",0L);
+			districtDetailsDao.districtDetailsDelete(ddid);
+			status = Constant.SUCCESS;
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return status;
 	}
 
 }

@@ -18,9 +18,13 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 
 	@Transactional
 	public List<SupplierPersonalDetails> getSupplierPersonalDetailsable(String sortField, int order, int start,int length, String searchq) throws Exception {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		List<SupplierPersonalDetails> list = null;
 		
-		Criteria criteria = getSession().createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails")
+		Criteria criteria = session.createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails")
 				.setFirstResult(start)
 				.setMaxResults(length);
 		if(!searchq.isEmpty()) {
@@ -32,21 +36,22 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 			        .add(Restrictions.ilike("supplierTp2", searchq, MatchMode.ANYWHERE))
 			        .add(Restrictions.ilike("supplierSkypeAddress", searchq,MatchMode.ANYWHERE)));
 		}
-/*		if(!sortField.isEmpty()) {
-			if(order == 0) {
-				criteria.addOrder(Order.asc(sortField));
-			} else if(order == 1) {
-				criteria.addOrder(Order.desc(sortField));
-			}
-		}*/
 		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return list;
 	}
 
 	@Transactional
 	public int getSupplierPersonalDetailsCount(String serchq) throws Exception {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		int totalRowCount =0;
-		Criteria criteria = getSession().createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails")
+		Criteria criteria = session.createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails")
 				.setProjection(Projections.count("SPDID"));
 		
 		if(!serchq.isEmpty()) {
@@ -62,12 +67,14 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 		Long value = (Long) criteria.uniqueResult();
 		totalRowCount = Integer.valueOf(value.intValue());
 		
+		session.getTransaction().commit();
+		session.close();
+		
 		return totalRowCount;
 	}
 
 	public void saveSupplierPersonalDetails(SupplierPersonalDetails supplierPersonalDetails) throws Exception {
 		Session session = getSession();
-		
 		session.getTransaction().begin();
 		session.saveOrUpdate(supplierPersonalDetails);
 		session.getTransaction().commit();
@@ -91,11 +98,31 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 	}
 
 	public List<SupplierPersonalDetails> getAllSuppliers() {
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
 		List<SupplierPersonalDetails> list = null;
 		
-		Criteria criteria = getSession().createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails");
+		Criteria criteria = session.createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails");
 		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
 		return list;
+	}
+	@Transactional
+	public void supplierDetailsDelete(Long spdid)throws Exception {
+
+		Session session = getSession();
+		session.getTransaction().begin();
+		
+		String hql = "delete from SupplierPersonalDetails where SPDID= :id"; 
+		session.createQuery(hql).setParameter("id", spdid).executeUpdate();
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 }

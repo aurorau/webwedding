@@ -10,4 +10,5 @@ public interface DistrictDetailsDao {
 	public void saveDistrictDetails(DistrictDetails districtDetails)throws Exception;
 	public DistrictDetails getDistrictDetailsByDDID(Long ddid) throws Exception;
 	public List<DistrictDetails> getAllDistricts();
+	public void districtDetailsDelete(Long ddid) throws Exception;
 }

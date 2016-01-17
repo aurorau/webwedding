@@ -22,6 +22,7 @@ import com.aurora.model.CompanyDetails;
 import com.aurora.model.SupplierCategory;
 import com.aurora.service.CompanyDetailsService;
 import com.aurora.util.CompanyDetailsDTO;
+import com.aurora.util.CompanyDetailsW2DTO;
 import com.aurora.util.Constant;
 import com.aurora.util.JsonResponce;
 
@@ -96,7 +97,7 @@ public class CompanyDetailsController {
 	    		int start = (page>0) ? (page - 1) * Constant.GRID_TABLE_SIZE : 0;
 	    		String searchq = ServletRequestUtils.getStringParameter(request, Constant.PARAMETER_SEARCH);
 			
-	    		List<CompanyDetails> companyDetailsList = companyDetailsService.getCompanyDetailsTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
+	    		List<CompanyDetailsDTO> companyDetailsList = companyDetailsService.getCompanyDetailsTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
 	    		int companyDetailsCount = companyDetailsService.getCompanyDetailsTableCount(searchq);
 			
 	    		request.setAttribute(Constant.TABLE_SIZE, companyDetailsCount );
@@ -108,5 +109,33 @@ public class CompanyDetailsController {
 		 
 		 
 		 return new ModelAndView("dynamicTables/dynamicCompanyDetailsTable", model.asMap());
+	 }
+	 
+	 @RequestMapping(method = RequestMethod.GET, value="/getCompanyDetailsTableW2")
+	 public ModelAndView getCompanyDetailsTableW2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 Model model = new ExtendedModelMap();
+		 ParamEncoder paramEncoder = new ParamEncoder(Constant.TABLE_COMPANY_DETAILW2);
+		 
+	    	try{
+	    		String sortField = ServletRequestUtils.getStringParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_SORT));
+	    		int order = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_ORDER), 0);
+	    		int page = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_PAGE), 0);
+	    		int start = (page>0) ? (page - 1) * Constant.GRID_TABLE_SIZE : 0;
+	    		Long serviceCategoryDD = ServletRequestUtils.getLongParameter(request, "serviceCategoryDD",0L);
+	    		Long districtDD = ServletRequestUtils.getLongParameter(request, "districtDD",0L);
+	    		Long budget = ServletRequestUtils.getLongParameter(request, "budgetId",0L);
+			
+	    		List<CompanyDetailsW2DTO> companyDetailsList = companyDetailsService.getCompanyDetailsTableW2(sortField,order,start, Constant.GRID_TABLE_SIZE, serviceCategoryDD,districtDD,budget);
+	    		int companyDetailsCount = companyDetailsService.getCompanyDetailsTableCountW2(serviceCategoryDD,districtDD,budget);
+			
+	    		request.setAttribute(Constant.TABLE_SIZE, companyDetailsCount );
+	    		request.setAttribute(Constant.GRID_TABLE_SIZE_KEY, Constant.GRID_TABLE_SIZE);
+	    		model.addAttribute(Constant.TABLE_COMPANY_DETAILW2, companyDetailsList);
+	    	} catch (Exception e) {
+	    		System.out.println(e);
+	    	}
+		 
+		 
+		 return new ModelAndView("dynamicTables/dynamicCompanyDetailsTableW2", model.asMap());
 	 }
 }

@@ -72,3 +72,18 @@ function supplierCategoryEdit(scid) {
 		}
 	});
 }
+
+function supplierCategoryDelete(scid){
+	var hiddenSCID = scid;
+	$('#hiddenSCID').val(scid);
+	
+	$.get('supplierCategorySetUp/supplierCategoryDelete', {
+		hiddenSCID : hiddenSCID
+	}, function(data) {
+		if(data.status == 'success') {
+			loadSupplierCategoryTable();
+		}else if(data.status == 'fail') {
+			alert("Record in used, Unable to delete");
+		}
+	});
+}

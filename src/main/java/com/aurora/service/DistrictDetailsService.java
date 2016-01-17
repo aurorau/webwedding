@@ -10,4 +10,5 @@ public interface DistrictDetailsService {
 	public String saveDistrictDetails(HttpServletRequest request);
 	public DistrictDetails getDistrictDetailsByDDID(HttpServletRequest request);
 	public List<DistrictDetails> getAllDistricts();
+	public String districtDetailsDelete(HttpServletRequest request);
 }

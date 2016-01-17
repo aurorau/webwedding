@@ -64,6 +64,16 @@ public class DistrictSetUpController {
 		 
 		 return res;
 	 }
+	 @RequestMapping(method = RequestMethod.GET, value="/districtDetailsDelete")
+	 public @ResponseBody JsonResponce districtDetailsDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 String status= districtDetailsService.districtDetailsDelete(request);
+		 
+		 res.setStatus(status);
+		 
+		 return res;
+	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value="/getAllDistricts")
 	 public @ResponseBody JsonResponce getAllDistricts(HttpServletResponse response) throws Exception {

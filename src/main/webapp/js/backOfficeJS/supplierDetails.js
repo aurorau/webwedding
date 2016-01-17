@@ -91,3 +91,18 @@ function supplierDetailsEdit(spdid) {
 		}
 	});
 }
+
+function supplierDetailsDelete(spdid) {
+	var hiddenSPDID = spdid;
+	$('#hiddenSPDID').val(spdid);
+	
+	$.get('supplierDetailsController/supplierDetailsDelete', {
+		hiddenSPDID : hiddenSPDID
+	}, function(data) {
+		if(data.status == 'success') {
+			loadSupplierPDTable();
+		}else if(data.status == 'fail') {
+			alert("Record in used, Unable to delete");
+		}
+	});
+}

@@ -10,4 +10,5 @@ public interface SupplierDetailsService {
 	public String saveSupplierPersonalDetails(HttpServletRequest request);
 	public SupplierPersonalDetails getSupplierPersonalDetailsBySPDID(HttpServletRequest request);
 	public List<SupplierPersonalDetails> getAllSuppliers();
+	public String supplierDetailsDelete(HttpServletRequest request);
 }

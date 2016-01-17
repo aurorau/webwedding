@@ -33,23 +33,26 @@ import com.aurora.model.FileMeta;
 import com.aurora.model.UploadFiles;
 import com.aurora.service.FileUploadService;
 import com.aurora.util.Constant;
+import com.aurora.util.FileUploadDTO;
 import com.aurora.util.JsonResponce;
+import com.lowagie.tools.concat_pdf;
 
 @Controller
 @RequestMapping("/fileUploadController")
 public class FileController implements ServletContextAware{
-	
-	 FileUploadService fileUploadService = null;
 
+     LinkedList<FileMeta> files = null; 
+     FileMeta fileMeta = null;
+     ServletContext servletContext;
+	 FileUploadService fileUploadService = null;
+	 String testFileUploadLocation = Constant.FILE_UPLOAD_LOCAL;
+	 String UPLOAD_DIRECTORY = Constant.FILE_UPLOAD_SERVER;
+	
 	 @Autowired
 	 public void setFileUploadService(FileUploadService fileUploadService) {
 		 this.fileUploadService = fileUploadService;
 	 }
 
-	
-    LinkedList<FileMeta> files = null; 
-    FileMeta fileMeta = null;
-    ServletContext servletContext;
     
 	 @RequestMapping(method = RequestMethod.GET)
 	 public ModelAndView districtDetails() throws Exception {
@@ -64,6 +67,7 @@ public class FileController implements ServletContextAware{
         return servletContext;
     }
     
+    
     /***************************************************
      * URL: /rest/controller/upload  
      * upload(): receives files
@@ -77,7 +81,6 @@ public class FileController implements ServletContextAware{
         //1. build an iterator
          Iterator<String> itr =  request.getFileNames();
          MultipartFile mpf = null;
-         String testFileUploadLocation = "/media/aurora/Other/fileUpload";
         
          //2. get each file
          while(itr.hasNext()){
@@ -91,19 +94,20 @@ public class FileController implements ServletContextAware{
                  files.pop();
              //2.3 create new fileMeta
              fileMeta = new FileMeta();
-             fileMeta.setFileName(mpf.getOriginalFilename());
+             fileMeta.setFileName(testFileUploadLocation+File.separator+mpf.getOriginalFilename());
              fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
              fileMeta.setFileType(mpf.getContentType());
              try {
                fileMeta.setBytes(mpf.getBytes());
                 
-               String UPLOAD_DIRECTORY ="img"+File.separator+"otherImages";
+               //String UPLOAD_DIRECTORY ="img"+File.separator+"otherImages";
                String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
                 
                 
               //  System.out.println("uploadPath with image:"+uploadPath+File.separator+mpf.getOriginalFilename());
                System.out.println("uploadPath with image:"+mpf.getOriginalFilename());
                 
+              // FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(uploadPath+File.separator+mpf.getOriginalFilename()));
                FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(testFileUploadLocation+File.separator+mpf.getOriginalFilename()));
                 
             } catch (IOException e) {
@@ -143,9 +147,9 @@ public class FileController implements ServletContextAware{
      * @return void
      ****************************************************/
     @RequestMapping(value = "/deleteFile", method = RequestMethod.GET)
-     public void deleteFile(HttpServletRequest request,HttpServletResponse response){
-    	
-        String testFileUploadLocation = "/media/aurora/Other/fileUpload";
+     public  @ResponseBody JsonResponce deleteFile(HttpServletRequest request,HttpServletResponse response){
+    	JsonResponce res= new JsonResponce();
+    	String fstatus = Constant.FAIL;
         boolean status = false;
          try {        	
         	 Long fileId = ServletRequestUtils.getLongParameter(request, "fileId");
@@ -153,12 +157,14 @@ public class FileController implements ServletContextAware{
         	 System.out.println("File Name :"+fileName);
         	 
         	 String deleteStatus = fileUploadService.deleteImage(fileId);
+        	// String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
         	 
         	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
             	 File file = new File(testFileUploadLocation+File.separator+fileName);
             	 status = file.delete();
         	 }
         	 if(status){
+        		 fstatus = Constant.SUCCESS;
         		System.out.println("Deleted :"+fileName); 
         	 } else {
         		 System.out.println("Delete operation is failed.");
@@ -166,6 +172,8 @@ public class FileController implements ServletContextAware{
          }catch (Exception e) {
                 System.out.println("Delete file error:"+e);
          }
+         res.setStatus(fstatus);
+         return res;
      }
     /***************************************************
      * URL: /rest/controller/saveFile
@@ -207,7 +215,7 @@ public class FileController implements ServletContextAware{
 	    		Long caterogyId = ServletRequestUtils.getLongParameter(request, "fileCategoryId");
 	    		Long companyId = ServletRequestUtils.getLongParameter(request, "fileCompanyId");
 			
-	    		List<UploadFiles> uploadFilesList = fileUploadService.getFileDetailsTable(sortField,order,start, 5,caterogyId,companyId, searchq);
+	    		List<FileUploadDTO> uploadFilesList = fileUploadService.getFileDetailsTable(sortField,order,start, 5,caterogyId,companyId, searchq);
 	    		int uploadFilesCount = fileUploadService.getFileDetailsTableCount(caterogyId,companyId,searchq);
 			
 	    		request.setAttribute(Constant.TABLE_SIZE, uploadFilesCount );
@@ -232,62 +240,67 @@ public class FileController implements ServletContextAware{
 		 public @ResponseBody void imageDownloader(HttpServletRequest request, HttpServletResponse response) throws Exception {	
 
 			 String filename = null;
-			 String testFileUploadLocation = "/media/aurora/Other/fileUpload";
 		     Pattern p = Pattern.compile("([^\\s]+(\\.(?i)(xlsx|xlsm|xlsb|xls|xlm|xltx|xlam|xla|xlw|jpg|png|gif|bmp|jpeg|pdf|doc|docx))$)");
 
-
-		        filename = testFileUploadLocation+File.separator+request.getParameter("fileName");
-		        Matcher m = p.matcher(filename);
+		     	//String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
+		        filename = request.getParameter("fileName");
 		        
-		        FileInputStream in = null;
-		        OutputStream out = null;
-		        try {
-		        	if (m.matches()) {
-
-			            System.out.println("file Name: " + filename);
-			            
-			            //filename = filename;
-			            
-			            // Get the MIME type of the PDF
-			            ServletContext sc = getServletContext();
-			            String mimeType = sc.getMimeType(filename);
-			            System.out.println("mimeType" + mimeType);
-			            if (mimeType == null) {
-			                mimeType = "application/octet-stream";
-			            }
-
-			            // Set content type
-			            response.setContentType(mimeType);
-
-			            // Set content size
-			            File file = new File(filename);
+		        if(!filename.equalsIgnoreCase("") && filename != null) {
+			        Matcher m = p.matcher(filename);
 			        
-			            response.setContentLength((int) file.length());
-			            
-			            // Open the file and output streams
-			            in = new FileInputStream(file);
-			            out = response.getOutputStream();
+			        FileInputStream in = null;
+			        OutputStream out = null;
+			        try {
+			        	if (m.matches()) {
 
-			            // Copy the contents of the file to the output stream
-			            byte[] buf = new byte[1024];
-			            int count = 0;
-			            while ((count = in.read(buf)) >= 0) {
-			                out.write(buf, 0, count);
-			            }
+				            System.out.println("file Name: " + filename);
+				            
+				            //filename = filename;
+				            
+				            // Get the MIME type of the PDF
+				            ServletContext sc = getServletContext();
+				            String mimeType = sc.getMimeType(filename);
+				            System.out.println("mimeType" + mimeType);
+				            if (mimeType == null) {
+				                mimeType = "application/octet-stream";
+				            }
 
-			        }
-		        	
-				} catch (RuntimeException e) {
-				    throw e;
-				}  catch (Exception e) {
-				} finally{
-					try {
-			            out.flush();
-			            in.close();
-			            out.close();
-					} catch (Exception e2) {
-						e2.printStackTrace();
+				            // Set content type
+				            response.setContentType(mimeType);
+
+				            // Set content size
+				            File file = new File(filename);
+				        
+				            response.setContentLength((int) file.length());
+				            
+				            // Open the file and output streams
+				            in = new FileInputStream(file);
+				            out = response.getOutputStream();
+
+				            // Copy the contents of the file to the output stream
+				            byte[] buf = new byte[1024];
+				            int count = 0;
+				            while ((count = in.read(buf)) >= 0) {
+				                out.write(buf, 0, count);
+				            }
+
+				        }
+			        	
+					} catch (RuntimeException e) {
+					    throw e;
+					}  catch (Exception e) {
+					} finally{
+						try {
+				            out.flush();
+				            in.close();
+				            out.close();
+						} catch (Exception e2) {
+							e2.printStackTrace();
+						}
 					}
-				}
+		        } else{
+		        	System.out.println("No file name");
+		        }
+
 		 }
 }

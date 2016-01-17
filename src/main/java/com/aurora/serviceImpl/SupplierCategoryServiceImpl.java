@@ -98,4 +98,16 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		return list;
 	}
 
+	public String supplierCategoryDelete(HttpServletRequest request) {
+		String status = Constant.FAIL;
+		try {
+			Long scid = ServletRequestUtils.getLongParameter(request, "hiddenSCID",0L);
+			supplierCategoryDao.companyDetailsDelete(scid);
+			status = Constant.SUCCESS;
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return status;
+	}
+
 }

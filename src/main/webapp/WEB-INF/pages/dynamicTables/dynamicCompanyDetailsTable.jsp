@@ -1,8 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <display:table name="companyDetailsTable" class="tblDisplay display table table-bordered table-striped dynamic-table display_header_class" cellspacing="0" requestURI="./companyDetailsController/getCompanyDetailsTable" id="companyDetailsTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
+
+	 <display:column title="Image" headerClass="text-left">	 
+		<div class="col-md-12">
+			<div class="col-md-2">
+				<c:if test="${companyDetailsTable.logoUrl != 'No Logo'}">
+					<img src="./fileUploadController/imageDownloader?fileName=${companyDetailsTable.logoUrl}" width="80" height="60" alt="Logo">
+				</c:if>
+				<c:if test="${companyDetailsTable.logoUrl == 'No Logo'}">
+					<img width="80" height="60" alt="No Logo">
+				</c:if>
+			</div>
+		</div>
+	 </display:column>
 
 	 <display:column property="companyName" sortable="true" sortName="companyName" headerClass="text-left sortable sorted order1" class="text-left" title="Company Name"/>
      <display:column property="companyEmail" sortable="true" sortName="companyEmail" headerClass="text-left sortable sorted order1" class="text-left" title="Company Email"/>

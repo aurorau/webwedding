@@ -30,6 +30,7 @@ public class CompanyDetails implements Serializable {
 	private String companyFaxNo;
 	private String companyWebURl;
 	private String companyFbPage;
+	private String logoUrl;
 	private Long budget;
 	private String status;
 	private Date companyRegisteredDate;
@@ -193,6 +194,13 @@ public class CompanyDetails implements Serializable {
 	public void setActivePeriod(Long activePeriod) {
 		this.activePeriod = activePeriod;
 	}
+	@Column(name="logo_url", nullable=true, length=300)
+	public String getLogoUrl() {
+		return logoUrl;
+	}
+	public void setLogoUrl(String logoUrl) {
+		this.logoUrl = logoUrl;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -212,6 +220,7 @@ public class CompanyDetails implements Serializable {
 		result = prime * result + ((companyTp2 == null) ? 0 : companyTp2.hashCode());
 		result = prime * result + ((companyWebURl == null) ? 0 : companyWebURl.hashCode());
 		result = prime * result + ((districtDetails == null) ? 0 : districtDetails.hashCode());
+		result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((supplierCategory == null) ? 0 : supplierCategory.hashCode());
 		result = prime * result + ((supplierPersonalDetails == null) ? 0 : supplierPersonalDetails.hashCode());
@@ -301,6 +310,11 @@ public class CompanyDetails implements Serializable {
 				return false;
 		} else if (!districtDetails.equals(other.districtDetails))
 			return false;
+		if (logoUrl == null) {
+			if (other.logoUrl != null)
+				return false;
+		} else if (!logoUrl.equals(other.logoUrl))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -323,10 +337,10 @@ public class CompanyDetails implements Serializable {
 		return "CompanyDetails [SCDID=" + SCDID + ", companyName=" + companyName + ", companyAddress=" + companyAddress
 				+ ", companyTp1=" + companyTp1 + ", companyTp2=" + companyTp2 + ", companyEmail=" + companyEmail
 				+ ", companyFaxNo=" + companyFaxNo + ", companyWebURl=" + companyWebURl + ", companyFbPage="
-				+ companyFbPage + ", budget=" + budget + ", status=" + status + ", companyRegisteredDate="
-				+ companyRegisteredDate + ", companyRegistrationNumber=" + companyRegistrationNumber + ", activeDate="
-				+ activeDate + ", activePeriod=" + activePeriod + ", supplierPersonalDetails=" + supplierPersonalDetails
-				+ ", supplierCategory=" + supplierCategory + ", districtDetails=" + districtDetails + "]";
+				+ companyFbPage + ", logoUrl=" + logoUrl + ", budget=" + budget + ", status=" + status
+				+ ", companyRegisteredDate=" + companyRegisteredDate + ", companyRegistrationNumber="
+				+ companyRegistrationNumber + ", activeDate=" + activeDate + ", activePeriod=" + activePeriod
+				+ ", supplierPersonalDetails=" + supplierPersonalDetails + ", supplierCategory=" + supplierCategory
+				+ ", districtDetails=" + districtDetails + "]";
 	}
-
 }

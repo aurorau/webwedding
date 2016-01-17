@@ -13,4 +13,5 @@ public interface SupplierCategoryService {
 	public String saveSupplierCategory(HttpServletRequest request);
 	public SupplierCategory getSupplierCategoryBySCID(HttpServletRequest request);
 	public List<SupplierCategory> getAllCategories();
+	public String supplierCategoryDelete(HttpServletRequest request);
 }
