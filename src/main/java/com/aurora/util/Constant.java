@@ -25,6 +25,10 @@ public class Constant {
 	*/
 	public static final String UPDATED= "updated";
 	/**
+	   * name of the parameter specifying the fileexist.
+	*/
+	public static final String EXIST= "exist";
+	/**
 	   * name of the parameter specifying the fail.
 	*/
 	public static final String FAIL= "fail";
@@ -50,9 +54,17 @@ public class Constant {
 	   */
 	public static final String TABLE_DISTRICT = "districtTable";
 	  /**
-	   * This is districtTable table id
+	   * This is supplierCategoryTable table id
 	   */
 	public static final String TABLE_SUPPLIER_CATEGORY = "supplierCategoryTable";
+	  /**
+	   * This is imageCategoryTable table id
+	   */
+	public static final String TABLE_IMAGE_CATEGORY = "imageCategoryTable";
+	  /**
+	   * This is addDetailsTable table id
+	   */
+	public static final String TABLE_ADD_DETAILS= "addDetailsTable";
 	  /**
 	   * This is supplierDetails table id
 	   */

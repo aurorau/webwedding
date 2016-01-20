@@ -21,10 +21,10 @@
 			<div>
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
-				<!-- <ul><a href="#">Category Gallery</a></ul> -->
-				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
+				<ul><a href="imageCategoryController">Image Category</a></ul>
+				<ul><a href="addDetailsController">Add Details</a></ul>
 				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
 				<ul><b>Supplier Personal Details</b></ul>
 				<ul><a href="fileUploadController">File Image Upload</a></ul>
@@ -75,6 +75,26 @@
 						<td>Skype :</td>
 						<td><input type="text" id="supplierPDSkypeId" placeholder="Skype"></td>
 					</tr>
+					<tr>
+						<td>Status :</td>
+						<td><select id="supplierPDStatusId">
+							<option value="">Select Status</option>
+							<option value="1">Active</option>
+							<option value="2">Inactive</option>
+						</select></td>
+					</tr>	
+					<tr>
+						<td>Type :</td>
+						<td><select id="supplierPDTypeId">
+							<option value="">Select Type</option>
+							<option value="1">Be a Supplier</option>
+							<option value="2">Post a Add</option>
+						</select></td>
+					</tr>	
+					<tr>
+						<td>Description :</td>
+						<td><textarea rows="5" cols="20" id="supplierPDDescriptionId" placeholder="Description"></textarea></td>
+					</tr>			
 					<tr>
 						<td></td>
 						<td>

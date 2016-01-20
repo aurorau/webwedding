@@ -71,6 +71,9 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 			supplierPersonalDetails.setSupplierTp2(ServletRequestUtils.getStringParameter(request, "tp2"));
 			supplierPersonalDetails.setSupplierEmail(ServletRequestUtils.getStringParameter(request, "email"));
 			supplierPersonalDetails.setSupplierSkypeAddress(ServletRequestUtils.getStringParameter(request, "skype"));
+			supplierPersonalDetails.setSupplierType(ServletRequestUtils.getStringParameter(request, "type"));
+			supplierPersonalDetails.setStatus(ServletRequestUtils.getStringParameter(request, "status"));
+			supplierPersonalDetails.setDescription(ServletRequestUtils.getStringParameter(request, "description"));
 			
 			supplierDetailsDao.saveSupplierPersonalDetails(supplierPersonalDetails);
 			

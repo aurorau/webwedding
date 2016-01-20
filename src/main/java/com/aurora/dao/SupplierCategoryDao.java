@@ -13,5 +13,5 @@ public interface SupplierCategoryDao {
 	public void saveSupplierCategory(SupplierCategory supplierCategory)throws Exception;
 	public SupplierCategory getSupplierCategoryBySCID(Long scid) throws Exception;
 	public List<SupplierCategory> getAllSuppliers();
-	public void companyDetailsDelete(Long scid) throws Exception;
+	public void supplierCategoryDelete(Long scid) throws Exception;
 }

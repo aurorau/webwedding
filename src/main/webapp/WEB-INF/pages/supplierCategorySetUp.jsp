@@ -21,10 +21,10 @@
 			<div>
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
-				<!-- <ul><a href="#">Category Gallery</a></ul> -->
-				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
 				<ul><b>Supplier Category</b></ul>
+				<ul><a href="imageCategoryController">Image Category</a></ul>
+				<ul><a href="addDetailsController">Add Details</a></ul>
 				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
 				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
 				<ul><a href="fileUploadController">File Image Upload</a></ul>

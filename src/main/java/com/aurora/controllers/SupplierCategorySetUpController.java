@@ -35,7 +35,6 @@ public class SupplierCategorySetUpController {
 		 this.supplierCategoryService = supplierCategoryService;
 	 }
 	
-	
 	 @RequestMapping(method = RequestMethod.GET)
 	 public ModelAndView supplierCategory() throws Exception {
 		 return new ModelAndView("supplierCategorySetUp");

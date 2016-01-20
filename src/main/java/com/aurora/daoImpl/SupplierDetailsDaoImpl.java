@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -27,6 +28,7 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 		Criteria criteria = session.createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails")
 				.setFirstResult(start)
 				.setMaxResults(length);
+		criteria.addOrder(Order.asc("supplierFirstName"));
 		if(!searchq.isEmpty()) {
 			criteria.add(Restrictions.disjunction()
 			        .add(Restrictions.ilike("supplierFirstName", searchq, MatchMode.ANYWHERE))
@@ -105,6 +107,7 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 		List<SupplierPersonalDetails> list = null;
 		
 		Criteria criteria = session.createCriteria(SupplierPersonalDetails.class,"supplierPersonalDetails");
+		         criteria.addOrder(Order.asc("supplierFirstName"));
 		list = criteria.list();
 		
 		session.getTransaction().commit();

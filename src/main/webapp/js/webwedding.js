@@ -7,11 +7,15 @@ $(document).ready(function() {
 	    cache: false
 	});
 	loadCategoryDetails();
+	loadImageCategoryDetails();
 	loadDistrictDetails();
 	loadCompanyDetailsTableW2();
 	map = new Map();
 	colorMap = new Map();
 	$('#cart-value').text(0);
+	validationHide();
+	loadAdds();
+	clearValues();
 });
 
 
@@ -149,6 +153,10 @@ function addToCart(id, companyName, budget){
 	var mapSize = map.size;
 	$('#cart-value').text(mapSize);
 	
+	if(mapSize > 0 ) {
+		$('#cart-value').addClass('.add-to-cart-click');
+	}
+	
 	if(colorMap.has(companyName)) {
 		colorMap.delete(companyName);
 		$('#'+id).removeClass('add-to-cart-click').addClass('add-to-cart');
@@ -156,7 +164,6 @@ function addToCart(id, companyName, budget){
 		colorMap.set(companyName,id);
 		$('#'+id).removeClass('add-to-cart').addClass('add-to-cart-click');
 	}
-
 }
 
 function companyColor() {
@@ -185,5 +192,153 @@ function displayBudget() {
 				"<td>Total Budget</td>" +
 				"<td id=total>"+totalBudget+".00</td>" +
 			"</tr>");
+}
+function saveSupplierDetailsW2(){
+	var hiddenSPDID = '';
+	var fname = $('#name').val().trim();
+	var lname = $('#lname').val().trim();
+	var tp1 = $('#phone').val().trim();
+	var email = $('#emailW2').val().trim();
+	var skype = $('#skype').val().trim();
+	var status = '2';
+	var type = $('#category-type').val();
+	var description = $('#message').val().trim().trim();
 	
+	if(checkValidation()) {
+		$.post('supplierDetailsController/saveSupplierDetails', {
+			hiddenSPDID : hiddenSPDID,
+			fname : fname,
+			lname : lname,
+			tp1 : tp1,
+			email : email,
+			skype : skype,
+			status : status,
+			type : type,
+			description : description
+		}, function(data) {
+			if (data.status == 'saved') {
+				$('#successLB').text("Message Sent Successfully.");
+				clearValues();
+			} else {
+				console.log(data.status);
+			}
+		});
+	} else {
+		//alert("Fill required fields ");
+	}
+}
+
+var checkValidation = function (){
+	var status = true;
+	
+	var fname = $('#name').val().trim();
+	var type = $('#category-type').val();
+	var tp1 = $('#phone').val().trim();
+	var email = $('#emailW2').val().trim();
+	
+	if(email == ''){
+		$('#emailValidation').text("Please enter your email.");
+		$('#emailValidation').show();
+		status = false;
+	}
+	if(type == ''){
+		$('#categorylValidation').text("Please select your category.");
+		$('#categorylValidation').show();
+		status = false;
+	}
+	if(fname == ''){
+		$('#nameValidation').text("Please enter your name.");
+		$('#nameValidation').show();
+		status = false;
+	}
+	if(tp1 == ''){
+		$('#phoneValidation').text("Please enter your phone number.");
+		$('#phoneValidation').show();
+		status = false;
+	}
+	return status;
+}
+
+function clearValues(){
+	$('#name').val('');
+	$('#lname').val('');
+	$('#phone').val('');
+	$('#emailW2').val('');
+	$('#skype').val('');
+	$('#category-type').val('');
+	$('#message').val('');
+	setTimeout(function(){
+		$('#successLB').text('');
+    },10000);
+}
+
+function validationHide(){
+	$('#emailValidation').hide();
+	$('#categorylValidation').hide();
+	$('#phoneValidation').hide();
+	$('#nameValidation').hide();
+}
+function hideValidation(id){
+	$('#'+id).hide();
+}
+function loadImageCategoryDetails(){
+	$.ajax({
+        type: "GET",
+        url: "imageCategoryController/getAllImageCategories",
+        success: function(data) {
+        	if(data.result != null) {
+        		setProfileGallery(data.result);
+        	}
+        }
+	});
+}
+function setProfileGallery(imageCategoryList){
+	 $.each(imageCategoryList, function (index, imageCategory){
+		$('#imageCategoryTableW2').append(
+		 	"<div class=portfolio-item>"+
+		 		"<a href=#CaterorGallery class=portfolio-link data-toggle=modal onclick=setImageGallaryForCategory("+imageCategory.icid+")>"+
+		 			"<div class=portfolio-hover>"+
+		 				" <div class=portfolio-hover-content>"+
+		 					" <h4>"+imageCategory.icName+"</h4>"+
+		 				" </div>"+
+		 			"</div>"+
+		 			"<img src=./fileUploadController/imageDownloader?fileName="+imageCategory.icLogoUrl+" class=gallery>"+
+		 		" </a>"+
+		 	" </div>");
+		});
+}
+
+function setImageGallaryForCategory(id){
+	var formdata = 'ajax=true&fileImageCategoryId='+id;
+	$('#imageCategoryGalleryDivW2').html('');
+	$.ajax({
+        type: "GET",
+        url: "fileUploadController/getImagesByImageCategoryId",
+        data: formdata,
+        success: function(data) {
+        	if(data.result != null) {
+        		 $.each(data.result, function (index, imageList){
+        				$('#imageCategoryGalleryDivW2').append("<img src=./fileUploadController/imageDownloader?fileName="+imageList.fileUrl+" class=gallery>");
+        		 });
+        	}
+        }
+	});
+}
+
+function loadAdds(){
+	$.ajax({
+        type: "GET",
+        url: "addDetailsController/getAllAdds",
+        success: function(data) {
+        	if(data.result != null) {
+        		 $.each(data.result, function (index, addList){
+        				$('#ads').append("<div class=ads> "+
+        						"<a href=#portfolioModal6 class=portfolio-link data-toggle=modal>"+
+        						"<img src=./fileUploadController/imageDownloader?fileName="+addList.addUrl+" class=img-responsive width=300>"+
+        						"</a>"+
+        				"</div>");
+        		 });
+        	}
+        }
+	});
 }

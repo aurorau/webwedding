@@ -32,10 +32,10 @@
 			<div>
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
-				<!-- <ul><a href="#">Category Gallery</a></ul> -->
-				<!-- <ul><a href="#">Company Category</a></ul> -->
 				<ul><a href="#">Company Comments</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
+				<ul><a href="imageCategoryController">Image Category</a></ul>
+				<ul><a href="addDetailsController">Add Details</a></ul>
 				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
 				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
 				<ul><b>File Image Upload</b></ul>
@@ -45,16 +45,27 @@
 		<div style="width:80%;float: right" id="content">
 			<div style="float: left; width:100%">
 			<h3>File Image Upload</h3>	
-				<table style="float: left">
+				<div>
+					<label>Search/ Upload :</label>
+					<br><input type="radio" name ="seach" value="supplier" id="supplierRadioBtn" onclick="hidePanel()"> Supplier Category
+					<br><input type="radio" name ="seach" value="image" id="imageRadioBtn" onclick="hidePanel()"> Image Category
+					<br><button onclick="selectCategory()"> Go</button>
+				</div>
+				<table style="float: left" id="searchTableId">
 					<tr>
 						<td>
 							<select id="fileCategoryId" onchange="categoryChange()">
-								<option value="">Select Category</option>
+								<option value="">Select Supplier Category</option>
 							</select>
 						</td>
 						<td>
 							<select id="fileCompanyId">
 								<option value="">Select Company</option>
+							</select>
+						</td>
+						<td>
+							<select id="fileImageCategoryId">
+								<option value="">Select Image Category</option>
 							</select>
 						</td>
 						<td><button onclick="loadFileDetailsTable()">Search</button></td>
@@ -93,7 +104,8 @@
 					</tr>
 					<tr>
 						<td>Upload File :</td>
-							<td><input id="fileupload" type="file" name="files[]" data-url="fileUploadController/upload" multiple>
+							<td><input id="fileupload" type="file" name="files[]"  multiple>
+							<!-- data-url="fileUploadController/upload" -->
 						</td>
 					</tr>	
 					<tr>

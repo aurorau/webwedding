@@ -19,6 +19,9 @@ public class SupplierPersonalDetails implements Serializable {
 	private String supplierTp1;
 	private String supplierTp2;
 	private String supplierSkypeAddress;
+	private String supplierType;
+	private String description;
+	private String status;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -74,17 +77,41 @@ public class SupplierPersonalDetails implements Serializable {
 	public void setSupplierSkypeAddress(String supplierSkypeAddress) {
 		this.supplierSkypeAddress = supplierSkypeAddress;
 	}
+	@Column(name="supplier_type", nullable=true, length=50)
+	public String getSupplierType() {
+		return supplierType;
+	}
+	public void setSupplierType(String supplierType) {
+		this.supplierType = supplierType;
+	}
+	@Column(name="description", nullable=true, length=500)
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	@Column(name="supplier_status", nullable=true, length=50)
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((SPDID == null) ? 0 : SPDID.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((supplierEmail == null) ? 0 : supplierEmail.hashCode());
 		result = prime * result + ((supplierFirstName == null) ? 0 : supplierFirstName.hashCode());
 		result = prime * result + ((supplierLastName == null) ? 0 : supplierLastName.hashCode());
 		result = prime * result + ((supplierSkypeAddress == null) ? 0 : supplierSkypeAddress.hashCode());
 		result = prime * result + ((supplierTp1 == null) ? 0 : supplierTp1.hashCode());
 		result = prime * result + ((supplierTp2 == null) ? 0 : supplierTp2.hashCode());
+		result = prime * result + ((supplierType == null) ? 0 : supplierType.hashCode());
 		return result;
 	}
 	@Override
@@ -100,6 +127,16 @@ public class SupplierPersonalDetails implements Serializable {
 			if (other.SPDID != null)
 				return false;
 		} else if (!SPDID.equals(other.SPDID))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
 			return false;
 		if (supplierEmail == null) {
 			if (other.supplierEmail != null)
@@ -131,12 +168,18 @@ public class SupplierPersonalDetails implements Serializable {
 				return false;
 		} else if (!supplierTp2.equals(other.supplierTp2))
 			return false;
+		if (supplierType == null) {
+			if (other.supplierType != null)
+				return false;
+		} else if (!supplierType.equals(other.supplierType))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "SupplierPersonalDetails [SPDID=" + SPDID + ", supplierFirstName=" + supplierFirstName
 				+ ", supplierLastName=" + supplierLastName + ", supplierEmail=" + supplierEmail + ", supplierTp1="
-				+ supplierTp1 + ", supplierTp2=" + supplierTp2 + ", supplierSkypeAddress=" + supplierSkypeAddress + "]";
+				+ supplierTp1 + ", supplierTp2=" + supplierTp2 + ", supplierSkypeAddress=" + supplierSkypeAddress
+				+ ", supplierType=" + supplierType + ", description=" + description + ", status=" + status + "]";
 	}
 }

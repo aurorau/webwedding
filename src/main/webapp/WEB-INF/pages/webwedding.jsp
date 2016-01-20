@@ -390,7 +390,7 @@
                 </div> -->
             </div>
             <div class="col-md-2 col-sm-12 padding-right0" id="ads">
-                <div class="ads">
+<!--                 <div class="ads">
                     <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
                         <img src="img/portfolio/hotel-ad1.jpg" class="img-responsive" alt="" width="300">
                     </a>
@@ -406,7 +406,7 @@
                     <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
                         <img src="img/portfolio/hotel-ad3.jpg" class="img-responsive" alt="" width="300">
                     </a>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -420,8 +420,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
-                    <div class="portfolio-item">
+                <div class="col-lg-12" id="imageCategoryTableW2">
+<!--                     <div class="portfolio-item">
                         <a href="#gallery-sinhala" class="portfolio-link" data-toggle="modal">
                             <div class="portfolio-hover">
                                 <div class="portfolio-hover-content">
@@ -520,7 +520,7 @@
                             </div>
                             <img src="img/gallery/profile/mehendi.jpg" class="gallery" alt="mehendi">
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -605,59 +605,56 @@
                             </div>
                           
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <input type="text" class="form-control" placeholder="Your Name *" id="name" required data-validation-required-message="Please enter your name.">
-                                    <p class="help-block text-danger"></p>
+                                    <input type="text" class="form-control" placeholder="Your First Name *" id="name" onkeyup="hideValidation('nameValidation')">
+                                    <span class="help-block text-danger" id="nameValidation"></span>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <select class="form-control" id="category-type" required data-validation-required-message="Please select your category.">
-                                        <option>Your Category *</option>
-                                        <option>dfd</option>
-                                        <option>dfd</option>
-                                        <option>df</option>
+                                    <select class="form-control" id="category-type" onchange="hideValidation('categorylValidation')">
+                                        <option value="">Your Category *</option>
+                                        <option value="1">Be a Supplier</option>
+                                        <option value="2">Post a Add</option>
                                     </select>
-                                    <p class="help-block text-danger"></p>
+                                    <span class="help-block text-danger" id="categorylValidation"></span>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <input type="text" class="form-control" placeholder="Your Company Name *" id="email" required data-validation-required-message="Please enter your email address.">
+                                    <input type="text" class="form-control" placeholder="Your Last Name " id="lname">
                                     <p class="help-block text-danger"></p>
                                 </div>
-                                <div class="col-xs-12 col-sm-6 form-group">
+ <!--                                <div class="col-xs-12 col-sm-6 form-group">
                                     <input type="email" class="form-control" placeholder="Your Company Address *" id="address" required data-validation-required-message="Please enter your Company Address.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
                                     <input type="text" class="form-control" placeholder="Cities of Branches (if you have any)" id="branches" >
                                     <p class="help-block text-danger"></p>
-                                </div>
+                                </div> -->
                                 
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <input type="tel" class="form-control" placeholder="Your Contact No. *" id="phone" required data-validation-required-message="Please enter your phone number.">
-                                    <p class="help-block text-danger"></p>
+                                    <input type="tel" class="form-control" placeholder="Your Contact No. *" id="phone" onkeyup="hideValidation('phoneValidation')">
+                                    <span class="help-block text-danger" id="phoneValidation"></span>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <input type="text" class="form-control" placeholder="Your Email Address *" id="email" required data-validation-required-message="Please enter your email address">
-                                    <p class="help-block text-danger"></p>
+                                    <input type="text" class="form-control" placeholder="Your Email Address *" id="emailW2" onkeyup="hideValidation('emailValidation')">
+                                    <span class="help-block text-danger" id="emailValidation"></span>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
                                     <input type="text" class="form-control" placeholder="Your Skype No." id="skype">
                                     <p class="help-block text-danger"></p>
                                 </div>
-                                <div class="col-xs-12 col-sm-6 form-group">
+<!--                                 <div class="col-xs-12 col-sm-6 form-group">
                                    <input type="text" class="form-control"  placeholder="Your Official Company Web Site URL (if you have any)" id="url">
                                     <p class="help-block text-danger"></p>
-                                </div>
+                                </div> -->
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <textarea class="form-control" placeholder="Your Message *" id="message" required data-validation-required-message="Please enter a message."></textarea>
+                                    <textarea class="form-control" placeholder="Your Message " id="message"></textarea>
                                     <p class="help-block text-danger"></p>
                                 </div>
-                                <div class="col-xs-12 form-group">
-                                    <div id="success"></div>
-                                    <button type="submit" class="btn btn-success pull-right">Send Message</button>
+                                <div class="col-xs-12 col-sm-6 form-group">
+                                    <label id="successLB"></label>
                                 </div>
-                         
-                            
-                            
-                           
+                                <div class="col-xs-12 form-group">
+                                    <button class="btn btn-success pull-right" onclick="saveSupplierDetailsW2()">Send Message</button>
+                                </div>
                         </div>
                     </form>
                 </div>
@@ -770,7 +767,7 @@
         </div>
     </div>
 
-    <div class="portfolio-modal modal fade" id="gallery-sinhala" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="portfolio-modal modal fade" id="CaterorGallery" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -780,20 +777,19 @@
             </div>
             <div class="container">
                 <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/sinhala/sinhala1.jpg" class="gallery" alt="">
+                    <div class="modal-body" id="imageCategoryGalleryDivW2">
+<!--                         <img src="img/gallery/sinhala/sinhala1.jpg" class="gallery" alt="">
                         <img src="img/gallery/sinhala/sinhala2.jpg" class="gallery" alt="">
                         <img src="img/gallery/sinhala/sinhala3.jpg" class="gallery" alt="">
                         <div class="clearfix"></div>
                         <img src="img/gallery/sinhala/sinhala4.jpg" class="gallery" alt="">
                         <img src="img/gallery/sinhala/sinhala5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/sinhala/sinhala6.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-
-
+                        <img src="img/gallery/sinhala/sinhala6.jpg" class="gallery" alt=""> -->
+                        
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-xs-12 margin-top20">
+                    	<button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                     </div>
 
                 </div>
@@ -801,7 +797,7 @@
         </div>
     </div>
 
-    <div class="portfolio-modal modal fade" id="gallery-tamil" tabindex="-1" role="dialog" aria-hidden="true">
+ <!--    <div class="portfolio-modal modal fade" id="gallery-tamil" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
                 <div class="lr">
@@ -1046,7 +1042,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
     <!-- jQuery -->

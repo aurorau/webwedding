@@ -68,11 +68,12 @@
 		<mapping class="com.aurora.model.ArticleDetails"></mapping>
 		<!-- <mapping class="com.aurora.model.CategoryGallery"></mapping> -->
 		<mapping class="com.aurora.model.CompanyComments"></mapping>
-		<mapping class="com.aurora.model.UploadFiles"></mapping>
 		<mapping class="com.aurora.model.DistrictDetails"></mapping>
 		<mapping class="com.aurora.model.SupplierCategory"></mapping>
+		<mapping class="com.aurora.model.ImageCategory"></mapping>
 		<mapping class="com.aurora.model.SupplierPersonalDetails"></mapping>
 		<mapping class="com.aurora.model.CompanyDetails"></mapping>
+		<mapping class="com.aurora.model.UploadFiles"></mapping>
 		<mapping class="com.aurora.model.AddDetails"></mapping>
 		<mapping class="com.aurora.model.CompanyNews"></mapping>
 	</session-factory>

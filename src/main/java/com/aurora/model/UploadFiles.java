@@ -27,6 +27,7 @@ public class UploadFiles implements Serializable {
 	private Date fileUploadDate;
 	private SupplierCategory supplierCategory;
 	private CompanyDetails supplierCompanyDetails;
+	private ImageCategory imageCategory;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -73,7 +74,7 @@ public class UploadFiles implements Serializable {
 	}
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="FSCID", nullable=false)
+	@JoinColumn(name="FSCID", nullable=true)
 	@JsonIgnore
 	public SupplierCategory getSupplierCategory() {
 		return supplierCategory;
@@ -90,6 +91,15 @@ public class UploadFiles implements Serializable {
 	public void setFileUploadDate(Date fileUploadDate) {
 		this.fileUploadDate = fileUploadDate;
 	}
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="FICID", nullable=true)
+	@JsonIgnore
+	public ImageCategory getImageCategory() {
+		return imageCategory;
+	}
+	public void setImageCategory(ImageCategory imageCategory) {
+		this.imageCategory = imageCategory;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -99,6 +109,7 @@ public class UploadFiles implements Serializable {
 		result = prime * result + ((fileType == null) ? 0 : fileType.hashCode());
 		result = prime * result + ((fileUploadDate == null) ? 0 : fileUploadDate.hashCode());
 		result = prime * result + ((fileUrl == null) ? 0 : fileUrl.hashCode());
+		result = prime * result + ((imageCategory == null) ? 0 : imageCategory.hashCode());
 		result = prime * result + ((supplierCategory == null) ? 0 : supplierCategory.hashCode());
 		result = prime * result + ((supplierCompanyDetails == null) ? 0 : supplierCompanyDetails.hashCode());
 		return result;
@@ -137,6 +148,11 @@ public class UploadFiles implements Serializable {
 				return false;
 		} else if (!fileUrl.equals(other.fileUrl))
 			return false;
+		if (imageCategory == null) {
+			if (other.imageCategory != null)
+				return false;
+		} else if (!imageCategory.equals(other.imageCategory))
+			return false;
 		if (supplierCategory == null) {
 			if (other.supplierCategory != null)
 				return false;
@@ -153,7 +169,7 @@ public class UploadFiles implements Serializable {
 	public String toString() {
 		return "UploadFiles [UFID=" + UFID + ", fileUrl=" + fileUrl + ", fileName=" + fileName + ", fileType="
 				+ fileType + ", fileUploadDate=" + fileUploadDate + ", supplierCategory=" + supplierCategory
-				+ ", supplierCompanyDetails=" + supplierCompanyDetails + "]";
+				+ ", supplierCompanyDetails=" + supplierCompanyDetails + ", imageCategory=" + imageCategory + "]";
 	}
 
 }

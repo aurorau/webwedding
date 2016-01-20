@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -31,6 +32,7 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		Criteria criteria = session.createCriteria(SupplierCategory.class,"supplierCategory")
 				.setFirstResult(start)
 				.setMaxResults(length);
+		criteria.addOrder(Order.asc("scName"));
 		if(!searchq.isEmpty()) {
 			criteria.add(Restrictions.disjunction()
 			        .add(Restrictions.ilike("scType", searchq, MatchMode.ANYWHERE))
@@ -102,6 +104,7 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		List<SupplierCategory> list = null;
 		
 		Criteria criteria = session.createCriteria(SupplierCategory.class,"supplierCategory");
+				 criteria.addOrder(Order.asc("scName"));
 		list = criteria.list();
 		
 		session.getTransaction().commit();
@@ -111,7 +114,7 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 	}
 
 	@Transactional
-	public void companyDetailsDelete(Long scid) throws Exception{
+	public void supplierCategoryDelete(Long scid) throws Exception{
 
 		Session session = getSession();
 		session.getTransaction().begin();

@@ -81,7 +81,7 @@ public class FileController implements ServletContextAware{
         //1. build an iterator
          Iterator<String> itr =  request.getFileNames();
          MultipartFile mpf = null;
-        
+         String prefix = request.getParameter("prefix");
          //2. get each file
          while(itr.hasNext()){
  
@@ -92,9 +92,18 @@ public class FileController implements ServletContextAware{
              //2.2 if files > 10 remove the first from the list
              if(files.size() >= 10)
                  files.pop();
+             
+             String oriFileEx = null;
+             String oriFileName= mpf.getOriginalFilename();
+             oriFileEx = oriFileName.substring(oriFileName.lastIndexOf("."));
+             oriFileName = oriFileName.substring(0,oriFileName.lastIndexOf("."));
+             oriFileName = oriFileName.concat("_"+prefix);
+             
+             String newFileName = oriFileName.concat(oriFileEx);
+             
              //2.3 create new fileMeta
              fileMeta = new FileMeta();
-             fileMeta.setFileName(testFileUploadLocation+File.separator+mpf.getOriginalFilename());
+             fileMeta.setFileName(testFileUploadLocation+File.separator+newFileName);
              fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
              fileMeta.setFileType(mpf.getContentType());
              try {
@@ -108,7 +117,7 @@ public class FileController implements ServletContextAware{
                System.out.println("uploadPath with image:"+mpf.getOriginalFilename());
                 
               // FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(uploadPath+File.separator+mpf.getOriginalFilename()));
-               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(testFileUploadLocation+File.separator+mpf.getOriginalFilename()));
+               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(testFileUploadLocation+File.separator+newFileName));
                 
             } catch (IOException e) {
                System.out.println("File upload error :"+e);
@@ -160,7 +169,7 @@ public class FileController implements ServletContextAware{
         	// String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
         	 
         	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
-            	 File file = new File(testFileUploadLocation+File.separator+fileName);
+            	 File file = new File(fileName);
             	 status = file.delete();
         	 }
         	 if(status){
@@ -212,11 +221,12 @@ public class FileController implements ServletContextAware{
 	    		int page = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_PAGE), 0);
 	    		int start = (page>0) ? (page - 1) * 5 : 0;
 	    		String searchq = ServletRequestUtils.getStringParameter(request, Constant.PARAMETER_SEARCH);
-	    		Long caterogyId = ServletRequestUtils.getLongParameter(request, "fileCategoryId");
-	    		Long companyId = ServletRequestUtils.getLongParameter(request, "fileCompanyId");
+	    		Long caterogyId = ServletRequestUtils.getLongParameter(request, "fileCategoryId",0L);
+	    		Long companyId = ServletRequestUtils.getLongParameter(request, "fileCompanyId",0L);
+	    		Long fileImageCategoryId = ServletRequestUtils.getLongParameter(request, "fileImageCategoryId",0L);
 			
-	    		List<FileUploadDTO> uploadFilesList = fileUploadService.getFileDetailsTable(sortField,order,start, 5,caterogyId,companyId, searchq);
-	    		int uploadFilesCount = fileUploadService.getFileDetailsTableCount(caterogyId,companyId,searchq);
+	    		List<FileUploadDTO> uploadFilesList = fileUploadService.getFileDetailsTable(sortField,order,start, 5,caterogyId,companyId,fileImageCategoryId, searchq);
+	    		int uploadFilesCount = fileUploadService.getFileDetailsTableCount(caterogyId,companyId,fileImageCategoryId,searchq);
 			
 	    		request.setAttribute(Constant.TABLE_SIZE, uploadFilesCount );
 	    		request.setAttribute(Constant.GRID_TABLE_SIZE_KEY, 5);
@@ -228,7 +238,30 @@ public class FileController implements ServletContextAware{
 		 
 		 return new ModelAndView("dynamicTables/dynamicFileDetailsTable", model.asMap());
 	 }
-	 
+	    /***************************************************
+	     * URL: /rest/controller/getImagesByImageCategoryId
+	     * getImagesByImageCategoryId(): get files from db
+	     * @param response : passed by the server
+	     * @param value : value from the URL
+	     * @return JsonResponce
+	     ****************************************************/
+		 @RequestMapping(method = RequestMethod.GET, value="/getImagesByImageCategoryId")
+		 public @ResponseBody JsonResponce getImagesByImageCategoryId(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			 JsonResponce res= new JsonResponce();
+			 
+			 Long fileImageCategoryId = ServletRequestUtils.getLongParameter(request, "fileImageCategoryId",0L);
+			 
+			 List<FileUploadDTO> uploadFilesList = fileUploadService.getImagesByImageCategoryId(fileImageCategoryId);
+			 if(uploadFilesList.size() > 0 ) {
+				 res.setStatus(Constant.SUCCESS);
+				 res.setResult(uploadFilesList);
+			 } else {
+				 res.setStatus(Constant.FAIL);
+			 }
+			 
+			 
+			 return res;
+		 }
 	    /**
 	     * ImageDownloader
 		 * @param request

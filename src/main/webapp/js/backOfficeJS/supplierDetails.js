@@ -34,6 +34,9 @@ function clearValues() {
 	$('#supplierPDTp1Id').val('');
 	$('#supplierPDTp2Id').val('');
 	$('#supplierPDSkypeId').val('');
+	$('#supplierPDStatusId').val('');
+	$('#supplierPDTypeId').val('');
+	$('#supplierPDDescriptionId').val('');
 	
 }
 
@@ -45,6 +48,9 @@ function supplierPDSave() {
 	var tp2 = $('#supplierPDTp2Id').val();
 	var email = $('#supplierPDEmailId').val();
 	var skype = $('#supplierPDSkypeId').val();
+	var status = $('#supplierPDStatusId').val();
+	var type = $('#supplierPDTypeId').val();
+	var description = $('#supplierPDDescriptionId').val().trim();
 	
 	if(fname != null && fname != '') {
 		$.post('supplierDetailsController/saveSupplierDetails', {
@@ -54,7 +60,10 @@ function supplierPDSave() {
 			tp1 : tp1,
 			tp2 : tp2,
 			email : email,
-			skype : skype
+			skype : skype,
+			status : status,
+			type : type,
+			description : description
 		}, function(data) {
 			if (data.status == 'saved' ||data.status == 'updated') {
 				$('#supplierPDFormDivId').hide();
@@ -85,6 +94,9 @@ function supplierDetailsEdit(spdid) {
 				$('#supplierPDTp2Id').val(data.result.supplierTp2);
 				$('#supplierPDEmailId').val(data.result.supplierEmail);
 				$('#supplierPDSkypeId').val(data.result.supplierSkypeAddress);
+				$('#supplierPDStatusId').val(data.result.status);
+				$('#supplierPDTypeId').val(data.result.supplierType);
+				$('#supplierPDDescriptionId').val(data.result.description);
 			}
 		} else {
 			console.log(data.status);
@@ -100,7 +112,9 @@ function supplierDetailsDelete(spdid) {
 		hiddenSPDID : hiddenSPDID
 	}, function(data) {
 		if(data.status == 'success') {
+			$('#supplierPDFormDivId').hide();
 			loadSupplierPDTable();
+			clearValues();
 		}else if(data.status == 'fail') {
 			alert("Record in used, Unable to delete");
 		}

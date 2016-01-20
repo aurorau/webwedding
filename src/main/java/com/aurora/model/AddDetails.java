@@ -26,7 +26,7 @@ public class AddDetails implements Serializable {
 	private String addSupplierAddress;
 	private String addSupplierEmail;
 	private String addDescription;
-	private SupplierCategory addCategory;
+	//private SupplierCategory addCategory;
 	private String addStatus;
 	private Date addRegisteredDate;
 	private Date addActiveDate;
@@ -84,7 +84,7 @@ public class AddDetails implements Serializable {
 		this.addDescription = addDescription;
 	}
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+/*	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="FSCID", nullable=false)
 	@JsonIgnore
 	public SupplierCategory getAddCategory() {
@@ -92,7 +92,7 @@ public class AddDetails implements Serializable {
 	}
 	public void setAddCategory(SupplierCategory addCategory) {
 		this.addCategory = addCategory;
-	}
+	}*/
 	
 	@Column(name="add_status", nullable=true)
 	public String getAddStatus() {
@@ -151,7 +151,6 @@ public class AddDetails implements Serializable {
 		result = prime * result + ((AID == null) ? 0 : AID.hashCode());
 		result = prime * result + ((addActiveDate == null) ? 0 : addActiveDate.hashCode());
 		result = prime * result + ((addActivePeriod == null) ? 0 : addActivePeriod.hashCode());
-		result = prime * result + ((addCategory == null) ? 0 : addCategory.hashCode());
 		result = prime * result + ((addDescription == null) ? 0 : addDescription.hashCode());
 		result = prime * result + ((addLink == null) ? 0 : addLink.hashCode());
 		result = prime * result + ((addRegisteredDate == null) ? 0 : addRegisteredDate.hashCode());
@@ -186,11 +185,6 @@ public class AddDetails implements Serializable {
 			if (other.addActivePeriod != null)
 				return false;
 		} else if (!addActivePeriod.equals(other.addActivePeriod))
-			return false;
-		if (addCategory == null) {
-			if (other.addCategory != null)
-				return false;
-		} else if (!addCategory.equals(other.addCategory))
 			return false;
 		if (addDescription == null) {
 			if (other.addDescription != null)
@@ -243,9 +237,9 @@ public class AddDetails implements Serializable {
 	public String toString() {
 		return "AddDetails [AID=" + AID + ", addSupplierName=" + addSupplierName + ", addSupplierTp=" + addSupplierTp
 				+ ", addSupplierAddress=" + addSupplierAddress + ", addSupplierEmail=" + addSupplierEmail
-				+ ", addDescription=" + addDescription + ", addCategory=" + addCategory + ", addStatus=" + addStatus
-				+ ", addRegisteredDate=" + addRegisteredDate + ", addActiveDate=" + addActiveDate + ", addActivePeriod="
-				+ addActivePeriod + ", addUrl=" + addUrl + ", addLink=" + addLink + "]";
+				+ ", addDescription=" + addDescription + ", addStatus=" + addStatus + ", addRegisteredDate="
+				+ addRegisteredDate + ", addActiveDate=" + addActiveDate + ", addActivePeriod=" + addActivePeriod
+				+ ", addUrl=" + addUrl + ", addLink=" + addLink + "]";
 	}
-	
+
 }

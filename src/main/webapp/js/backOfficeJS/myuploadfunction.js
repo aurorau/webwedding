@@ -3,13 +3,64 @@ var arr;
 
 $(document).ready(function() {
 	loadCategoryDetails();
+	loadImageCategoryDetails();
 	$('#fileTableDivId').hide();
 	$('#fileFormDivId').hide();
+	$('#searchTableId').hide();
 	$('#fileClearBtn').on('click', function(){
 		clearValues();
 	});
-	
+	radioDefault();
 });
+
+function hidePanel(){
+	$('#searchTableId').hide();
+	$('#fileFormDivId').hide();
+	$('#fileTableDivId').hide();
+}
+
+function selectCategory(){
+	var supplierRadioBtn = $('#supplierRadioBtn').is(':checked');
+	var imageRadioBtn = $('#imageRadioBtn').is(':checked');
+	
+	if(supplierRadioBtn || imageRadioBtn) {
+		$('#searchTableId').show();
+		$('#fileImageCategoryId').val('');
+		$('#fileCategoryId').val('');
+		$('#fileCompanyId').val('');
+		$('#fileTableDivId').hide();
+		if(supplierRadioBtn) {
+			$('#fileCategoryId').prop('disabled',false);
+			$('#fileCompanyId').prop('disabled',false);
+			$('#fileImageCategoryId').prop('disabled',true);
+		} else {
+			$('#fileImageCategoryId').prop('disabled',false);
+			$('#fileCategoryId').prop('disabled',true);
+			$('#fileCompanyId').prop('disabled',true);
+		}
+	} else {
+		alert("Select a option");
+	}
+}
+function radioDefault(){
+	$('#supplierRadioBtn').prop('checked', false);
+	$('#imageRadioBtn').prop('checked', false);
+}
+function loadImageCategoryDetails() {
+	$.ajax({
+        type: "GET",
+        url: "imageCategoryController/getAllImageCategories",
+        success: function(data) {
+        	if(data.result != null) {
+        		for(var x=0 ; x< data.result.length ; x++ ){
+        			$('#fileImageCategoryId').append(new Option(''+data.result[x].icName+'',''+data.result[x].icid+''));
+        			//$('#fileSearchCategoryId').append(new Option(''+data.result[x].scName+'',''+data.result[x].scid+''));
+        		}
+        	}
+        }
+	});
+}
+
 function categoryChange() {
 	loadCompanyDetails();
 }
@@ -22,7 +73,7 @@ function loadCategoryDetails() {
         	if(data.result != null) {
         		for(var x=0 ; x< data.result.length ; x++ ){
         			$('#fileCategoryId').append(new Option(''+data.result[x].scName+'',''+data.result[x].scid+''));
-        			$('#fileSearchCategoryId').append(new Option(''+data.result[x].scName+'',''+data.result[x].scid+''));
+        			//$('#fileSearchCategoryId').append(new Option(''+data.result[x].scName+'',''+data.result[x].scid+''));
         		}
         	}
         }
@@ -51,14 +102,15 @@ function loadFileDetailsTable() {
 	var q =$('#fileSearchId').val();
 	var fileCategoryId = $('#fileCategoryId').val();
 	var fileCompanyId = $('#fileCompanyId').val();
+	var fileImageCategoryId = $('#fileImageCategoryId').val();
 	
 	if(fileCompanyId ==  '') {
 		fileCompanyId = 0;
 	}
 	
-	if(fileCategoryId != '') {
+	if(fileCategoryId != '' || fileImageCategoryId !='') {
 		$('#fileTableDivId').show();
-		var formdata = 'ajax=true&q='+q+'&fileCategoryId='+fileCategoryId+'&fileCompanyId='+fileCompanyId;
+		var formdata = 'ajax=true&q='+q+'&fileCategoryId='+fileCategoryId+'&fileCompanyId='+fileCompanyId+'&fileImageCategoryId='+fileImageCategoryId;
 		$.ajax({
 	        type: "GET",
 	        url: "fileUploadController/getFileDetailsTable",
@@ -88,6 +140,7 @@ function clearValues() {
 	//$('#fileCategoryId').val('');
 	//$('#fileCompanyId').val('');
 	$('#fileHiddenUrl').val('');
+	arr = new Array();
 	
 }
 
@@ -98,19 +151,25 @@ function fileSave() {
 	var fileCategoryId = $('#fileCategoryId').val();
 	var fileCompanyId = $('#fileCompanyId').val();
 	var fileHiddenUrl = $('#fileHiddenUrl').val();
-	var ar = arr;
+	var fileImageCategoryId = $('#fileImageCategoryId').val();
+	var ar = arr[0];
 
-	if(fileCategoryId != '' && arr.length>0) {
+	if((fileCategoryId != '' || fileImageCategoryId !='') && arr.length>0) {
 		
 		
-		var formdata = 'ajax=true&hiddenUFID='+hiddenUFID+'&fileUploadDateId='+fileUploadDateId+'&fileTypeId='+fileTypeId+'&fileCategoryId='+fileCategoryId+'&fileCompanyId='+fileCompanyId+'&ar='+ar;
+		var formdata = 'ajax=true&hiddenUFID='+hiddenUFID+'&fileUploadDateId='+fileUploadDateId+'&fileTypeId='+fileTypeId+'&fileCategoryId='+fileCategoryId+'&fileCompanyId='+fileCompanyId+'&ar='+ar+'&fileImageCategoryId='+fileImageCategoryId;
 		$.ajax({
 	        type: "POST",
 	        url: "fileUploadController/saveFile",
 	        data: formdata,
 	        success: function(data) {
+	        	
+	        	if(data.status =='exist') {
+	        		alert("File already uploaded");
+	        	}
 	        	loadFileDetailsTable();
 	        	$('#fileFormDivId').hide();
+	        	clearValues();
 	        }
 		});
 	} else {
@@ -135,10 +194,10 @@ function fileDetailsDelete(ufid, url1) {
 }
 
 $(function () {
-	arr = new Array();
+	var prefix = 'fiu';
     $('#fileupload').fileupload({
         dataType: 'json',
- 
+        url : "fileUploadController/upload?prefix="+prefix,
         done: function (e, data) {
             //$("tr:has(td)").remove();
             $.each(data.result, function (index, file) {

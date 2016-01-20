@@ -30,6 +30,17 @@
         background: #FED136;
         color: #fff!important;
     }
+    
+    .add-to-cart-click-right{
+        float: right;
+        position: relative;
+        bottom: 35px;
+        padding: 7px;
+        border-radius: 50%;
+        right: -11px;
+        background: #FED136;
+        color: 33FF00!important;
+    }
     .portfolio-link{
         -webkit-box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.15);
         -moz-box-shadow: 0px 2px 5px 1px rgba(0,0,0,0.15);
@@ -607,7 +618,11 @@ label{
     color:#809E25;
     text-shadow: -1px -1px 1px #fff, 0px 0px 0px #000;
 }
-
+a:hover{
+    color:#809E25;
+    text-shadow: -1px -1px 1px #fff, 0px 0px 0px #000;
+    text-decoration: none;
+}
 
 @media (max-width: 991px) and (min-width:768px){
     .intro-category{

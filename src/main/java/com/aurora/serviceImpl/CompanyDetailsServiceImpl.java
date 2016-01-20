@@ -86,7 +86,7 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 	}
 
 	public String saveCompanyDetails(HttpServletRequest request) {
-		String status = null;
+		String status = Constant.FAIL;
 		
 		CompanyDetails companyDetails = null;
 		SupplierPersonalDetails supplierPersonalDetails = null;
@@ -146,7 +146,6 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 			companyDetailsDao.saveCompanyDetails(companyDetails);
 			
 		}catch(Exception e) {
-			status = Constant.FAIL;
 			System.out.println(e);
 		}
 		return status;

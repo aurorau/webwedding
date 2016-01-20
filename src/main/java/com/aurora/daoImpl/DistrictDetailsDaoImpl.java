@@ -1,9 +1,7 @@
 package com.aurora.daoImpl;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
@@ -13,7 +11,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import com.aurora.dao.DistrictDetailsDao;
 import com.aurora.model.DistrictDetails;
-import com.aurora.model.SupplierPersonalDetails;
 import com.aurora.util.HibernateBase;
 
 @Repository("districtDetailsDao")
@@ -29,6 +26,7 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		Criteria criteria = session.createCriteria(DistrictDetails.class,"districtDetails")
 				.setFirstResult(start)
 				.setMaxResults(length);
+		criteria.addOrder(Order.asc("districtName"));
 		if(!searchq.isEmpty()) {
 			criteria.add(Restrictions.disjunction()
 			        .add(Restrictions.ilike("districtCode", searchq, MatchMode.ANYWHERE))
@@ -98,6 +96,7 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		List<DistrictDetails> list = null;
 		
 		Criteria criteria = session.createCriteria(DistrictDetails.class,"districtDetails");
+				 criteria.addOrder(Order.asc("districtName"));
 		list = criteria.list();
 		
 		session.getTransaction().commit();

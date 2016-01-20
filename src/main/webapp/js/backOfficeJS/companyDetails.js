@@ -101,10 +101,10 @@ function clearValues() {
 
 function companyDetailsSave() {
 	var ar ;
-	if($('#fileHiddenUrl').val() != 'No Logo' && $('#fileHiddenUrl').val() !='') {
-		ar = $('#fileHiddenUrl').val();
-	} else if(arr[0] != null && arr[0] !=''){
+	if(arr[0] != null && arr[0] !=''){
 		ar = arr[0];
+	} else if($('#fileHiddenUrl').val() !='') {
+		ar = $('#fileHiddenUrl').val();
 	} else {
 		ar = 'No Logo';
 	}
@@ -223,10 +223,10 @@ function getCompanyDetails(scdid) {
 }
 
 $(function () {
-	//arr = new Array();
+	var prefix = 'cd';
     $('#fileupload').fileupload({
         dataType: 'json',
- 
+        url : "fileUploadController/upload?prefix="+prefix,
         done: function (e, data) {
             $.each(data.result, function (index, file) {
             		console.log("File Name :"+file.fileName);

@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
@@ -32,6 +33,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.createAlias("companyDetails.districtDetails", "districtDetails")
 				.setFirstResult(start)
 				.setMaxResults(length);
+		criteria.addOrder(Order.asc("companyName"));
 		if(!searchq.isEmpty()) {
 			criteria.add(Restrictions.disjunction()
 			        .add(Restrictions.ilike("companyName", searchq, MatchMode.ANYWHERE))
@@ -144,6 +146,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 					.add(Projections.property("supplierCategory.SCID").as("supplierCategory"))
 					.add(Projections.property("districtDetails.DDID").as("districtDetails")));
 			criteria.add(Restrictions.eq("SCDID", scdid));
+			criteria.addOrder(Order.asc("companyName"));
 	
 			companyDetails = (CompanyDetailsDTO) criteria.setResultTransformer(Transformers.aliasToBean(CompanyDetailsDTO.class)).uniqueResult();
 		
@@ -190,6 +193,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		
 		Criteria criteria = session.createCriteria(CompanyDetails.class,"companyDetails")
 				.add(Restrictions.eq("companyDetails.supplierCategory.SCID", categoryId));
+		criteria.addOrder(Order.asc("companyName"));
 		list = criteria.list();
 		
 		session.getTransaction().commit();
@@ -211,6 +215,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.setFirstResult(start)
 				.setMaxResults(gridTableSize);
 		criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
+		criteria.addOrder(Order.asc("companyName"));
 		
 		if(serviceCategoryDD != 0) {
 			criteria.add(Restrictions.eq("supplierCategory.SCID",serviceCategoryDD));

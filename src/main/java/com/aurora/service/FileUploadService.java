@@ -8,8 +8,9 @@ import com.aurora.util.FileUploadDTO;
 public interface FileUploadService {
 
 	String saveFile(HttpServletRequest request);
-	List<FileUploadDTO> getFileDetailsTable(String sortField, int order, int start, int gridTableSize, Long caterogyId,Long companyId, String searchq);
-	int getFileDetailsTableCount(Long caterogyId, Long companyId, String searchq);
+	List<FileUploadDTO> getFileDetailsTable(String sortField, int order, int start, int gridTableSize, Long caterogyId,Long companyId, Long fileImageCategoryId, String searchq);
+	int getFileDetailsTableCount(Long caterogyId, Long companyId, Long fileImageCategoryId, String searchq);
 	String deleteImage(long parseLong);
+	List<FileUploadDTO> getImagesByImageCategoryId(Long fileImageCategoryId);
 
 }

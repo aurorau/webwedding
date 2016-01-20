@@ -16,8 +16,10 @@ import org.springframework.web.bind.ServletRequestUtils;
 import com.aurora.dao.CompanyDetailsDao;
 import com.aurora.dao.DistrictDetailsDao;
 import com.aurora.dao.FileUploadDao;
+import com.aurora.dao.ImageCategoryDao;
 import com.aurora.dao.SupplierCategoryDao;
 import com.aurora.model.CompanyDetails;
+import com.aurora.model.ImageCategory;
 import com.aurora.model.SupplierCategory;
 import com.aurora.model.UploadFiles;
 import com.aurora.service.FileUploadService;
@@ -30,6 +32,7 @@ public class FileUploadServiceImpl implements FileUploadService {
 	private FileUploadDao fileUploadDao = null;
 	private SupplierCategoryDao supplierCategoryDao = null;
 	private CompanyDetailsDao companyDetailsDao = null;
+	private ImageCategoryDao imageCategoryDao = null;
 	
 	@Autowired
 	public void setFileUploadDao(FileUploadDao fileUploadDao) {
@@ -43,18 +46,24 @@ public class FileUploadServiceImpl implements FileUploadService {
 	public void setCompanyDetailsDao(CompanyDetailsDao companyDetailsDao) {
 		this.companyDetailsDao = companyDetailsDao;
 	}
+	@Autowired
+	public void setImageCategoryDao(ImageCategoryDao imageCategoryDao) {
+		this.imageCategoryDao = imageCategoryDao;
+	}
 	
 	public String saveFile(HttpServletRequest request) {
 		
-		String status = null;
+		String status = Constant.FAIL;
 		
 		CompanyDetails companyDetails = null;
 		SupplierCategory supplierCategory = null;
 		UploadFiles uploadFiles = null;
+		ImageCategory imageCategory = null;
 		
 		Long fuid = null;
 		Long companyId = null;
 		Long categoryId = null;
+		Long fileImageCategoryId = null;
 		Date fileUploadDate = null;
 		
 		String[] images  = request.getParameterValues("ar");
@@ -68,34 +77,42 @@ public class FileUploadServiceImpl implements FileUploadService {
 			fuid = ServletRequestUtils.getLongParameter(request, "hiddenUFID",0L);
 			Boolean isNew = (fuid == 0); 
 			
-			if(isNew) {
-				uploadFiles = new UploadFiles();
-				status = Constant.SAVED;
+			uploadFiles = fileUploadDao.getFileDetailsByName(imgList[0]);
+			
+			if(uploadFiles == null) {
+				if(isNew) {
+					uploadFiles = new UploadFiles();
+					status = Constant.SAVED;
+				} else {
+					uploadFiles = fileUploadDao.getFileDetailsByFUID(fuid);
+					status = Constant.UPDATED;
+				}
+
+				companyId = ServletRequestUtils.getLongParameter(request, "fileCompanyId",0L);
+				categoryId = ServletRequestUtils.getLongParameter(request, "fileCategoryId",0L);
+				fileImageCategoryId = ServletRequestUtils.getLongParameter(request, "fileImageCategoryId",0L);
+				fileUploadDate = setStringToDateFormat(ServletRequestUtils.getStringParameter(request, "fileUploadDateId"));
+				
+				supplierCategory = supplierCategoryDao.getSupplierCategoryBySCID(categoryId);
+				companyDetails = companyDetailsDao.getCompanyDetailsBySCDID1(companyId);
+				imageCategory = imageCategoryDao.getImageCategoryByICID(fileImageCategoryId);
+				
+				for(String imgUrl : imgList) {
+					uploadFiles.setFileType(ServletRequestUtils.getStringParameter(request, "fileTypeId"));
+					uploadFiles.setFileUrl(imgUrl);
+					uploadFiles.setSupplierCategory(supplierCategory);
+					uploadFiles.setImageCategory(imageCategory);
+					uploadFiles.setSupplierCompanyDetails(companyDetails);
+					uploadFiles.setFileUploadDate(fileUploadDate);
+					
+					fileUploadDao.saveFile(uploadFiles);
+				}
 			} else {
-				uploadFiles = fileUploadDao.getFileDetailsByFUID(fuid);
-				status = Constant.UPDATED;
+				status = Constant.EXIST;
 			}
 
-			companyId = ServletRequestUtils.getLongParameter(request, "fileCompanyId",0L);
-			categoryId = ServletRequestUtils.getLongParameter(request, "fileCategoryId",0L);
-			fileUploadDate = setStringToDateFormat(ServletRequestUtils.getStringParameter(request, "fileUploadDateId"));
-			
-			supplierCategory = supplierCategoryDao.getSupplierCategoryBySCID(categoryId);
-			companyDetails = companyDetailsDao.getCompanyDetailsBySCDID1(companyId);
-			
-			
-			for(String imgUrl : imgList) {
-				uploadFiles.setFileType(ServletRequestUtils.getStringParameter(request, "fileTypeId"));
-				uploadFiles.setFileUrl(imgUrl);
-				uploadFiles.setSupplierCategory(supplierCategory);
-				uploadFiles.setSupplierCompanyDetails(companyDetails);
-				uploadFiles.setFileUploadDate(fileUploadDate);
-				
-				fileUploadDao.saveFile(uploadFiles);
-			}
 			
 		}catch(Exception e) {
-			status = Constant.FAIL;
 			System.out.println(e);
 		}
 		
@@ -103,30 +120,25 @@ public class FileUploadServiceImpl implements FileUploadService {
 	}
 
 	public Date setStringToDateFormat(String date1) throws ParseException{
-		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
-        
         Date date = originalFormat.parse(date1);
         Date dateOut = date;
-		
         return dateOut;
 	}
-	public List<FileUploadDTO> getFileDetailsTable(String sortField, int order, int start, int gridTableSize,Long caterogyId, Long companyId, String searchq) {
+	public List<FileUploadDTO> getFileDetailsTable(String sortField, int order, int start, int gridTableSize,Long caterogyId, Long companyId,Long fileImageCategoryId, String searchq) {
 		List<FileUploadDTO>  list =null;
 		try {
-			list = fileUploadDao.getFileDetailsTable(sortField,order,start,gridTableSize,caterogyId,companyId, searchq);
+			list = fileUploadDao.getFileDetailsTable(sortField,order,start,gridTableSize,caterogyId,companyId,fileImageCategoryId, searchq);
 		}catch (Exception e){
 			System.out.println("Error :"+e);
 		}
 		return list;
 	}
-	public int getFileDetailsTableCount(Long caterogyId, Long companyId, String searchq) {
+	public int getFileDetailsTableCount(Long caterogyId, Long companyId,Long fileImageCategoryId, String searchq) {
 		int count = 0;
 		
 		try {
-			count = fileUploadDao.getFileDetailsTableCount(caterogyId,companyId,searchq);
+			count = fileUploadDao.getFileDetailsTableCount(caterogyId,companyId,fileImageCategoryId,searchq);
 		}catch (Exception e){
 			System.out.println("Error :"+e);
 		}
@@ -142,5 +154,14 @@ public class FileUploadServiceImpl implements FileUploadService {
 			System.out.println("Delete image error:"+e);
 		}
 		return status;
+	}
+	public List<FileUploadDTO> getImagesByImageCategoryId(Long fileImageCategoryId) {
+		List<FileUploadDTO>  list =null;
+		try {
+			list = fileUploadDao.getImagesByImageCategoryId(fileImageCategoryId);
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return list;
 	}
 }

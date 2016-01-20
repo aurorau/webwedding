@@ -4,12 +4,12 @@
 
 <display:table name="supplierDetailsTable" class="tblDisplay display table table-bordered table-striped dynamic-table display_header_class" cellspacing="0" requestURI="./supplierDetailsController/getSupplierDetailsTable" id="supplierDetailsTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
 
-	 <display:column property="supplierFirstName" sortable="true" sortName="supplierFirstName" headerClass="text-left sortable sorted order1" class="text-left" title="First Name"/>
-     <display:column property="supplierLastName" sortable="true" sortName="supplierLastName" headerClass="text-left sortable sorted order1" class="text-left" title="Last Name"/>
-     <display:column property="supplierEmail" sortable="true" sortName="supplierEmail" headerClass="text-left sortable sorted order1" class="text-left" title="E mail"/>
-     <display:column property="supplierTp1" sortable="true" sortName="supplierTp1" headerClass="text-left sortable sorted order1" class="text-left" title="TP 1"/>
-     <display:column property="supplierTp2" sortable="true" sortName="supplierTp2" headerClass="text-left sortable sorted order1" class="text-left" title="TP 2"/>
-     <display:column property="supplierSkypeAddress" sortable="true" sortName="supplierSkypeAddress" headerClass="text-left sortable sorted order1" class="text-left" title="Skype"/>
+	 <display:column property="supplierFirstName" sortable="false" sortName="supplierFirstName" headerClass="text-left sortable sorted order1" class="text-left" title="First Name"/>
+     <display:column property="supplierLastName" sortable="false" sortName="supplierLastName" headerClass="text-left sortable sorted order1" class="text-left" title="Last Name"/>
+     <display:column property="supplierEmail" sortable="false" sortName="supplierEmail" headerClass="text-left sortable sorted order1" class="text-left" title="E mail"/>
+     <display:column property="supplierTp1" sortable="false" sortName="supplierTp1" headerClass="text-left sortable sorted order1" class="text-left" title="TP 1"/>
+     <display:column property="supplierType" sortable="false" sortName="supplierType" headerClass="text-left sortable sorted order1" class="text-left" title="Type"/>
+     <display:column property="status" sortable="false" sortName="status" headerClass="text-left sortable sorted order1" class="text-left" title="Status"/>
      <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
 		<div class="text-center">
 			<button onclick="supplierDetailsEdit(${supplierDetailsTable.SPDID})" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
