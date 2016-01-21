@@ -100,24 +100,24 @@ public class FileController implements ServletContextAware{
              oriFileName = oriFileName.concat("_"+prefix);
              
              String newFileName = oriFileName.concat(oriFileEx);
-             
+             String uploadDir = servletContext.getRealPath(File.separator+"img"+File.separator+"otherImages");
              //2.3 create new fileMeta
              fileMeta = new FileMeta();
-             fileMeta.setFileName(testFileUploadLocation+File.separator+newFileName);
+             fileMeta.setFileName(uploadDir+File.separator+newFileName);
              fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
              fileMeta.setFileType(mpf.getContentType());
              try {
                fileMeta.setBytes(mpf.getBytes());
                 
                //String UPLOAD_DIRECTORY ="img"+File.separator+"otherImages";
-               String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
-                
+               //String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
+               
                 
               //  System.out.println("uploadPath with image:"+uploadPath+File.separator+mpf.getOriginalFilename());
-               System.out.println("uploadPath with image:"+mpf.getOriginalFilename());
+               System.out.println("uploadDir:"+uploadDir);
                 
               // FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(uploadPath+File.separator+mpf.getOriginalFilename()));
-               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(testFileUploadLocation+File.separator+newFileName));
+               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(uploadDir+File.separator+newFileName));
                 
             } catch (IOException e) {
                System.out.println("File upload error :"+e);

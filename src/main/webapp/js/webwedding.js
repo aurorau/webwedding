@@ -154,7 +154,10 @@ function addToCart(id, companyName, budget){
 	$('#cart-value').text(mapSize);
 	
 	if(mapSize > 0 ) {
-		$('#cart-value').addClass('.add-to-cart-click');
+		$('#cart-value').addClass('add-to-cart-click');
+	}
+	if(mapSize == 0 ) {
+		$('#cart-value').removeClass('add-to-cart-click');
 	}
 	
 	if(colorMap.has(companyName)) {
