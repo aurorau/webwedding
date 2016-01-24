@@ -1,5 +1,5 @@
 
-var arr;
+var globalEdit;
 
 $(document).ready(function() {
 	loadCategoryDetails();
@@ -11,6 +11,8 @@ $(document).ready(function() {
 		clearValues();
 	});
 	radioDefault();
+	globalEdit = false;
+	clearValues();
 });
 
 function hidePanel(){
@@ -134,29 +136,26 @@ function newFile() {
 }
 
 function clearValues() {
-	$('#hiddenUFID').val('');
+	//$('#hiddenUFID').val('');
 	$('#fileUploadDateId').val('');
-	$('#fileTypeId').val('');
+	//$('#fileTypeId').val('');
 	//$('#fileCategoryId').val('');
-	//$('#fileCompanyId').val('');
-	$('#fileHiddenUrl').val('');
-	arr = new Array();
+	//$('#fileCompanyId').val('');	
+	$('#fileupload').val('');
+	globalEdit = false;
 	
 }
 
 function fileSave() {
-	var hiddenUFID = $('#hiddenUFID').val();
+	//var hiddenUFID = $('#hiddenUFID').val();
 	var fileUploadDateId= $('#fileUploadDateId').val();
 	var fileTypeId = $('#fileTypeId').val();
 	var fileCategoryId = $('#fileCategoryId').val();
 	var fileCompanyId = $('#fileCompanyId').val();
-	var fileHiddenUrl = $('#fileHiddenUrl').val();
 	var fileImageCategoryId = $('#fileImageCategoryId').val();
-	var ar = arr[0];
+	var fileName = $('#fileupload').val();
 
-	if((fileCategoryId != '' || fileImageCategoryId !='') && arr.length>0) {
-		
-		
+	/*	if((fileCategoryId != '' || fileImageCategoryId !='')) {
 		var formdata = 'ajax=true&hiddenUFID='+hiddenUFID+'&fileUploadDateId='+fileUploadDateId+'&fileTypeId='+fileTypeId+'&fileCategoryId='+fileCategoryId+'&fileCompanyId='+fileCompanyId+'&ar='+ar+'&fileImageCategoryId='+fileImageCategoryId;
 		$.ajax({
 	        type: "POST",
@@ -174,16 +173,50 @@ function fileSave() {
 		});
 	} else {
 		alert("Fill required fieds");
+	}*/
+	var saveStatus = false;
+	var formdata = new FormData();
+	formdata.append("file", fileupload.files[0]);
+	//formdata.append("hiddenUFID", hiddenUFID);
+	formdata.append("fileUploadDateId", fileUploadDateId);
+	//formdata.append("fileTypeId", fileTypeId);
+	formdata.append("fileCompanyId", fileCompanyId);
+	formdata.append("fileImageCategoryId", fileImageCategoryId);
+
+	if(fileImageCategoryId != '' || fileCompanyId !='' && globalEdit == true){
+		saveStatus = true;
+	} 
+	if(fileImageCategoryId != '' || fileCompanyId !='' && globalEdit == false && fileName != '') {
+		saveStatus = true;
+	}
+	
+	if(saveStatus){
+		$.ajax({
+	        type: "POST",
+	        url: "fileUploadController/saveFile",
+	        data: formdata,
+	        dataType: 'json',
+	        contentType: false,
+	        processData: false,
+	        success: function(data) {
+	        	loadFileDetailsTable();
+	        	$('#fileFormDivId').hide();
+	        	clearValues();
+	        },
+	        error: function(){
+	        	console.log(data.status);
+	        }
+		});
+	} else {
+		alert("Fill required fieds");
 	}
 }
 
-function fileDetailsDelete(ufid, url1) {
+function fileDetailsDelete(ufid) {
 	var fileId = ufid;
-	var fileUrl = url1;
 	
 	$.get('fileUploadController/deleteFile', {
-		fileId : fileId,
-		fileUrl : fileUrl
+		fileId : fileId
 	}, function(data) {
 		if(data.status == 'success') {
 			loadFileDetailsTable();
@@ -193,7 +226,7 @@ function fileDetailsDelete(ufid, url1) {
 	});
 }
 
-$(function () {
+/*$(function () {
 	var prefix = 'fiu';
     $('#fileupload').fileupload({
         dataType: 'json',
@@ -205,7 +238,7 @@ $(function () {
             		console.log("File Name :"+file.fileName);
             		arr.push(file.fileName);
             		//$('#hiddenUFID').val(file.fileName);
-/*                $("#uploaded-files").append(
+                $("#uploaded-files").append(
                         $('<tr/>')
                         .append($('<td/>').text(file.fileName))
                         .append($('<td/>').text(file.fileSize))
@@ -213,17 +246,17 @@ $(function () {
                         .append($('<td/>').html("<a href='fileUploadController/get/"+index+"'>Download</a>"))
                         .append($('<td/>').html("<a href='fileUploadController/deleteFile/"+index+"'>Delete</a>"))
                         )//end $("#uploaded-files").append()
-*/            }); 
+            }); 
         },
  
         progressall: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
-/*            $('#progress .bar').css(
+            $('#progress .bar').css(
                 'width',
                 progress + '%'
-            );*/
+            );
         },
  
         //dropZone: $('#dropzone')
     });
-});
+});*/

@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,6 +34,7 @@ public class AddDetails implements Serializable {
 	private Long addActivePeriod;
 	private String addUrl;
 	private String addLink;
+	private ImageTable imageTable;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -144,6 +146,15 @@ public class AddDetails implements Serializable {
 	public void setAddLink(String addLink) {
 		this.addLink = addLink;
 	}
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="FITID", nullable=true)
+	@JsonIgnore
+	public ImageTable getImageTable() {
+		return imageTable;
+	}
+	public void setImageTable(ImageTable imageTable) {
+		this.imageTable = imageTable;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -160,6 +171,7 @@ public class AddDetails implements Serializable {
 		result = prime * result + ((addSupplierName == null) ? 0 : addSupplierName.hashCode());
 		result = prime * result + ((addSupplierTp == null) ? 0 : addSupplierTp.hashCode());
 		result = prime * result + ((addUrl == null) ? 0 : addUrl.hashCode());
+		result = prime * result + ((imageTable == null) ? 0 : imageTable.hashCode());
 		return result;
 	}
 	@Override
@@ -231,6 +243,11 @@ public class AddDetails implements Serializable {
 				return false;
 		} else if (!addUrl.equals(other.addUrl))
 			return false;
+		if (imageTable == null) {
+			if (other.imageTable != null)
+				return false;
+		} else if (!imageTable.equals(other.imageTable))
+			return false;
 		return true;
 	}
 	@Override
@@ -239,7 +256,7 @@ public class AddDetails implements Serializable {
 				+ ", addSupplierAddress=" + addSupplierAddress + ", addSupplierEmail=" + addSupplierEmail
 				+ ", addDescription=" + addDescription + ", addStatus=" + addStatus + ", addRegisteredDate="
 				+ addRegisteredDate + ", addActiveDate=" + addActiveDate + ", addActivePeriod=" + addActivePeriod
-				+ ", addUrl=" + addUrl + ", addLink=" + addLink + "]";
+				+ ", addUrl=" + addUrl + ", addLink=" + addLink + ", imageTable=" + imageTable + "]";
 	}
 
 }

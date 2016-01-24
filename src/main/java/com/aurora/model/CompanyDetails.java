@@ -30,7 +30,7 @@ public class CompanyDetails implements Serializable {
 	private String companyFaxNo;
 	private String companyWebURl;
 	private String companyFbPage;
-	private String logoUrl;
+	//private String logoUrl;
 	private Long budget;
 	private String status;
 	private Date companyRegisteredDate;
@@ -40,6 +40,7 @@ public class CompanyDetails implements Serializable {
 	private SupplierPersonalDetails supplierPersonalDetails;
 	private SupplierCategory supplierCategory;
 	private DistrictDetails districtDetails;
+	private ImageTable imageTable;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -194,12 +195,21 @@ public class CompanyDetails implements Serializable {
 	public void setActivePeriod(Long activePeriod) {
 		this.activePeriod = activePeriod;
 	}
-	@Column(name="logo_url", nullable=true, length=300)
+/*	@Column(name="logo_url", nullable=true, length=300)
 	public String getLogoUrl() {
 		return logoUrl;
 	}
 	public void setLogoUrl(String logoUrl) {
 		this.logoUrl = logoUrl;
+	}*/
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="FITID", nullable=true)
+	@JsonIgnore
+	public ImageTable getImageTable() {
+		return imageTable;
+	}
+	public void setImageTable(ImageTable imageTable) {
+		this.imageTable = imageTable;
 	}
 	@Override
 	public int hashCode() {
@@ -220,7 +230,7 @@ public class CompanyDetails implements Serializable {
 		result = prime * result + ((companyTp2 == null) ? 0 : companyTp2.hashCode());
 		result = prime * result + ((companyWebURl == null) ? 0 : companyWebURl.hashCode());
 		result = prime * result + ((districtDetails == null) ? 0 : districtDetails.hashCode());
-		result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
+		result = prime * result + ((imageTable == null) ? 0 : imageTable.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((supplierCategory == null) ? 0 : supplierCategory.hashCode());
 		result = prime * result + ((supplierPersonalDetails == null) ? 0 : supplierPersonalDetails.hashCode());
@@ -310,10 +320,10 @@ public class CompanyDetails implements Serializable {
 				return false;
 		} else if (!districtDetails.equals(other.districtDetails))
 			return false;
-		if (logoUrl == null) {
-			if (other.logoUrl != null)
+		if (imageTable == null) {
+			if (other.imageTable != null)
 				return false;
-		} else if (!logoUrl.equals(other.logoUrl))
+		} else if (!imageTable.equals(other.imageTable))
 			return false;
 		if (status == null) {
 			if (other.status != null)
@@ -337,10 +347,10 @@ public class CompanyDetails implements Serializable {
 		return "CompanyDetails [SCDID=" + SCDID + ", companyName=" + companyName + ", companyAddress=" + companyAddress
 				+ ", companyTp1=" + companyTp1 + ", companyTp2=" + companyTp2 + ", companyEmail=" + companyEmail
 				+ ", companyFaxNo=" + companyFaxNo + ", companyWebURl=" + companyWebURl + ", companyFbPage="
-				+ companyFbPage + ", logoUrl=" + logoUrl + ", budget=" + budget + ", status=" + status
 				+ ", companyRegisteredDate=" + companyRegisteredDate + ", companyRegistrationNumber="
 				+ companyRegistrationNumber + ", activeDate=" + activeDate + ", activePeriod=" + activePeriod
 				+ ", supplierPersonalDetails=" + supplierPersonalDetails + ", supplierCategory=" + supplierCategory
-				+ ", districtDetails=" + districtDetails + "]";
+				+ ", districtDetails=" + districtDetails + ", imageTable=" + imageTable + "]";
 	}
+
 }

@@ -1,10 +1,12 @@
 package com.aurora.controllers;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,9 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import com.aurora.dao.ImageTableDao;
 import com.aurora.model.FileMeta;
+import com.aurora.model.ImageTable;
 import com.aurora.model.UploadFiles;
 import com.aurora.service.FileUploadService;
 import com.aurora.util.Constant;
@@ -37,10 +42,13 @@ import com.aurora.util.FileUploadDTO;
 import com.aurora.util.JsonResponce;
 import com.lowagie.tools.concat_pdf;
 
+
 @Controller
 @RequestMapping("/fileUploadController")
 public class FileController implements ServletContextAware{
 
+	 private ImageTableDao imageTableDao = null;
+	
      LinkedList<FileMeta> files = null; 
      FileMeta fileMeta = null;
      ServletContext servletContext;
@@ -52,7 +60,10 @@ public class FileController implements ServletContextAware{
 	 public void setFileUploadService(FileUploadService fileUploadService) {
 		 this.fileUploadService = fileUploadService;
 	 }
-
+	@Autowired
+	public void setImageTableDao(ImageTableDao imageTableDao) {
+		this.imageTableDao = imageTableDao;
+	}
     
 	 @RequestMapping(method = RequestMethod.GET)
 	 public ModelAndView districtDetails() throws Exception {
@@ -100,10 +111,10 @@ public class FileController implements ServletContextAware{
              oriFileName = oriFileName.concat("_"+prefix);
              
              String newFileName = oriFileName.concat(oriFileEx);
-             String uploadDir = servletContext.getRealPath(File.separator+"img"+File.separator+"otherImages");
+             //String uploadDir = servletContext.getRealPath(File.separator+"img"+File.separator+"otherImages");
              //2.3 create new fileMeta
              fileMeta = new FileMeta();
-             fileMeta.setFileName(uploadDir+File.separator+newFileName);
+             fileMeta.setFileName(testFileUploadLocation+File.separator+newFileName);
              fileMeta.setFileSize(mpf.getSize()/1024+" Kb");
              fileMeta.setFileType(mpf.getContentType());
              try {
@@ -114,10 +125,10 @@ public class FileController implements ServletContextAware{
                
                 
               //  System.out.println("uploadPath with image:"+uploadPath+File.separator+mpf.getOriginalFilename());
-               System.out.println("uploadDir:"+uploadDir);
+               System.out.println("uploadDir:"+testFileUploadLocation);
                 
               // FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(uploadPath+File.separator+mpf.getOriginalFilename()));
-               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(uploadDir+File.separator+newFileName));
+               FileCopyUtils.copy(mpf.getBytes(), new FileOutputStream(testFileUploadLocation+File.separator+newFileName));
                 
             } catch (IOException e) {
                System.out.println("File upload error :"+e);
@@ -162,19 +173,19 @@ public class FileController implements ServletContextAware{
         boolean status = false;
          try {        	
         	 Long fileId = ServletRequestUtils.getLongParameter(request, "fileId");
-        	 String fileName = ServletRequestUtils.getStringParameter(request, "fileUrl");
-        	 System.out.println("File Name :"+fileName);
+        	// String fileName = ServletRequestUtils.getStringParameter(request, "fileUrl");
+        	 //System.out.println("File Name :"+fileName);
         	 
         	 String deleteStatus = fileUploadService.deleteImage(fileId);
         	// String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
         	 
-        	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
+      /*  	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
             	 File file = new File(fileName);
             	 status = file.delete();
-        	 }
+        	 }*/
         	 if(status){
         		 fstatus = Constant.SUCCESS;
-        		System.out.println("Deleted :"+fileName); 
+        		//System.out.println("Deleted :"+fileName); 
         	 } else {
         		 System.out.println("Delete operation is failed.");
         	 }
@@ -192,10 +203,8 @@ public class FileController implements ServletContextAware{
      * @return void
      ****************************************************/
     @RequestMapping(value = "/saveFile", method = RequestMethod.POST)
-     public  @ResponseBody JsonResponce saveFile(HttpServletRequest request,HttpServletResponse response){
+     public  @ResponseBody JsonResponce saveFile(MultipartHttpServletRequest request,HttpServletResponse response){
 		 JsonResponce res= new JsonResponce();
-		 
-		 String[] images  = request.getParameterValues("ar");
 		 
 		 String status = fileUploadService.saveFile(request);
 		 
@@ -336,4 +345,54 @@ public class FileController implements ServletContextAware{
 		        }
 
 		 }
+		 
+	    /**
+	     * ImageDownloader
+		 * @param request
+		 * @param response
+		 * @return FileSystemResource
+		 * @throws Exception
+		 */
+		 @RequestMapping(value = "/imageDownloader1", method = RequestMethod.GET)
+		 public @ResponseBody void imageDownloader1(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			 
+			 	Long imageId = Long.parseLong(request.getParameter("ITID"));
+				ImageTable it = imageTableDao.getImageDetailsByITID(imageId);
+				try {
+					response.setHeader("Content-Disposition", "inline;filename=\"" +it.getImageName()+ "\"");
+					OutputStream out = response.getOutputStream();
+					response.setContentType(it.getImageType());
+					IOUtils.copy(new ByteArrayInputStream(it.getImageContent()), out);
+					out.flush();
+					out.close();
+				
+				} catch (IOException e) {
+					e.printStackTrace();
+				} 
+		 }
+		 
+		    /**
+		     * ImageDownloader
+			 * @param request
+			 * @param response
+			 * @return FileSystemResource
+			 * @throws Exception
+			 */
+			 @RequestMapping(value = "/fileDownloader", method = RequestMethod.GET)
+			 public @ResponseBody void fileDownloader(HttpServletRequest request, HttpServletResponse response) throws Exception {
+				 
+				 	Long ufid = Long.parseLong(request.getParameter("UFID"));
+				 	UploadFiles uf = fileUploadService.getFileByUFID(ufid);
+					try {
+						response.setHeader("Content-Disposition", "inline;filename=\"" +uf.getImageName()+ "\"");
+						OutputStream out = response.getOutputStream();
+						response.setContentType(uf.getImageType());
+						IOUtils.copy(new ByteArrayInputStream(uf.getImageContent()), out);
+						out.flush();
+						out.close();
+					
+					} catch (IOException e) {
+						e.printStackTrace();
+					} 
+			 }
 }

@@ -4,7 +4,8 @@ import java.util.Date;
 
 public class FileUploadDTO {
 	private Long UFID;
-	private String fileUrl;
+	private String imageName;
+	private String imageSize;
 	private Date fileUploadDate;
 	
 	public Long getUFID() {
@@ -13,11 +14,18 @@ public class FileUploadDTO {
 	public void setUFID(Long uFID) {
 		UFID = uFID;
 	}
-	public String getFileUrl() {
-		return fileUrl;
+
+	public String getImageName() {
+		return imageName;
 	}
-	public void setFileUrl(String fileUrl) {
-		this.fileUrl = fileUrl;
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+	public String getImageSize() {
+		return imageSize;
+	}
+	public void setImageSize(String imageSize) {
+		this.imageSize = imageSize;
 	}
 	public Date getFileUploadDate() {
 		return fileUploadDate;

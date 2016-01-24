@@ -13,7 +13,7 @@ public class CompanyDetailsW2DTO {
 	private String supplierPersonalDetailsFName;
 	private String supplierPersonalDetailsFLName;
 	private String supplierPersonalDetailsSkype;
-	private String logoUrl;
+	private Long ITID;
 	private Long budget;
 	
 	public Long getSCDID() {
@@ -34,11 +34,12 @@ public class CompanyDetailsW2DTO {
 	public void setBudget(Long budget) {
 		this.budget = budget;
 	}
-	public String getLogoUrl() {
-		return logoUrl;
+
+	public Long getITID() {
+		return ITID;
 	}
-	public void setLogoUrl(String logoUrl) {
-		this.logoUrl = logoUrl;
+	public void setITID(Long iTID) {
+		ITID = iTID;
 	}
 	public String getCompanyAddress() {
 		return companyAddress;

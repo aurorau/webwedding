@@ -7,21 +7,16 @@
 	 <display:column title="Main Image" headerClass="text-left">	 
 		<div class="col-md-12">
 			<div class="col-md-2">
-				<c:if test="${imageCategoryTable.icLogoUrl != 'No Logo'}">
-					<img src="./fileUploadController/imageDownloader?fileName=${imageCategoryTable.icLogoUrl}" width="80" height="60" alt="Logo">
-				</c:if>
-				<c:if test="${imageCategoryTable.icLogoUrl == 'No Logo'}">
-					<img width="80" height="60" alt="No Logo">
-				</c:if>
+				<img src="./fileUploadController/imageDownloader1?ITID=${imageCategoryTable.ITID}" width="80" height="60" alt="Logo">
 			</div>
 		</div>
 	 </display:column>
-	 <display:column property="icType" sortable="false" sortName="icType" headerClass="text-left sortable sorted order1" class="text-left" title="Type"/>
-     <display:column property="icName" sortable="false" sortName="icName" headerClass="text-left sortable sorted order1" class="text-left" title="Name"/>
+	 <display:column property="icType"   headerClass="text-left sortable sorted order1" class="text-left" title="Type"/>
+     <display:column property="icName"   headerClass="text-left sortable sorted order1" class="text-left" title="Name"/>
      <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
 		<div class="text-center">
-			<button onclick="imageCategoryEdit(${imageCategoryTable.ICID})" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
-			<button  onclick="imageCategoryDelete(${imageCategoryTable.ICID})" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
+			<button onclick="imageCategoryEdit('${imageCategoryTable.ICID}','${imageCategoryTable.ITID}')" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
+			<button  onclick="imageCategoryDelete('${imageCategoryTable.ICID}','${imageCategoryTable.ITID}')" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
 		</div>
 	</display:column>
 	<display:setProperty name="basic.empty.showtable" value="true" />

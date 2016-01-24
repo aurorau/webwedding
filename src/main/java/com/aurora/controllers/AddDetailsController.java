@@ -15,6 +15,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aurora.model.AddDetails;
@@ -41,7 +42,7 @@ public class AddDetailsController {
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.POST, value="/saveAddDetails")
-	 public @ResponseBody JsonResponce saveAddDetails(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 public @ResponseBody JsonResponce saveAddDetails(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
 		 String status = addDetailsService.saveAddDetails(request);
@@ -55,7 +56,7 @@ public class AddDetailsController {
 	 public @ResponseBody JsonResponce getAllAdds(HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
-		 List<AddDetails> list = null;
+		 List<AddDetailsDTO> list = null;
 		 
 		 list= addDetailsService.getAllAdds();
 		 
@@ -102,7 +103,7 @@ public class AddDetailsController {
 	    		int start = (page>0) ? (page - 1) * Constant.GRID_TABLE_SIZE : 0;
 	    		String searchq = ServletRequestUtils.getStringParameter(request, Constant.PARAMETER_SEARCH);
 			
-	    		List<AddDetails> addDetailsList = addDetailsService.getAddDetailTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
+	    		List<AddDetailsDTO> addDetailsList = addDetailsService.getAddDetailTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
 	    		int addDetailsCount = addDetailsService.getAddDetailTableCount(searchq);
 			
 	    		request.setAttribute(Constant.TABLE_SIZE, addDetailsCount );

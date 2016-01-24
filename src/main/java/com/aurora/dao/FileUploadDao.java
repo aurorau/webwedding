@@ -15,5 +15,6 @@ public interface FileUploadDao {
 	List<FileUploadDTO> getFileDetailsByCompanyId(Long scdid);
 	List<FileUploadDTO> getImagesByImageCategoryId(Long fileImageCategoryId);
 	UploadFiles getFileDetailsByName(String string);
+	UploadFiles getFileByUFID(Long ufid);
 
 }

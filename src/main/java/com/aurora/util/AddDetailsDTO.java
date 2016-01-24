@@ -10,16 +10,13 @@ public class AddDetailsDTO {
 	private String addSupplierAddress;
 	private String addSupplierEmail;
 	private String addDescription;
-	private String supplierCategory;
-	private String supplierFName;
-	private String supplierTp;
-	private String supplierEmail;
 	private String addStatus;
 	private Date addRegisteredDate;
 	private Date addActiveDate;
 	private Long addActivePeriod;
 	private String addUrl;
 	private String addLink;
+	private Long ITID;
 	
 	public Long getAID() {
 		return AID;
@@ -57,30 +54,6 @@ public class AddDetailsDTO {
 	public void setAddDescription(String addDescription) {
 		this.addDescription = addDescription;
 	}
-	public String getSupplierCategory() {
-		return supplierCategory;
-	}
-	public void setSupplierCategory(String supplierCategory) {
-		this.supplierCategory = supplierCategory;
-	}
-	public String getSupplierFName() {
-		return supplierFName;
-	}
-	public void setSupplierFName(String supplierFName) {
-		this.supplierFName = supplierFName;
-	}
-	public String getSupplierTp() {
-		return supplierTp;
-	}
-	public void setSupplierTp(String supplierTp) {
-		this.supplierTp = supplierTp;
-	}
-	public String getSupplierEmail() {
-		return supplierEmail;
-	}
-	public void setSupplierEmail(String supplierEmail) {
-		this.supplierEmail = supplierEmail;
-	}
 	public String getAddStatus() {
 		return addStatus;
 	}
@@ -117,4 +90,11 @@ public class AddDetailsDTO {
 	public void setAddLink(String addLink) {
 		this.addLink = addLink;
 	}
+	public Long getITID() {
+		return ITID;
+	}
+	public void setITID(Long iTID) {
+		ITID = iTID;
+	}
+	
 }

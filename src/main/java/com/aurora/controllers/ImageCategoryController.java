@@ -1,5 +1,6 @@
 package com.aurora.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,12 +16,17 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.aurora.dao.ImageTableDao;
 import com.aurora.model.ImageCategory;
+import com.aurora.model.ImageTable;
 import com.aurora.model.SupplierCategory;
 import com.aurora.service.ImageCategoryService;
 import com.aurora.util.Constant;
+import com.aurora.util.ImageCategoryDTO;
 import com.aurora.util.JsonResponce;
 
 @Controller
@@ -39,7 +45,7 @@ public class ImageCategoryController {
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.POST, value="/saveImageCategory")
-	 public @ResponseBody JsonResponce saveImageCategory(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 public @ResponseBody JsonResponce saveImageCategory(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
 		 String status = imageCategoryService.saveImageCategory(request);
@@ -53,7 +59,7 @@ public class ImageCategoryController {
 	 public @ResponseBody JsonResponce getAllImageCategories(HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
-		 List<ImageCategory> list = null;
+		 List<ImageCategoryDTO> list = null;
 		 
 		 list= imageCategoryService.getAllImageCategories();
 		 
@@ -65,8 +71,10 @@ public class ImageCategoryController {
 	 @RequestMapping(method = RequestMethod.GET, value="/getImageCategoryByICID")
 	 public @ResponseBody JsonResponce getImageCategoryByICID(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
+		 
 		 ImageCategory imageCategory = null;
-		 imageCategory = imageCategoryService.getImageCategoryByICID(request);
+		 imageCategory = imageCategoryService.getImageCategoryByICID(request);	
+		 
 		 if(imageCategory != null) {
 			 res.setStatus(Constant.SUCCESS);
 		 } else {
@@ -100,7 +108,7 @@ public class ImageCategoryController {
 	    		int start = (page>0) ? (page - 1) * Constant.GRID_TABLE_SIZE : 0;
 	    		String searchq = ServletRequestUtils.getStringParameter(request, Constant.PARAMETER_SEARCH);
 			
-	    		List<ImageCategory> imageCategoryList = imageCategoryService.getImageCategoryTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
+	    		List<ImageCategoryDTO> imageCategoryList = imageCategoryService.getImageCategoryTable(sortField,order,start, Constant.GRID_TABLE_SIZE, searchq);
 	    		int imageCategoryCount = imageCategoryService.getImageCategoryTableCount(searchq);
 			
 	    		request.setAttribute(Constant.TABLE_SIZE, imageCategoryCount );

@@ -8,15 +8,17 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 import com.aurora.dao.ImageCategoryDao;
 import com.aurora.model.ImageCategory;
+import com.aurora.util.CompanyDetailsDTO;
 import com.aurora.util.HibernateBase;
+import com.aurora.util.ImageCategoryDTO;
 
 @Repository("imageCategoryDao")
 public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategoryDao {
 
-	@Transactional
 	public ImageCategory getImageCategoryByICID(Long icid) {
 		ImageCategory imageCategory = null;
 		
@@ -33,7 +35,6 @@ public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategory
 		return imageCategory;
 	}
 
-	@Transactional
 	public void saveImageCategory(ImageCategory imageCategory) {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -43,16 +44,21 @@ public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategory
 		
 	}
 
-	@Transactional
-	public List<ImageCategory> getAllImageCategories() {
+	public List<ImageCategoryDTO> getAllImageCategories() {
 		Session session = getSession();
 		session.getTransaction().begin();
 		
-		List<ImageCategory> list = null;
+		List<ImageCategoryDTO> list = null;
 		
 		Criteria criteria = session.createCriteria(ImageCategory.class);
 		         criteria.addOrder(Order.asc("icName"));
-		list = criteria.list();
+		         
+ 		criteria.setProjection(Projections.projectionList()
+				.add(Projections.property("ICID").as("ICID"))
+				.add(Projections.property("icType").as("icType"))
+				.add(Projections.property("icName").as("icName"))
+				.add(Projections.property("imageTable.ITID").as("ITID")));
+		list = (List<ImageCategoryDTO>) criteria.setResultTransformer(Transformers.aliasToBean(ImageCategoryDTO.class)).list();
 		
 		session.getTransaction().commit();
 		session.close();
@@ -60,7 +66,6 @@ public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategory
 		return list;
 	}
 
-	@Transactional
 	public void imageCategoryDelete(Long icid) {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -73,14 +78,14 @@ public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategory
 		
 	}
 
-	@Transactional
-	public List<ImageCategory> getImageCategoryTable(String sortField, int order, int start, int gridTableSize,String searchq) {
+	public List<ImageCategoryDTO> getImageCategoryTable(String sortField, int order, int start, int gridTableSize,String searchq) {
 		Session session = getSession();
 		session.getTransaction().begin();
 		
-		List<ImageCategory> list = null;
+		List<ImageCategoryDTO> list = null;
 		
-		Criteria criteria = session.createCriteria(ImageCategory.class)
+		Criteria criteria = session.createCriteria(ImageCategory.class,"imageCategory")
+				.createAlias("imageCategory.imageTable", "imageTable")
 				.setFirstResult(start)
 				.setMaxResults(gridTableSize);
 		criteria.addOrder(Order.asc("icName"));
@@ -89,7 +94,18 @@ public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategory
 			        .add(Restrictions.ilike("icType", searchq, MatchMode.ANYWHERE))
 			        .add(Restrictions.ilike("icName", searchq,MatchMode.ANYWHERE)));
 		}
-		list = criteria.list();
+		
+		criteria.setProjection(Projections.projectionList()
+				.add(Projections.property("ICID").as("ICID"))
+				.add(Projections.property("icType").as("icType"))
+				.add(Projections.property("icName").as("icName"))
+				.add(Projections.property("imageTable.ITID").as("ITID")));
+/*				.add(Projections.property("imageTable.imageName").as("imageName"))
+				.add(Projections.property("imageTable.imageType").as("imageType"))
+				.add(Projections.property("imageTable.imageSize").as("imageSize"))
+				.add(Projections.property("imageTable.imageContent").as("imageContent")));*/
+		
+		list = (List<ImageCategoryDTO>) criteria.setResultTransformer(Transformers.aliasToBean(ImageCategoryDTO.class)).list();
 		
 		session.getTransaction().commit();
 		session.close();
@@ -97,7 +113,6 @@ public class ImageCategoryDaoImpl extends HibernateBase implements ImageCategory
 		return list;
 	}
 
-	@Transactional
 	public int getImageCategoryTableCount(String searchq) {
 		
 		Session session = getSession();

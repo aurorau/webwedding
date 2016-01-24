@@ -1,7 +1,6 @@
 package com.aurora.daoImpl;
 
 import java.util.List;
-import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -17,7 +16,6 @@ import com.aurora.util.HibernateBase;
 @Repository("fileUploadDao")
 public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 
-	@Transactional
 	public UploadFiles getFileDetailsByFUID(Long fuid) {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -33,7 +31,6 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		return uploadFiles;
 	}
 
-	@Transactional
 	public void saveFile(UploadFiles uploadFiles) {
 		
 		Session session = getSession();
@@ -42,7 +39,7 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		session.getTransaction().commit();
 		session.close();
 	}
-	@Transactional
+
 	public List<FileUploadDTO> getFileDetailsTable(String sortField, int order, int start, int gridTableSize,Long caterogyId, Long companyId,Long fileImageCategoryId, String searchq) {
 		
 		Session session = getSession();
@@ -59,12 +56,12 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 			
 
 		}
-		if(caterogyId != 0){
+/*		if(caterogyId != 0){
 			criteria.createAlias("uploadFiles.supplierCategory", "supplierCategory");
 			criteria.add(Restrictions.eq("supplierCategory.SCID", caterogyId));
 			
 
-		}
+		}*/
 		if(fileImageCategoryId != 0){
 			criteria.createAlias("uploadFiles.imageCategory", "imageCategory");
 			criteria.add(Restrictions.eq("imageCategory.ICID", fileImageCategoryId));
@@ -72,7 +69,8 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		
 		criteria.setProjection(Projections.projectionList()
 				.add(Projections.property("UFID").as("UFID"))
-				.add(Projections.property("fileUrl").as("fileUrl"))
+				.add(Projections.property("imageName").as("imageName"))
+				.add(Projections.property("imageSize").as("imageSize"))
 				.add(Projections.property("fileUploadDate").as("fileUploadDate")));
 		
 		
@@ -85,7 +83,7 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		session.close();
 		return list;
 	}
-	@Transactional
+
 	public int getFileDetailsTableCount(Long caterogyId, Long companyId,Long fileImageCategoryId, String searchq) {
 		
 		Session session = getSession();
@@ -102,12 +100,10 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 			
 
 		}
-		if(caterogyId != 0){
+/*		if(caterogyId != 0){
 			criteria.createAlias("uploadFiles.supplierCategory", "supplierCategory");
 			criteria.add(Restrictions.eq("supplierCategory.SCID", caterogyId));
-			
-
-		}
+		}*/
 		if(fileImageCategoryId != 0){
 			criteria.createAlias("uploadFiles.imageCategory", "imageCategory");
 			criteria.add(Restrictions.eq("imageCategory.ICID", fileImageCategoryId));
@@ -121,8 +117,7 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		
 		return totalRowCount;
 	}
-	
-	@Transactional
+
 	public void deleteImage(long parseLong) throws Exception {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -134,7 +129,6 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		session.close();
 	}
 
-	@Transactional
 	public List<FileUploadDTO> getFileDetailsByCompanyId(Long scdid) {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -148,7 +142,8 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 
 		criteria.setProjection(Projections.projectionList()
 				.add(Projections.property("UFID").as("UFID"))
-				.add(Projections.property("fileUrl").as("fileUrl"))
+				.add(Projections.property("imageSize").as("imageSize"))
+				.add(Projections.property("imageName").as("imageName"))
 				.add(Projections.property("fileUploadDate").as("fileUploadDate")));
 		
 		list = (List<FileUploadDTO>) criteria.setResultTransformer(Transformers.aliasToBean(FileUploadDTO.class)).list();
@@ -158,7 +153,6 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		return list;
 	}
 
-	@Transactional
 	public List<FileUploadDTO> getImagesByImageCategoryId(Long fileImageCategoryId) {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -173,7 +167,8 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 
 		criteria.setProjection(Projections.projectionList()
 				.add(Projections.property("UFID").as("UFID"))
-				.add(Projections.property("fileUrl").as("fileUrl"))
+				.add(Projections.property("imageName").as("imageName"))
+				.add(Projections.property("imageSize").as("imageSize"))
 				.add(Projections.property("fileUploadDate").as("fileUploadDate")));
 		
 		list = (List<FileUploadDTO>) criteria.setResultTransformer(Transformers.aliasToBean(FileUploadDTO.class)).list();
@@ -183,15 +178,29 @@ public class FileUploadDaoImpl extends HibernateBase implements FileUploadDao {
 		return list;
 	}
 
-	@Transactional
 	public UploadFiles getFileDetailsByName(String string) {
 		Session session = getSession();
 		session.getTransaction().begin();
 		
 		UploadFiles uploadFiles = null;
 		
-		Criteria criteria = session.createCriteria(UploadFiles.class, "uploadFiles");
+		Criteria criteria = session.createCriteria(UploadFiles.class);
 				criteria.add(Restrictions.eq("fileUrl", string));
+		uploadFiles = (UploadFiles) criteria.uniqueResult();
+		
+		session.getTransaction().commit();
+		session.close();
+		return uploadFiles;
+	}
+
+	public UploadFiles getFileByUFID(Long ufid) {
+		Session session = getSession();
+		session.getTransaction().begin();
+		
+		UploadFiles uploadFiles = null;
+		
+		Criteria criteria = session.createCriteria(UploadFiles.class);
+				criteria.add(Restrictions.eq("UFID", ufid));
 		uploadFiles = (UploadFiles) criteria.uniqueResult();
 		
 		session.getTransaction().commit();

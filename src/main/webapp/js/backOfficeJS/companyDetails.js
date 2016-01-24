@@ -1,5 +1,5 @@
 
-var arr;
+var globalEdit;
 
 $(document).ready(function() {
 	$('#companyDetailsFormDivId').hide();
@@ -12,7 +12,7 @@ $(document).ready(function() {
 	$('#companyDetailsClearBtn').on('click', function(){
 		clearValues();
 	});
-	
+	globalEdit = false;
 });
 
 
@@ -95,23 +95,12 @@ function clearValues() {
 	$('#companyDetailsCategoryId').val('');
 	$('#companyDetailsDistrictId').val('');
 	$('#companyDetailsRegdateId').val('');
-	$('#fileHiddenUrl').val('');
-	arr = new Array();
+	$('#fileupload').val('');
+	globalEdit = false;
 }
 
 function companyDetailsSave() {
-	var ar ;
-	if(arr[0] != null && arr[0] !=''){
-		ar = arr[0];
-	} else if($('#fileHiddenUrl').val() !='') {
-		ar = $('#fileHiddenUrl').val();
-	} else {
-		ar = 'No Logo';
-	}
-	 
-	
-	console.log("ar :"+ar);
-	
+	var saveStatus = false;
 	var hiddenSCDID = $('#hiddenSCDID').val();
 	var companyRegistrationNumber= $('#companyDetailsRegId').val();
 	var companyName = $('#companyDetailsNameId').val();
@@ -130,8 +119,30 @@ function companyDetailsSave() {
 	var supplierPersonalDetails = $('#companyDetailsOwnerId').val();
 	var supplierCategory = $('#companyDetailsCategoryId').val();
 	var districtDetails = $('#companyDetailsDistrictId').val();
+	var fileName = $('#fileupload').val();
 	
-	if(districtDetails != '' && supplierCategory != '' && supplierPersonalDetails != '' && budget != '') {
+	var formdata = new FormData();
+	formdata.append("file", fileupload.files[0]);
+	formdata.append("hiddenSCDID", hiddenSCDID);
+	formdata.append("companyRegistrationNumber", companyRegistrationNumber);
+	formdata.append("companyName", companyName);
+	formdata.append("companyAddress", companyAddress);
+	formdata.append("companyTp1", companyTp1);
+	formdata.append("companyTp2", companyTp2);
+	formdata.append("companyEmail", companyEmail);
+	formdata.append("companyFaxNo", companyFaxNo);
+	formdata.append("companyWebURl", companyWebURl);
+	formdata.append("companyFbPage", companyFbPage);
+	formdata.append("budget", budget);
+	formdata.append("status", status);
+	formdata.append("companyRegisteredDate", companyRegisteredDate);
+	formdata.append("activeDate", activeDate);
+	formdata.append("activePeriod", activePeriod);
+	formdata.append("supplierPersonalDetails", supplierPersonalDetails);
+	formdata.append("supplierCategory", supplierCategory);
+	formdata.append("districtDetails", districtDetails);
+	
+/*	if(districtDetails != '' && supplierCategory != '' && supplierPersonalDetails != '' && budget != '') {
 
 		$.post('companyDetailsController/saveCompanyDetails', {
 			hiddenSCDID : hiddenSCDID,
@@ -164,6 +175,36 @@ function companyDetailsSave() {
 		});
 	} else {
 		alert("Fill required fieds");
+	}*/
+	
+
+
+	if(districtDetails != '' && supplierCategory != '' && supplierPersonalDetails != '' && budget != '' && globalEdit == true){
+		saveStatus = true;
+	} 
+	if(districtDetails != '' && supplierCategory != '' && supplierPersonalDetails != '' && budget != '' && globalEdit == false && fileName != '') {
+		saveStatus = true;
+	}
+	
+	if(saveStatus){
+		$.ajax({
+	        type: "POST",
+	        url: "companyDetailsController/saveCompanyDetails",
+	        data: formdata,
+	        dataType: 'json',
+	        contentType: false,
+	        processData: false,
+	        success: function(data) {
+				loadCompanyDetailsTable();
+				clearValues();
+				$('#companyDetailsFormDivId').hide();
+	        },
+	        error: function(){
+	        	console.log(data.status);
+	        }
+		});
+	} else {
+		alert("Fill required fieds");
 	}
 }
 
@@ -173,12 +214,14 @@ function companyDetailsEdit(scdid){
 function companyDetailsView(scdid) {
 	getCompanyDetails(scdid);
 }
-function companyDetailsDelete(scdid) {
+function companyDetailsDelete(scdid,itid) {
 	var hiddenSCDID = scdid;
+	var ITID = itid;
 	$('#hiddenSCDID').val(scdid);
 	
 	$.get('companyDetailsController/companyDetailsDelete', {
-		hiddenSCDID : hiddenSCDID
+		hiddenSCDID : hiddenSCDID,
+		ITID : ITID
 	}, function(data) {
 		if(data.status == 'success') {
 			loadCompanyDetailsTable();
@@ -189,6 +232,7 @@ function companyDetailsDelete(scdid) {
 }
 function getCompanyDetails(scdid) {
 	newCompanyDetails();
+	globalEdit = true;
 	var hiddenSCDID = scdid;
 	$('#hiddenSCDID').val(scdid);
 	
@@ -222,7 +266,7 @@ function getCompanyDetails(scdid) {
 	});
 }
 
-$(function () {
+/*$(function () {
 	var prefix = 'cd';
     $('#fileupload').fileupload({
         dataType: 'json',
@@ -238,4 +282,4 @@ $(function () {
             var progress = parseInt(data.loaded / data.total * 100, 10);
         },
     });
-});
+});*/

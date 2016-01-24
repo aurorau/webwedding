@@ -3,6 +3,7 @@ package com.aurora.serviceImpl;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 	public void setDistrictDetailsDao(SupplierCategoryDao supplierCategoryDao) {
 		this.supplierCategoryDao = supplierCategoryDao;
 	}
-	
+	@Transactional
 	public List<SupplierCategory> getSupplierCategoryTable(String sortField,int order,int start, int length, String searchq) {
 		List<SupplierCategory>  list =null;
 		try {
@@ -35,7 +36,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		}
 		return list;
 	}
-
+	@Transactional
 	public int getSupplierCategoryTableCount(String serchq) {
 		int count = 0;
 		
@@ -47,7 +48,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		
 		return count;
 	}
-
+	@Transactional
 	public String saveSupplierCategory(HttpServletRequest request) {
 		String status = null;
 		SupplierCategory supplierCategory = null;
@@ -76,7 +77,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		}
 		return status;
 	}
-
+	@Transactional
 	public SupplierCategory getSupplierCategoryBySCID(HttpServletRequest request) {
 		SupplierCategory  supplierCategory =null;
 		Long scid = ServletRequestUtils.getLongParameter(request, "hiddenSCID",0L);
@@ -87,7 +88,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		}
 		return supplierCategory;
 	}
-
+	@Transactional
 	public List<SupplierCategory> getAllCategories() {
 		List<SupplierCategory>  list =null;
 		try {
@@ -97,7 +98,7 @@ public class SupplierCategoryServiceImpl implements SupplierCategoryService {
 		}
 		return list;
 	}
-
+	@Transactional
 	public String supplierCategoryDelete(HttpServletRequest request) {
 		String status = Constant.FAIL;
 		try {

@@ -91,20 +91,20 @@
 						<td>File Upload Date :</td>
 						<td><input type="text" class="datepicker" id="fileUploadDateId" placeholder="File Upload Date"></td>
 					</tr>
-					<tr>
+<!-- 					<tr>
 						<td>File Type :</td>
 							<td><select id="fileTypeId">
 								<option value="">Select Type</option>
 								<option value="1">Image</option>
 								<option value="2">Logo</option>
-								<!-- <option value="2">Article</option>
+								<option value="2">Article</option>
 								<option value="3">Pending</option>
-								<option value="4">Suspend</option> -->
+								<option value="4">Suspend</option>
 							</select></td>
-					</tr>
+					</tr> -->
 					<tr>
 						<td>Upload File :</td>
-							<td><input id="fileupload" type="file" name="files[]"  multiple>
+							<td><input id="fileupload" type="file">
 							<!-- data-url="fileUploadController/upload" -->
 						</td>
 					</tr>	

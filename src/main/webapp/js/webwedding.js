@@ -15,7 +15,10 @@ $(document).ready(function() {
 	$('#cart-value').text(0);
 	validationHide();
 	loadAdds();
-	clearValues();
+	clearValuesInSupplierDetails();
+	$('#serviceCategoryDD').val('');
+	$('#districtDD').val('');
+	$('#budgetId').val('');
 });
 
 
@@ -110,8 +113,8 @@ function getCompanyDetailsW2(scid) {
 				$('.item active').html('');
 				$('.item').html('');
 				
-				if(data.result.companyImageUrls.length > 0) {
-					setImageForCompanyGallery(data.result.companyImageUrls);
+				if(data.result.companyImageIds.length > 0) {
+					setImageForCompanyGallery(data.result.companyImageIds);
 				}
 
 				$('#comapnyNameW2').text(data.result.companyName);
@@ -129,14 +132,14 @@ function getCompanyDetailsW2(scid) {
 	});
 }
 
-function setImageForCompanyGallery(urls) {
+function setImageForCompanyGallery(ids) {
 	
-	$.each(urls, function(index, url){
+	$.each(ids, function(index, id){
 		if(index == 0) {
-			$('#itemActiveDiv').append("<img src=./fileUploadController/imageDownloader?fileName="+url+">");
+			$('#itemActiveDiv').append("<img src=./fileUploadController/fileDownloader?UFID="+id+">");
 		} else {
 			$('#companyProfileImageGallery').append("<div class=item>" +
-					"<img src=./fileUploadController/imageDownloader?fileName="+url+">" +
+					"<img src=./fileUploadController/fileDownloader?UFID="+id+">" +
 			"</div>");	
 		}
 
@@ -221,7 +224,7 @@ function saveSupplierDetailsW2(){
 		}, function(data) {
 			if (data.status == 'saved') {
 				$('#successLB').text("Message Sent Successfully.");
-				clearValues();
+				clearValuesInSupplierDetails();
 			} else {
 				console.log(data.status);
 			}
@@ -243,6 +246,18 @@ var checkValidation = function (){
 		$('#emailValidation').text("Please enter your email.");
 		$('#emailValidation').show();
 		status = false;
+	} else {
+		var regex ;
+		if(email != ''){
+			//emailArrayList.push(candidateEmailAddress);
+			regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			
+			if(!regex.test(email)) {
+				$('#emailValidation').text("Please enter valid email.");
+				$('#emailValidation').show();
+				status = false;
+			}
+		}
 	}
 	if(type == ''){
 		$('#categorylValidation').text("Please select your category.");
@@ -259,10 +274,11 @@ var checkValidation = function (){
 		$('#phoneValidation').show();
 		status = false;
 	}
+	
 	return status;
 }
 
-function clearValues(){
+function clearValuesInSupplierDetails(){
 	$('#name').val('');
 	$('#lname').val('');
 	$('#phone').val('');
@@ -305,7 +321,7 @@ function setProfileGallery(imageCategoryList){
 		 					" <h4>"+imageCategory.icName+"</h4>"+
 		 				" </div>"+
 		 			"</div>"+
-		 			"<img src=./fileUploadController/imageDownloader?fileName="+imageCategory.icLogoUrl+" class=gallery>"+
+		 			"<img src=./fileUploadController/imageDownloader1?ITID="+imageCategory.itid+" class=gallery>"+
 		 		" </a>"+
 		 	" </div>");
 		});
@@ -321,7 +337,7 @@ function setImageGallaryForCategory(id){
         success: function(data) {
         	if(data.result != null) {
         		 $.each(data.result, function (index, imageList){
-        				$('#imageCategoryGalleryDivW2').append("<img src=./fileUploadController/imageDownloader?fileName="+imageList.fileUrl+" class=gallery>");
+        				$('#imageCategoryGalleryDivW2').append("<img src=./fileUploadController/fileDownloader?UFID="+imageList.ufid+" class=gallery>");
         		 });
         	}
         }
@@ -337,11 +353,46 @@ function loadAdds(){
         		 $.each(data.result, function (index, addList){
         				$('#ads').append("<div class=ads> "+
         						"<a href=#portfolioModal6 class=portfolio-link data-toggle=modal>"+
-        						"<img src=./fileUploadController/imageDownloader?fileName="+addList.addUrl+" class=img-responsive width=300>"+
+        						"<img src=./fileUploadController/imageDownloader1?ITID="+addList.itid+" class=img-responsive width=300>"+
         						"</a>"+
         				"</div>");
         		 });
         	}
         }
 	});
+}
+function checkedInputTypeNumberic(myfield, e, dec) {
+	var key;
+	var keychar;
+
+	if (window.event)
+		key = window.event.keyCode;
+	else if (e)
+		key = e.which;
+	else
+		return true;
+	keychar = String.fromCharCode(key);
+
+	// control keys
+	if ((key == null) || (key == 0) || (key == 8) || (key == 9) || (key == 13)
+			|| (key == 27))
+		return true;
+
+	// numbers
+	else if ((("0123456789").indexOf(keychar) > -1))
+		return true;
+
+	// decimal point jump
+	else if (dec && (keychar == ".")) {
+		myfield.form.elements[dec].focus();
+		return false;
+	} else
+		return false;
+}
+
+function limitedLength(fieldId, value){
+	var text =$('#'+fieldId).val();
+	if(text.length>value){
+		$('#'+fieldId).val(text.substring(0, value));
+	}
 }

@@ -8,12 +8,13 @@
 	 <display:column title="Image" headerClass="text-left">	 
 		<div class="col-md-12">
 			<div class="col-md-2">
-				<c:if test="${companyDetailsTable.logoUrl != 'No Logo'}">
+			<img src="./fileUploadController/imageDownloader1?ITID=${companyDetailsTable.ITID}" width="80" height="60" alt="Logo">
+<%-- 				<c:if test="${companyDetailsTable.logoUrl != 'No Logo'}">
 					<img src="./fileUploadController/imageDownloader?fileName=${companyDetailsTable.logoUrl}" width="80" height="60" alt="Logo">
 				</c:if>
 				<c:if test="${companyDetailsTable.logoUrl == 'No Logo'}">
 					<img width="80" height="60" alt="No Logo">
-				</c:if>
+				</c:if> --%>
 			</div>
 		</div>
 	 </display:column>
@@ -28,7 +29,7 @@
 		<div class="text-center">
 			<%-- <button  onclick="companyDetailsView(${companyDetailsTable.SCDID})" class="view-btn"><span class="fa fa-view"></span>View</button> --%>
 			<button onclick="companyDetailsEdit(${companyDetailsTable.SCDID})" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
-			<button  onclick="companyDetailsDelete(${companyDetailsTable.SCDID})" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
+			<button  onclick="companyDetailsDelete('${companyDetailsTable.SCDID}','${companyDetailsTable.ITID}')" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
 		</div>
 	</display:column>
 	<display:setProperty name="basic.empty.showtable" value="true" />

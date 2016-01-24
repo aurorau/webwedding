@@ -19,7 +19,6 @@ import com.aurora.util.HibernateBase;
 @Repository("companyDetailsDao")
 public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetailsDao {
 	
-	@Transactional
 	public List<CompanyDetailsDTO> getCompanyDetailsTable(String sortField, int order, int start, int length,String searchq) throws Exception {
 		
 		Session session = getSession();
@@ -31,6 +30,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.createAlias("companyDetails.supplierPersonalDetails", "supplierPersonalDetails")
 				.createAlias("companyDetails.supplierCategory", "supplierCategory")
 				.createAlias("companyDetails.districtDetails", "districtDetails")
+				.createAlias("companyDetails.imageTable", "imageTable")
 				.setFirstResult(start)
 				.setMaxResults(length);
 		criteria.addOrder(Order.asc("companyName"));
@@ -54,7 +54,6 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.add(Projections.property("companyFaxNo").as("companyFaxNo"))
 				.add(Projections.property("companyWebURl").as("companyWebURl"))
 				.add(Projections.property("companyFbPage").as("companyFbPage"))
-				.add(Projections.property("logoUrl").as("logoUrl"))
 				.add(Projections.property("budget").as("budget"))
 				.add(Projections.property("status").as("status"))
 				.add(Projections.property("companyRegisteredDate").as("companyRegisteredDate"))
@@ -64,6 +63,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.add(Projections.property("supplierPersonalDetails.SPDID").as("supplierPersonalDetails"))
 				.add(Projections.property("supplierPersonalDetails.supplierFirstName").as("supplierPersonalDetailsFName"))
 				.add(Projections.property("supplierCategory.SCID").as("supplierCategory"))
+				.add(Projections.property("imageTable.ITID").as("ITID"))
 				.add(Projections.property("districtDetails.DDID").as("districtDetails")));
 		
 		list = (List<CompanyDetailsDTO>) criteria.setResultTransformer(Transformers.aliasToBean(CompanyDetailsDTO.class)).list();
@@ -74,7 +74,6 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		return list;
 	}
 
-	@Transactional
 	public int getCompanyDetailsTableCount(String searchq) throws Exception {
 		
 		Session session = getSession();
@@ -103,7 +102,6 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		return totalRowCount;
 	}
 
-	@Transactional
 	public void saveCompanyDetails(CompanyDetails companyDetails) throws Exception {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -113,7 +111,6 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		
 	}
 
-	@Transactional
 	public CompanyDetailsDTO getCompanyDetailsBySCDID(Long scdid) throws Exception {
 		CompanyDetailsDTO companyDetails = null;
 		
@@ -124,6 +121,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.createAlias("companyDetails.supplierPersonalDetails", "supplierPersonalDetails")
 				.createAlias("companyDetails.supplierCategory", "supplierCategory")
 				.createAlias("companyDetails.districtDetails", "districtDetails")
+				.createAlias("companyDetails.imageTable", "imageTable")
 				.setProjection(Projections.projectionList()
 					.add(Projections.property("SCDID").as("SCDID"))
 					.add(Projections.property("companyName").as("companyName"))
@@ -134,7 +132,6 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 					.add(Projections.property("companyFaxNo").as("companyFaxNo"))
 					.add(Projections.property("companyWebURl").as("companyWebURl"))
 					.add(Projections.property("companyFbPage").as("companyFbPage"))
-					.add(Projections.property("logoUrl").as("logoUrl"))
 					.add(Projections.property("budget").as("budget"))
 					.add(Projections.property("status").as("status"))
 					.add(Projections.property("companyRegisteredDate").as("companyRegisteredDate"))
@@ -144,6 +141,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 					.add(Projections.property("supplierPersonalDetails.SPDID").as("supplierPersonalDetails"))
 					.add(Projections.property("supplierPersonalDetails.supplierFirstName").as("supplierPersonalDetailsFName"))
 					.add(Projections.property("supplierCategory.SCID").as("supplierCategory"))
+					.add(Projections.property("imageTable.ITID").as("ITID"))
 					.add(Projections.property("districtDetails.DDID").as("districtDetails")));
 			criteria.add(Restrictions.eq("SCDID", scdid));
 			criteria.addOrder(Order.asc("companyName"));
@@ -154,7 +152,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		session.close();
 		return companyDetails;
 	}
-	@Transactional
+
 	public CompanyDetails getCompanyDetailsBySCDID1(Long scid) throws Exception {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -170,7 +168,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		session.close();
 		return companyDetails;
 	}
-	@Transactional
+
 	public void companyDetailsDelete(Long scdid) throws Exception{
 
 		Session session = getSession();
@@ -212,9 +210,10 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.createAlias("companyDetails.supplierPersonalDetails", "supplierPersonalDetails")
 				.createAlias("companyDetails.supplierCategory", "supplierCategory")
 				.createAlias("companyDetails.districtDetails", "districtDetails")
+				.createAlias("companyDetails.imageTable", "imageTable")
 				.setFirstResult(start)
 				.setMaxResults(gridTableSize);
-		criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
+		//criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
 		criteria.addOrder(Order.asc("companyName"));
 		
 		if(serviceCategoryDD != 0) {
@@ -236,7 +235,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.add(Projections.property("companyFaxNo").as("companyFaxNo"))
 				.add(Projections.property("companyWebURl").as("companyWebURl"))
 				.add(Projections.property("companyFbPage").as("companyFbPage"))
-				.add(Projections.property("logoUrl").as("logoUrl"))
+				.add(Projections.property("imageTable.ITID").as("ITID"))
 				.add(Projections.property("supplierPersonalDetails.supplierFirstName").as("supplierPersonalDetailsFName"))
 				.add(Projections.property("supplierPersonalDetails.supplierLastName").as("supplierPersonalDetailsFLName"))
 				.add(Projections.property("supplierPersonalDetails.supplierSkypeAddress").as("supplierPersonalDetailsSkype"))
@@ -257,7 +256,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		int totalRowCount =0;
 		Criteria criteria = session.createCriteria(CompanyDetails.class,"companyDetails")
 				.setProjection(Projections.count("SCDID"));
-		criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
+		//criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
 		
 		if(serviceCategoryDD != 0) {
 			criteria.createAlias("companyDetails.supplierCategory", "supplierCategory");

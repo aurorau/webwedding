@@ -16,6 +16,7 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.aurora.model.CompanyDetails;
@@ -42,7 +43,7 @@ public class CompanyDetailsController {
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.POST, value="/saveCompanyDetails")
-	 public @ResponseBody JsonResponce saveCompanyDetails(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	 public @ResponseBody JsonResponce saveCompanyDetails(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
 		 
 		 String status = companyDetailsService.saveCompanyDetails(request);

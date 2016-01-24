@@ -92,7 +92,7 @@
 							</tr>
 							<tr>
 								<td>Upload Logo :</td>
-									<td><input id="fileupload" type="file" name="files[]" multiple>
+									<td><input id="fileupload" type="file">
 								</td>
 							</tr>	
 							<tr>

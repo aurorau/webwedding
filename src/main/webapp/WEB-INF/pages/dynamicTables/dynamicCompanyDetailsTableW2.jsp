@@ -14,7 +14,7 @@
                                 <i class="fa fa-plus fa-3x"></i>
                             </div>
                         </div>
-                        <img src="./fileUploadController/imageDownloader?fileName=${companyDetailsTableW2.logoUrl}" class="img-responsive" alt="" width="300">
+                        <img src="./fileUploadController/imageDownloader1?ITID=${companyDetailsTableW2.ITID}" class="img-responsive" alt="" width="300">
                     </a>
                     <div class="portfolio-caption">
                     	<span>${companyDetailsTableW2.budget} upward</span>

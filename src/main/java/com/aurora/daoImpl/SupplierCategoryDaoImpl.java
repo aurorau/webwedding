@@ -21,7 +21,6 @@ import com.aurora.util.HibernateBase;
 @Repository("supplierCategoryDao")
 public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCategoryDao{
 
-	@Transactional
 	public List<SupplierCategory> getSupplierCategoryTable(String sortField,int order,int start, int length, String searchq) throws Exception {
 		
 		Session session = getSession();
@@ -46,7 +45,6 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		return list;
 	}
 	
-	@Transactional
 	public int getSupplierCategoryTableCount(String serchq) throws Exception {
 		
 		Session session = getSession();
@@ -71,7 +69,6 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		return totalRowCount;
 	}
 
-	@Transactional
 	public void saveSupplierCategory(SupplierCategory supplierCategory) throws Exception {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -80,7 +77,6 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		session.close();
 	}
 
-	@Transactional
 	public SupplierCategory getSupplierCategoryBySCID(Long scid) throws Exception {
 		SupplierCategory supplierCategory = null;
 		
@@ -113,7 +109,6 @@ public class SupplierCategoryDaoImpl extends HibernateBase implements SupplierCa
 		return list;
 	}
 
-	@Transactional
 	public void supplierCategoryDelete(Long scid) throws Exception{
 
 		Session session = getSession();

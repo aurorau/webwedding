@@ -1,12 +1,21 @@
 package com.aurora.model;
 
 import java.io.Serializable;
+import java.sql.Blob;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="image_category")
@@ -15,6 +24,7 @@ public class ImageCategory implements Serializable{
 	private String icType;
 	private String icName;
 	private String icLogoUrl;
+	private ImageTable imageTable;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -49,6 +59,16 @@ public class ImageCategory implements Serializable{
 	public void setIcLogoUrl(String icLogoUrl) {
 		this.icLogoUrl = icLogoUrl;
 	}
+	
+	@OneToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="FITID", nullable=true)
+	@JsonIgnore
+	public ImageTable getImageTable() {
+		return imageTable;
+	}
+	public void setImageTable(ImageTable imageTable) {
+		this.imageTable = imageTable;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -57,6 +77,7 @@ public class ImageCategory implements Serializable{
 		result = prime * result + ((icLogoUrl == null) ? 0 : icLogoUrl.hashCode());
 		result = prime * result + ((icName == null) ? 0 : icName.hashCode());
 		result = prime * result + ((icType == null) ? 0 : icType.hashCode());
+		result = prime * result + ((imageTable == null) ? 0 : imageTable.hashCode());
 		return result;
 	}
 	@Override
@@ -88,11 +109,17 @@ public class ImageCategory implements Serializable{
 				return false;
 		} else if (!icType.equals(other.icType))
 			return false;
+		if (imageTable == null) {
+			if (other.imageTable != null)
+				return false;
+		} else if (!imageTable.equals(other.imageTable))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "ImageCategory [ICID=" + ICID + ", icType=" + icType + ", icName=" + icName + ", icLogoUrl=" + icLogoUrl
-				+ "]";
+				+ ", imageTable=" + imageTable + "]";
 	}
+
 }

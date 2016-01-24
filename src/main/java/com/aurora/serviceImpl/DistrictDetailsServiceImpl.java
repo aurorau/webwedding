@@ -3,6 +3,7 @@ package com.aurora.serviceImpl;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 	public void setDistrictDetailsDao(DistrictDetailsDao districtDetailsDao) {
 		this.districtDetailsDao = districtDetailsDao;
 	}
-	
+	@Transactional
 	public List<DistrictDetails> getDistrictDetailsTable(String sortField, int order, int start, int length,String searchq) {
 		List<DistrictDetails>  list =null;
 		try {
@@ -33,7 +34,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 		}
 		return list;
 	}
-
+	@Transactional
 	public int getDistrictDetailsTableCount(String serchq) {
 		int count = 0;
 		
@@ -45,7 +46,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 		
 		return count;
 	}
-
+	@Transactional
 	public String saveDistrictDetails(HttpServletRequest request) {
 		String status =  Constant.FAIL;
 		DistrictDetails districtDetails = null;
@@ -73,7 +74,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 		}
 		return status;
 	}
-
+	@Transactional
 	public DistrictDetails getDistrictDetailsByDDID(HttpServletRequest request) {
 		DistrictDetails  districtDetails =null;
 		Long ddid = ServletRequestUtils.getLongParameter(request, "hiddenDDID",0L);
@@ -84,7 +85,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 		}
 		return districtDetails;
 	}
-
+	@Transactional
 	public List<DistrictDetails> getAllDistricts() {
 		List<DistrictDetails>  list =null;
 		try {
@@ -94,7 +95,7 @@ public class DistrictDetailsServiceImpl implements DistrictDetailsService {
 		}
 		return list;
 	}
-
+	@Transactional
 	public String districtDetailsDelete(HttpServletRequest request) {
 		String status = Constant.FAIL;
 		try {

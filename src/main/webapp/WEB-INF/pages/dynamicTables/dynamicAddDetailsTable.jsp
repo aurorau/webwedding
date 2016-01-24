@@ -8,12 +8,7 @@
 	 <display:column title="Add Image" headerClass="text-left">	 
 		<div class="col-md-12">
 			<div class="col-md-2">
-				<c:if test="${addDetailsTable.addUrl != 'No Logo'}">
-					<img src="./fileUploadController/imageDownloader?fileName=${addDetailsTable.addUrl}" width="80" height="60" alt="Logo">
-				</c:if>
-				<c:if test="${companyDetailsTable.addUrl == 'No Logo'}">
-					<img width="80" height="60" alt="No Logo">
-				</c:if>
+				<img src="./fileUploadController/imageDownloader1?ITID=${addDetailsTable.ITID}" width="80" height="60" alt="Logo">
 			</div>
 		</div>
 	 </display:column>

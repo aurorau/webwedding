@@ -236,7 +236,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                    <label>Expected Budget Rs.</label>
-                    <input class="form-control" type="text" id="budgetId"/>
+                    <input class="form-control" type="text" id="budgetId" onKeyPress="return checkedInputTypeNumberic(this, event)"/>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                     <button type="button" class="btn btn-success margin-top20" onclick="loadCompanyDetailsTableW2()"><span class="fa fa-search"></span>Search</button>
@@ -630,7 +630,7 @@
                                 </div> -->
                                 
                                 <div class="col-xs-12 col-sm-6 form-group">
-                                    <input type="tel" class="form-control" placeholder="Your Contact No. *" id="phone" onkeyup="hideValidation('phoneValidation')">
+                                    <input type="tel" class="form-control" placeholder="Your Contact No. *" id="phone" onkeyup="hideValidation('phoneValidation')" onKeyPress="return checkedInputTypeNumberic(this, event)" onkeydown="limitedLength('phone',12)">
                                     <span class="help-block text-danger" id="phoneValidation"></span>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">

@@ -17,7 +17,6 @@ import com.aurora.util.HibernateBase;
 @Repository("SupplierDetailsDao")
 public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDetailsDao {
 
-	@Transactional
 	public List<SupplierPersonalDetails> getSupplierPersonalDetailsable(String sortField, int order, int start,int length, String searchq) throws Exception {
 		
 		Session session = getSession();
@@ -46,7 +45,6 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 		return list;
 	}
 
-	@Transactional
 	public int getSupplierPersonalDetailsCount(String serchq) throws Exception {
 		
 		Session session = getSession();
@@ -115,7 +113,7 @@ public class SupplierDetailsDaoImpl extends HibernateBase implements SupplierDet
 		
 		return list;
 	}
-	@Transactional
+
 	public void supplierDetailsDelete(Long spdid)throws Exception {
 
 		Session session = getSession();

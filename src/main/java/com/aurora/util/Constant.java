@@ -7,6 +7,7 @@ public class Constant {
 	   * This is file upload local path
 	   */
 	public static final String FILE_UPLOAD_LOCAL = "/media/aurora/Other/fileUpload";
+			//"/media/aurora/Other/fileUpload";
 	   /**
 	   * This is file upload server path
 	   */

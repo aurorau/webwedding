@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 	public void setSupplierDetailsDao(SupplierDetailsDao supplierDetailsDao) {
 		this.supplierDetailsDao = supplierDetailsDao;
 	}
-	
+	@Transactional
 	public List<SupplierPersonalDetails> getSupplierPersonalDetailsable(String sortField, int order, int start,int length, String searchq) {
 		List<SupplierPersonalDetails>  list =null;
 		try {
@@ -35,7 +36,7 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		}
 		return list;
 	}
-
+	@Transactional
 	public int getSupplierPersonalDetailsCount(String serchq) {
 		int count = 0;
 		
@@ -47,7 +48,7 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		
 		return count;
 	}
-
+	@Transactional
 	public String saveSupplierPersonalDetails(HttpServletRequest request) {
 		String status = null;
 		SupplierPersonalDetails supplierPersonalDetails = null;
@@ -83,7 +84,7 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		}
 		return status;
 	}
-
+	@Transactional
 	public SupplierPersonalDetails getSupplierPersonalDetailsBySPDID(HttpServletRequest request) {
 		SupplierPersonalDetails  supplierPersonalDetails =null;
 		Long spdid = ServletRequestUtils.getLongParameter(request, "hiddenSPDID",0L);
@@ -94,7 +95,7 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		}
 		return supplierPersonalDetails;
 	}
-
+	@Transactional
 	public List<SupplierPersonalDetails> getAllSuppliers() {
 		List<SupplierPersonalDetails>  list =null;
 		try {
@@ -104,7 +105,7 @@ public class SupplierDetailsServiceImpl implements SupplierDetailsService {
 		}
 		return list;
 	}
-
+	@Transactional
 	public String supplierDetailsDelete(HttpServletRequest request) {
 		String status = Constant.FAIL;
 		try {

@@ -15,7 +15,6 @@ public class CompanyDetailsDTO {
 	private String companyFaxNo;
 	private String companyWebURl;
 	private String companyFbPage;
-	private String logoUrl;
 	private Long budget;
 	private String status;
 	private Date companyRegisteredDate;
@@ -26,7 +25,8 @@ public class CompanyDetailsDTO {
 	private String supplierPersonalDetailsFName;
 	private Long supplierCategory;
 	private Long districtDetails;
-	private List<String> companyImageUrls;
+	private List<Long> companyImageIds;
+	private Long ITID;
 	
 	public Long getSCDID() {
 		return SCDID;
@@ -137,22 +137,23 @@ public class CompanyDetailsDTO {
 	public void setDistrictDetails(Long districtDetails) {
 		this.districtDetails = districtDetails;
 	}
-	public String getLogoUrl() {
-		return logoUrl;
-	}
-	public void setLogoUrl(String logoUrl) {
-		this.logoUrl = logoUrl;
-	}
 	public String getSupplierPersonalDetailsFName() {
 		return supplierPersonalDetailsFName;
 	}
 	public void setSupplierPersonalDetailsFName(String supplierPersonalDetailsFName) {
 		this.supplierPersonalDetailsFName = supplierPersonalDetailsFName;
 	}
-	public List<String> getCompanyImageUrls() {
-		return companyImageUrls;
+	public List<Long> getCompanyImageIds() {
+		return companyImageIds;
 	}
-	public void setCompanyImageUrls(List<String> companyImageUrls) {
-		this.companyImageUrls = companyImageUrls;
+	public void setCompanyImageIds(List<Long> companyImageIds) {
+		this.companyImageIds = companyImageIds;
 	}
+	public Long getITID() {
+		return ITID;
+	}
+	public void setITID(Long iTID) {
+		ITID = iTID;
+	}
+	
 }

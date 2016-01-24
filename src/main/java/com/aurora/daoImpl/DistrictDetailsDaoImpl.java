@@ -15,7 +15,7 @@ import com.aurora.util.HibernateBase;
 
 @Repository("districtDetailsDao")
 public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDetailsDao {
-	@Transactional
+
 	public List<DistrictDetails> getDistrictDetailsTable(String sortField, int order, int start, int length,String searchq) throws Exception {
 		
 		Session session = getSession();
@@ -39,7 +39,7 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		
 		return list;
 	}
-	@Transactional
+
 	public int getDistrictDetailsTableCount(String serchq) throws Exception {
 		
 		Session session = getSession();
@@ -64,7 +64,6 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		return totalRowCount;
 	}
 
-	@Transactional
 	public void saveDistrictDetails(DistrictDetails districtDetails) throws Exception {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -73,7 +72,6 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		session.close();
 	}
 
-	@Transactional
 	public DistrictDetails getDistrictDetailsByDDID(Long ddid) throws Exception {
 		DistrictDetails districtDetails = null;
 		
@@ -89,7 +87,7 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		session.close();
 		return districtDetails;
 	}
-	@Transactional
+
 	public List<DistrictDetails> getAllDistricts() {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -103,7 +101,7 @@ public class DistrictDetailsDaoImpl extends HibernateBase implements DistrictDet
 		session.close();
 		return list;
 	}
-	@Transactional
+
 	public void districtDetailsDelete(Long ddid) throws Exception{
 
 		Session session = getSession();

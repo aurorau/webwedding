@@ -1,10 +1,11 @@
 
-var arr;
+var globalEdit;
 
 $(document).ready(function() {
 	$('#imageCategoryFormDivId').hide();
 	clearValues();
 	loadImageCategoryTable();
+	globalEdit = false;
 })
 
 
@@ -12,6 +13,7 @@ function loadImageCategoryTable() {
 	var q =$('#imageCategorySearchId').val();
 	
 	var formdata = 'ajax=true&q='+q;
+    $("#imageCategoryDynamicTable").html('');
 	$.ajax({
         type: "GET",
         url: "imageCategoryController/getImageCategoryTable",
@@ -35,52 +37,67 @@ function clearValues() {
 	$('#imageCategoryNameId').val('');
 	$('#imageCategorySearchId').val('');
 	$('#fileHiddenUrl').val('');
-	arr = new Array();
+	$('#fileupload').val('');
+	globalEdit = false;
+
 }
 
 function imageCategorySave() {
-	var imageLogoUrl ;
-	if(arr[0] != null && arr[0] !=''){
-		imageLogoUrl = arr[0];
-	} else if($('#fileHiddenUrl').val() !='') {
-		imageLogoUrl = $('#fileHiddenUrl').val();
-	} else {
-		imageLogoUrl = 'No Logo';
-	}
-	console.log(imageLogoUrl);
+
+	var saveStatus = false;
 	var hiddenICID = $('#hiddenICID').val();
 	var imageCategoryType = $('#imageCategoryTypeId').val();
 	var imageCategoryName = $('#imageCategoryNameId').val();
+	var fileName = $('#fileupload').val();
+
+	var formdata = new FormData();
+	formdata.append("file", fileupload.files[0]);
+	formdata.append("hiddenICID", hiddenICID);
+	formdata.append("imageCategoryType", imageCategoryType);
+	formdata.append("imageCategoryName", imageCategoryName);
+
+	if(imageCategoryType != '' && imageCategoryName != '' && globalEdit == true){
+		saveStatus = true;
+	} 
+	if(imageCategoryType != '' && imageCategoryName != '' && globalEdit == false && fileName != '') {
+		saveStatus = true;
+	}
 	
-	$.post('imageCategoryController/saveImageCategory', {
-		hiddenICID : hiddenICID,
-		imageCategoryType : imageCategoryType,
-		imageCategoryName : imageCategoryName,
-		imageLogoUrl : imageLogoUrl
-	}, function(data) {
-		if (data.status == 'saved' ||data.status == 'updated') {
-			$('#imageCategoryFormDivId').hide();
-			loadImageCategoryTable();
-			clearValues();
-		} else {
-			console.log(data.status);
-		}
-	});
+	if(saveStatus){
+		$.ajax({
+	        type: "POST",
+	        url: "imageCategoryController/saveImageCategory",
+	        data: formdata,
+	        dataType: 'json',
+	        contentType: false,
+	        processData: false,
+	        success: function(data) {
+				$('#imageCategoryFormDivId').hide();
+				loadImageCategoryTable();
+				clearValues();
+	        },
+	        error: function(){
+	        	console.log(data.status);
+	        }
+		});
+	} else {
+		alert("Fill required fieds");
+	}
 }
 
-function imageCategoryEdit(icid) {
+function imageCategoryEdit(icid, itid) {
 	newImageCategory();
+	globalEdit = true;
 	var hiddenICID = icid;
 	$('#hiddenICID').val(icid);
 	
 	$.get('imageCategoryController/getImageCategoryByICID', {
-		hiddenICID : hiddenICID
+		hiddenICID : hiddenICID,
 	}, function(data) {
 		if (data.status == 'success') {
 			if(data.result != null) {
 				$('#imageCategoryTypeId').val(data.result.icType);
 				$('#imageCategoryNameId').val(data.result.icName);
-				$('#fileHiddenUrl').val(data.result.icLogoUrl);
 			}
 		} else {
 			console.log(data.status);
@@ -88,12 +105,13 @@ function imageCategoryEdit(icid) {
 	});
 }
 
-function imageCategoryDelete(icid){
+function imageCategoryDelete(icid, itid){
 	var hiddenICID = icid;
 	$('#hiddenICID').val(icid);
-	
+	var ITID = itid;
 	$.get('imageCategoryController/imageCategoryDelete', {
-		hiddenICID : hiddenICID
+		hiddenICID : hiddenICID,
+		ITID : ITID
 	}, function(data) {
 		if(data.status == 'success') {
 			$('#imageCategoryFormDivId').hide();
@@ -104,19 +122,3 @@ function imageCategoryDelete(icid){
 		}
 	});
 }
-$(function () {
-	var prefix = 'icu';
-    $('#fileupload').fileupload({
-        dataType: 'json',
-        url : "fileUploadController/upload?prefix="+prefix,
-        done: function (e, data) {
-            $.each(data.result, function (index, file) {
-            		arr.push(file.fileName);
-           }); 
-        },
- 
-        progressall: function (e, data) {
-            var progress = parseInt(data.loaded / data.total * 100, 10);
-        },
-    });
-});
