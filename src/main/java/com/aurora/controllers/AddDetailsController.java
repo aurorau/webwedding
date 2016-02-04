@@ -51,6 +51,16 @@ public class AddDetailsController {
 		 
 		 return res;
 	 }
+	 @RequestMapping(method = RequestMethod.POST, value="/saveAddDetailsW2")
+	 public @ResponseBody JsonResponce saveAddDetailsW2(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+		 
+		 String status = addDetailsService.saveAddDetailsW2(request);
+		 
+		 res.setStatus(status);
+		 
+		 return res;
+	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value="/getAllAdds")
 	 public @ResponseBody JsonResponce getAllAdds(HttpServletResponse response) throws Exception {

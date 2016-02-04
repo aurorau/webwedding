@@ -2,6 +2,7 @@ package com.aurora.controllers;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.aurora.util.CompanyDetailsDTO;
 import com.aurora.util.CompanyDetailsW2DTO;
 import com.aurora.util.Constant;
 import com.aurora.util.JsonResponce;
+import com.aurora.util.PackageDetailsDTO;
 
 @Controller
 @RequestMapping("/companyDetailsController")
@@ -64,14 +66,25 @@ public class CompanyDetailsController {
 		 
 		 return res;
 	 }
+	 @RequestMapping(method = RequestMethod.GET, value="/getAllCompanies")
+	 public @ResponseBody JsonResponce getAllCompanies(HttpServletResponse response) throws Exception {
+		 JsonResponce res= new JsonResponce();
+
+		 List<CompanyDetails> list = null;
+		 
+		 list= companyDetailsService.getAllCompanies();
+		 
+		 res.setResult(list);
+		 
+		 return res;
+	 }
 	 @RequestMapping(method = RequestMethod.GET, value="/getCompanyDetailsBySCDID")
 	 public @ResponseBody JsonResponce getCompanyDetailsBySCDID(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		 JsonResponce res= new JsonResponce();
-		 
-		 CompanyDetailsDTO companyDetails = companyDetailsService.getCompanyDetailsBySCDID(request);
-		 
+		 Map<String,Object> map = companyDetailsService.getCompanyDetailsBySCDID(request);
+
 		 res.setStatus("success");
-		 res.setResult(companyDetails);
+		 res.setResult(map);
 		 
 		 return res;
 	 }

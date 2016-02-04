@@ -28,8 +28,8 @@
      <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
 		<div class="text-center">
 			<%-- <button  onclick="companyDetailsView(${companyDetailsTable.SCDID})" class="view-btn"><span class="fa fa-view"></span>View</button> --%>
-			<button onclick="companyDetailsEdit(${companyDetailsTable.SCDID})" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
-			<button  onclick="companyDetailsDelete('${companyDetailsTable.SCDID}','${companyDetailsTable.ITID}')" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
+			<button onclick="companyDetailsEdit(${companyDetailsTable.SCDID})" class="edit-btn btn btn-primary"><span class="fa fa-edit"> </span>Edit</button>
+			<button  onclick="companyDetailsDelete('${companyDetailsTable.SCDID}','${companyDetailsTable.ITID}')" class="delete-btn btn btn-danger"><span class="fa fa-close"></span>Delete</button>
 		</div>
 	</display:column>
 	<display:setProperty name="basic.empty.showtable" value="true" />

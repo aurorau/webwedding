@@ -2,6 +2,7 @@ package com.aurora.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
@@ -41,6 +43,7 @@ public class CompanyDetails implements Serializable {
 	private SupplierCategory supplierCategory;
 	private DistrictDetails districtDetails;
 	private ImageTable imageTable;
+	private String companyDescription;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -211,29 +214,63 @@ public class CompanyDetails implements Serializable {
 	public void setImageTable(ImageTable imageTable) {
 		this.imageTable = imageTable;
 	}
+	@Column(name="company_description", nullable=true, length=800)
+	public String getCompanyDescription() {
+		return companyDescription;
+	}
+	public void setCompanyDescription(String companyDescription) {
+		this.companyDescription = companyDescription;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((SCDID == null) ? 0 : SCDID.hashCode());
-		result = prime * result + ((activeDate == null) ? 0 : activeDate.hashCode());
-		result = prime * result + ((activePeriod == null) ? 0 : activePeriod.hashCode());
+		result = prime * result
+				+ ((activeDate == null) ? 0 : activeDate.hashCode());
+		result = prime * result
+				+ ((activePeriod == null) ? 0 : activePeriod.hashCode());
 		result = prime * result + ((budget == null) ? 0 : budget.hashCode());
-		result = prime * result + ((companyAddress == null) ? 0 : companyAddress.hashCode());
-		result = prime * result + ((companyEmail == null) ? 0 : companyEmail.hashCode());
-		result = prime * result + ((companyFaxNo == null) ? 0 : companyFaxNo.hashCode());
-		result = prime * result + ((companyFbPage == null) ? 0 : companyFbPage.hashCode());
-		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
-		result = prime * result + ((companyRegisteredDate == null) ? 0 : companyRegisteredDate.hashCode());
-		result = prime * result + ((companyRegistrationNumber == null) ? 0 : companyRegistrationNumber.hashCode());
-		result = prime * result + ((companyTp1 == null) ? 0 : companyTp1.hashCode());
-		result = prime * result + ((companyTp2 == null) ? 0 : companyTp2.hashCode());
-		result = prime * result + ((companyWebURl == null) ? 0 : companyWebURl.hashCode());
-		result = prime * result + ((districtDetails == null) ? 0 : districtDetails.hashCode());
-		result = prime * result + ((imageTable == null) ? 0 : imageTable.hashCode());
+		result = prime * result
+				+ ((companyAddress == null) ? 0 : companyAddress.hashCode());
+		result = prime
+				* result
+				+ ((companyDescription == null) ? 0 : companyDescription
+						.hashCode());
+		result = prime * result
+				+ ((companyEmail == null) ? 0 : companyEmail.hashCode());
+		result = prime * result
+				+ ((companyFaxNo == null) ? 0 : companyFaxNo.hashCode());
+		result = prime * result
+				+ ((companyFbPage == null) ? 0 : companyFbPage.hashCode());
+		result = prime * result
+				+ ((companyName == null) ? 0 : companyName.hashCode());
+		result = prime
+				* result
+				+ ((companyRegisteredDate == null) ? 0 : companyRegisteredDate
+						.hashCode());
+		result = prime
+				* result
+				+ ((companyRegistrationNumber == null) ? 0
+						: companyRegistrationNumber.hashCode());
+		result = prime * result
+				+ ((companyTp1 == null) ? 0 : companyTp1.hashCode());
+		result = prime * result
+				+ ((companyTp2 == null) ? 0 : companyTp2.hashCode());
+		result = prime * result
+				+ ((companyWebURl == null) ? 0 : companyWebURl.hashCode());
+		result = prime * result
+				+ ((districtDetails == null) ? 0 : districtDetails.hashCode());
+		result = prime * result
+				+ ((imageTable == null) ? 0 : imageTable.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((supplierCategory == null) ? 0 : supplierCategory.hashCode());
-		result = prime * result + ((supplierPersonalDetails == null) ? 0 : supplierPersonalDetails.hashCode());
+		result = prime
+				* result
+				+ ((supplierCategory == null) ? 0 : supplierCategory.hashCode());
+		result = prime
+				* result
+				+ ((supplierPersonalDetails == null) ? 0
+						: supplierPersonalDetails.hashCode());
 		return result;
 	}
 	@Override
@@ -270,6 +307,11 @@ public class CompanyDetails implements Serializable {
 				return false;
 		} else if (!companyAddress.equals(other.companyAddress))
 			return false;
+		if (companyDescription == null) {
+			if (other.companyDescription != null)
+				return false;
+		} else if (!companyDescription.equals(other.companyDescription))
+			return false;
 		if (companyEmail == null) {
 			if (other.companyEmail != null)
 				return false;
@@ -298,7 +340,8 @@ public class CompanyDetails implements Serializable {
 		if (companyRegistrationNumber == null) {
 			if (other.companyRegistrationNumber != null)
 				return false;
-		} else if (!companyRegistrationNumber.equals(other.companyRegistrationNumber))
+		} else if (!companyRegistrationNumber
+				.equals(other.companyRegistrationNumber))
 			return false;
 		if (companyTp1 == null) {
 			if (other.companyTp1 != null)
@@ -338,19 +381,28 @@ public class CompanyDetails implements Serializable {
 		if (supplierPersonalDetails == null) {
 			if (other.supplierPersonalDetails != null)
 				return false;
-		} else if (!supplierPersonalDetails.equals(other.supplierPersonalDetails))
+		} else if (!supplierPersonalDetails
+				.equals(other.supplierPersonalDetails))
 			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
-		return "CompanyDetails [SCDID=" + SCDID + ", companyName=" + companyName + ", companyAddress=" + companyAddress
-				+ ", companyTp1=" + companyTp1 + ", companyTp2=" + companyTp2 + ", companyEmail=" + companyEmail
-				+ ", companyFaxNo=" + companyFaxNo + ", companyWebURl=" + companyWebURl + ", companyFbPage="
-				+ ", companyRegisteredDate=" + companyRegisteredDate + ", companyRegistrationNumber="
-				+ companyRegistrationNumber + ", activeDate=" + activeDate + ", activePeriod=" + activePeriod
-				+ ", supplierPersonalDetails=" + supplierPersonalDetails + ", supplierCategory=" + supplierCategory
-				+ ", districtDetails=" + districtDetails + ", imageTable=" + imageTable + "]";
+		return "CompanyDetails [SCDID=" + SCDID + ", companyName="
+				+ companyName + ", companyAddress=" + companyAddress
+				+ ", companyTp1=" + companyTp1 + ", companyTp2=" + companyTp2
+				+ ", companyEmail=" + companyEmail + ", companyFaxNo="
+				+ companyFaxNo + ", companyWebURl=" + companyWebURl
+				+ ", companyFbPage=" + companyFbPage + ", budget=" + budget
+				+ ", status=" + status + ", companyRegisteredDate="
+				+ companyRegisteredDate + ", companyRegistrationNumber="
+				+ companyRegistrationNumber + ", activeDate=" + activeDate
+				+ ", activePeriod=" + activePeriod
+				+ ", supplierPersonalDetails=" + supplierPersonalDetails
+				+ ", supplierCategory=" + supplierCategory
+				+ ", districtDetails=" + districtDetails + ", imageTable="
+				+ imageTable + ", companyDescription=" + companyDescription
+				+ "]";
 	}
 
 }

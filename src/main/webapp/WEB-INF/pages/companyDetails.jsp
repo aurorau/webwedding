@@ -29,11 +29,12 @@
 			<div>
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
-				<ul><a href="#">Company Comments</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
 				<ul><a href="imageCategoryController">Image Category</a></ul>
 				<ul><a href="addDetailsController">Add Details</a></ul>
 				<ul><b>Supplier Company Details</b></ul>
+				<ul><a href="companyPackageDetailsController">Company Package Details</a></ul>
+				<ul><a href="companyOfferDetailsController">Company Offers Details</a></ul>
 				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
 				<ul><a href="fileUploadController">File Image Upload</a></ul>
 			</div>
@@ -87,6 +88,18 @@
 								<td><input type="text" id="companyDetailsEmailId" placeholder="Company Email"></td>
 							</tr>
 							<tr>
+								<td>Company Fax Number :</td>
+								<td><input type="text" id="companyDetailsFaxId" placeholder="Company Fax Number"></td>
+							</tr>
+							<tr>
+								<td>Company Web URL :</td>
+								<td><input type="text" id="companyDetailsWebId" placeholder="Company Web URL"></td>
+							</tr>	
+							<tr>
+								<td>Company fb Page :</td>
+								<td><input type="text" id="companyDetailsFbId" placeholder="Company fb Page"></td>
+							</tr>	
+							<tr>
 								<td>Company Address :</td>
 								<td><textarea rows="5" cols="" id="companyDetailsAddressId" placeholder="Company Address"></textarea></td>
 							</tr>
@@ -103,20 +116,7 @@
 					</td>
 					
 					<td>
-						<table>
-							<tr>
-								<td>Company Fax Number :</td>
-								<td><input type="text" id="companyDetailsFaxId" placeholder="Company Fax Number"></td>
-							</tr>		
-							<tr>
-								<td>Company Web URL :</td>
-								<td><input type="text" id="companyDetailsWebId" placeholder="Company Web URL"></td>
-							</tr>	
-							<tr>
-								<td>Company fb Page :</td>
-								<td><input type="text" id="companyDetailsFbId" placeholder="Company fb Page"></td>
-							</tr>	
-		
+						<table>	
 							<tr>
 								<td>Company Budget :</td>
 								<td><input type="text" id="companyDetailsBudgetId" placeholder="Company Budget"></td>
@@ -160,6 +160,10 @@
 								<td><select id="companyDetailsDistrictId">
 									<option value="">Select District</option>
 								</select></td>
+							</tr>
+							<tr>
+								<td>Company Description :</td>
+								<td><textarea rows="8" cols="50" id="companyDetailsDescriptionId" placeholder="Company Description" onkeydown="limitedLength('companyDetailsDescriptionId',798)"></textarea></td>
 							</tr>
 						</table>
 					</td>

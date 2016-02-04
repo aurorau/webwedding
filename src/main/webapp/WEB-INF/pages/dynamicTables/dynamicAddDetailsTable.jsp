@@ -8,7 +8,13 @@
 	 <display:column title="Add Image" headerClass="text-left">	 
 		<div class="col-md-12">
 			<div class="col-md-2">
-				<img src="./fileUploadController/imageDownloader1?ITID=${addDetailsTable.ITID}" width="80" height="60" alt="Logo">
+				<c:if test="${addDetailsTable.ITID != '0'}">
+					<img src="./fileUploadController/imageDownloader1?ITID=${addDetailsTable.ITID}" width="80" height="60" alt="Logo">
+				</c:if>
+				<c:if test="${addDetailsTable.ITID == '0'}">
+					No Image
+				</c:if>
+				<%-- <img src="./fileUploadController/imageDownloader1?ITID=${addDetailsTable.ITID}" width="80" height="60" alt="Logo"> --%>
 			</div>
 		</div>
 	 </display:column>
@@ -22,8 +28,8 @@
      <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
 		<div class="text-center">
 			<%-- <button  onclick="companyDetailsView(${companyDetailsTable.SCDID})" class="view-btn"><span class="fa fa-view"></span>View</button> --%>
-			<button onclick="addDetailsEdit(${addDetailsTable.AID})" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
-			<button  onclick="addDetailsDelete(${addDetailsTable.AID})" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
+			<button onclick="addDetailsEdit(${addDetailsTable.AID})" class="edit-btn btn btn-primary"><span class="fa fa-edit"> </span>Edit</button>
+			<button  onclick="addDetailsDelete(${addDetailsTable.AID})" class="delete-btn btn btn-danger"><span class="fa fa-close"></span>Delete</button>
 		</div>
 	</display:column>
 	<display:setProperty name="basic.empty.showtable" value="true" />

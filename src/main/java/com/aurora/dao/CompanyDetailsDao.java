@@ -16,5 +16,6 @@ public interface CompanyDetailsDao {
 	public List<CompanyDetails> getAllCompaniesByCategory(Long categoryId);
 	public List<CompanyDetailsW2DTO> getCompanyDetailsTableW2(String sortField, int order, int start, int gridTableSize,Long serviceCategoryDD, Long districtDD, Long budget);
 	public int getCompanyDetailsTableCountW2(Long serviceCategoryDD, Long districtDD, Long budget);
+	public List<CompanyDetails> getAllCompanies();
 
 }

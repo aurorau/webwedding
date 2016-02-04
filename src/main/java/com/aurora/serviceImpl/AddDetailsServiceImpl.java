@@ -3,6 +3,7 @@ package com.aurora.serviceImpl;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,7 +74,12 @@ public class AddDetailsServiceImpl implements AddDetailsService {
 				status = Constant.SAVED;
 			} else {
 				addDetails = addDetailsDao.getAddDetailsByAID1(aid);
-				imageTable = imageTableDao.getImageDetailsByITID(addDetails.getImageTable().getITID());
+				if(addDetails.getImageTable() == null){
+					imageTable = new ImageTable();
+				} else {
+					imageTable = imageTableDao.getImageDetailsByITID(addDetails.getImageTable().getITID());
+				}
+				
 				status = Constant.UPDATED;
 			}
 			
@@ -152,12 +158,20 @@ public class AddDetailsServiceImpl implements AddDetailsService {
 	@Transactional
 	public List<AddDetailsDTO> getAddDetailTable(String sortField, int order, int start, int gridTableSize,String searchq) {
 		List<AddDetailsDTO>  list =null;
+		List<AddDetailsDTO>  list1 =new ArrayList<AddDetailsDTO>();
 		try {
 			list = addDetailsDao.getAddDetailTable(sortField,order,start,gridTableSize, searchq);
+			
+			for(AddDetailsDTO lst  : list) {
+				if(lst.getITID() == null){
+					lst.setITID(0L);
+				}
+				list1.add(lst);
+			}
 		}catch (Exception e){
 			System.out.println("Error :"+e);
 		}
-		return list;
+		return list1;
 	}
 	@Transactional
 	public int getAddDetailTableCount(String searchq) {
@@ -179,5 +193,40 @@ public class AddDetailsServiceImpl implements AddDetailsService {
         Date dateOut = date;
 		
         return dateOut;
+	}
+	public String saveAddDetailsW2(HttpServletRequest request) {
+		String status = Constant.FAIL;
+		
+		AddDetails addDetails = null;
+
+		Long aid = null;
+		Date addRegisteredDate = null;
+		Date activeDate = null;
+		MultipartFile file = null;
+		try {
+			addDetails = new AddDetails();
+			status = Constant.SAVED;
+			
+			addRegisteredDate = setStringToDateFormat(ServletRequestUtils.getStringParameter(request, "registeredDate"));
+			activeDate = setStringToDateFormat(ServletRequestUtils.getStringParameter(request, "activeDate"));
+			
+			addDetails.setAddSupplierName(ServletRequestUtils.getStringParameter(request, "supplierName"));
+			addDetails.setAddSupplierAddress(ServletRequestUtils.getStringParameter(request, "supplierAddress"));
+			addDetails.setAddSupplierTp(ServletRequestUtils.getStringParameter(request, "supplierTp"));
+			addDetails.setAddSupplierEmail(ServletRequestUtils.getStringParameter(request, "supplierEmail"));
+			addDetails.setAddLink(ServletRequestUtils.getStringParameter(request, "addLink"));
+			addDetails.setAddDescription(ServletRequestUtils.getStringParameter(request, "addDescription"));
+			addDetails.setAddStatus(ServletRequestUtils.getStringParameter(request, "status"));
+			addDetails.setAddActivePeriod(ServletRequestUtils.getLongParameter(request, "activePeriod"));
+			addDetails.setAddRegisteredDate(addRegisteredDate);
+			addDetails.setAddActiveDate(activeDate);
+			addDetails.setAddUrl(ServletRequestUtils.getStringParameter(request, "addUrl"));
+			
+			addDetailsDao.saveAddDetails(addDetails);
+			
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		return status;
 	}
 }

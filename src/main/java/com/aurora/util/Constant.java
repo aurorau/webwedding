@@ -45,7 +45,7 @@ public class Constant {
     /**
      * size of the grid table .
      */
-    public static final int GRID_TABLE_SIZE = 5;
+    public static final int GRID_TABLE_SIZE = 2;
     /**
      * key for parse the grid table .
      */
@@ -74,6 +74,14 @@ public class Constant {
 	   * This is companyDetails table id
 	   */
 	public static final String TABLE_COMPANY_DETAILS = "companyDetailsTable";
+	  /**
+	   * This is companyPackageDetails table id
+	   */
+	public static final String TABLE_COMPANY_PACKAGE_DETAILS = "companyPackageDetailsTable";
+	  /**
+	   * This is companyOfferDetails table id
+	   */
+	public static final String TABLE_COMPANY_OFFER_DETAILS = "companyOfferDetailsTable";
 	  /**
 	   * This is companyDetailW2 table id
 	   */

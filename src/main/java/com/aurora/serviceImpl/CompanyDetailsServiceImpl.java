@@ -5,7 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -17,17 +19,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.aurora.dao.CompanyDetailsDao;
+import com.aurora.dao.CompanyOfferDetailsDao;
+import com.aurora.dao.CompanyPackageDetailsDao;
 import com.aurora.dao.DistrictDetailsDao;
 import com.aurora.dao.FileUploadDao;
 import com.aurora.dao.ImageTableDao;
 import com.aurora.dao.SupplierCategoryDao;
 import com.aurora.dao.SupplierDetailsDao;
 import com.aurora.model.CompanyDetails;
+import com.aurora.model.CompanyOffers;
+import com.aurora.model.CompanyPackageDetails;
 import com.aurora.model.DistrictDetails;
 import com.aurora.model.ImageTable;
 import com.aurora.model.SupplierCategory;
 import com.aurora.model.SupplierPersonalDetails;
-import com.aurora.model.UploadFiles;
 import com.aurora.service.CompanyDetailsService;
 import com.aurora.util.CompanyDetailsDTO;
 import com.aurora.util.CompanyDetailsW2DTO;
@@ -43,6 +48,8 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 	private DistrictDetailsDao districtDetailsDao = null;
 	private FileUploadDao fileUploadDao = null;
 	private ImageTableDao imageTableDao = null;
+	private CompanyOfferDetailsDao companyOfferDetailsDao = null;
+	private CompanyPackageDetailsDao companyPackageDetailsDao = null;
 	
 	@Autowired
 	public void setCompanyDetailsDao(CompanyDetailsDao companyDetailsDao) {
@@ -71,6 +78,14 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 	@Autowired
 	public void setImageTableDao(ImageTableDao imageTableDao) {
 		this.imageTableDao = imageTableDao;
+	}
+	@Autowired
+	public void setCompanyOfferDetailsDao(CompanyOfferDetailsDao companyOfferDetailsDao) {
+		this.companyOfferDetailsDao = companyOfferDetailsDao;
+	}
+	@Autowired
+	public void setCompanyPackageDetailsDao(CompanyPackageDetailsDao companyPackageDetailsDao) {
+		this.companyPackageDetailsDao = companyPackageDetailsDao;
 	}
 	
 	@Transactional
@@ -158,6 +173,7 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 			companyDetails.setActivePeriod(ServletRequestUtils.getLongParameter(request, "activePeriod"));
 			companyDetails.setCompanyRegisteredDate(companyRegisteredDate);
 			companyDetails.setActiveDate(activeDate);
+			companyDetails.setCompanyDescription(ServletRequestUtils.getStringParameter(request, "companyDescription"));
 			
 			if(file != null) {
 				imageTable.setImageContent(file.getBytes());
@@ -178,10 +194,14 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 		return status;
 	}
 	@Transactional
-	public CompanyDetailsDTO getCompanyDetailsBySCDID(HttpServletRequest request) {
+	public Map<String,Object> getCompanyDetailsBySCDID(HttpServletRequest request) {
 		CompanyDetailsDTO  companyDetails =null;
+		List<CompanyPackageDetails> packageList = null;
+		List<CompanyOffers> offerList = null;
 		List<FileUploadDTO> list = new ArrayList<FileUploadDTO>();
 		List<Long> urlList = new ArrayList<Long>();
+		
+		Map<String,Object> finalMap = new HashMap<String,Object>();
 		
 		Long scdid = ServletRequestUtils.getLongParameter(request, "hiddenSCDID",0L);
 		try {
@@ -194,10 +214,17 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 				}
 			}
 			companyDetails.setCompanyImageIds(urlList);
+			packageList = getAllActivePackgeListByCompanyId(scdid);
+			offerList = getAllActiveOfferByCompanyId(scdid);
+			
+			finalMap.put("companyDetails", companyDetails);
+			finalMap.put("offers", offerList);
+			finalMap.put("packages", packageList);
+			
 		}catch (Exception e){
 			System.out.println("Error :"+e);
 		}
-		return companyDetails;
+		return finalMap;
 	}
 	@Transactional
 	public CompanyDetails getCompanyDetailsBySCDID1(Long scdid) {
@@ -246,13 +273,56 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 	@Transactional
 	public List<CompanyDetailsW2DTO> getCompanyDetailsTableW2(String sortField, int order, int start, int gridTableSize,Long serviceCategoryDD, Long districtDD, Long budget) {
 		List<CompanyDetailsW2DTO>  list =null;
+		List<CompanyDetailsW2DTO>  list1 = new ArrayList<CompanyDetailsW2DTO>();
+		
 		try {
 			list = companyDetailsDao.getCompanyDetailsTableW2(sortField,order,start,gridTableSize,serviceCategoryDD, districtDD, budget);
+			if(list.size() > 0 ){
+				for(CompanyDetailsW2DTO dto : list) {
+					int offersCount = getActiveOfferByCompanyId(dto.getSCDID());
+					Long packageCount = (long) getActivePackgeListByCompanyId(dto.getSCDID()).size();
+					if(offersCount > 0){
+						dto.setOfferAvailable(true);
+					} else {
+						dto.setOfferAvailable(false);
+					}
+					if(packageCount > 0){
+						dto.setPackageCount(packageCount);
+					} else {
+						dto.setPackageCount(0L);
+					}
+					list1.add(dto);
+				}
+			}
 		}catch (Exception e){
 			System.out.println("Error :"+e);
 		}
+		return list1;
+	}
+	
+	public int getActiveOfferByCompanyId(Long companyId){
+		int count = companyOfferDetailsDao.getActiveOfferByCompanyId(companyId).size();
+		return count;
+	}
+	
+	public List<CompanyOffers> getAllActiveOfferByCompanyId(Long companyId){
+		List<CompanyOffers> list = companyOfferDetailsDao.getActiveOfferByCompanyId(companyId);
 		return list;
 	}
+	
+	public List<String> getActivePackgeListByCompanyId(Long companyId){
+		List<String> packageNamelist = new ArrayList<String>();
+		List<CompanyPackageDetails> list = companyPackageDetailsDao.getAllActivePackagesByCompanyId(companyId);
+		for(CompanyPackageDetails cdp :list) {
+			packageNamelist.add(cdp.getPackageName());
+		}
+		return packageNamelist;
+	}
+	public List<CompanyPackageDetails> getAllActivePackgeListByCompanyId(Long companyId){
+		List<CompanyPackageDetails> list = companyPackageDetailsDao.getAllActivePackagesByCompanyId(companyId);
+		return list;
+	}
+	
 	@Transactional
 	public int getCompanyDetailsTableCountW2(Long serviceCategoryDD, Long districtDD, Long budget) {
 		int count = 0;
@@ -264,5 +334,15 @@ public class CompanyDetailsServiceImpl implements CompanyDetailsService {
 		}
 		
 		return count;
+	}
+	@Transactional
+	public List<CompanyDetails> getAllCompanies() {
+		List<CompanyDetails>  list =null;
+		try {
+			list = companyDetailsDao.getAllCompanies();
+		}catch (Exception e){
+			System.out.println("Error :"+e);
+		}
+		return list;
 	}
 }

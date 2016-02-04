@@ -14,13 +14,22 @@ $(document).ready(function() {
 	colorMap = new Map();
 	$('#cart-value').text(0);
 	validationHide();
+	validationHideInAdd();
 	loadAdds();
 	clearValuesInSupplierDetails();
+	clearValuesInAddDetails();
 	$('#serviceCategoryDD').val('');
 	$('#districtDD').val('');
 	$('#budgetId').val('');
+	successMsgHide();
 });
 
+function successMsgHide(){
+	$('#unsuccess').hide();
+	$('#success').hide();
+	$('#unsuccessInAdd').hide();
+	$('#successInAdd').hide();
+}
 
 function loadCategoryDetails() {
 	$.ajax({
@@ -98,7 +107,10 @@ function loadCompanyDetailsTableW2() {
           $("#dynamicCompanyTableW2").html(data);
        	  $("#dynamicCompanyTableW2").displayTagAjax();
        	  removeTableText('dynamicCompanyTableW2');
-       	  companyColor();
+       	  setTimeout(function(){
+    		$('.pagebanner').hide();
+       	  }, 2000);
+       	  //companyColor();
         }
 	});
 }
@@ -113,22 +125,66 @@ function getCompanyDetailsW2(scid) {
 				$('.item active').html('');
 				$('.item').html('');
 				
-				if(data.result.companyImageIds.length > 0) {
-					setImageForCompanyGallery(data.result.companyImageIds);
+				if(data.result.companyDetails.companyImageIds.length > 0) {
+					setImageForCompanyGallery(data.result.companyDetails.companyImageIds);
 				}
 
-				$('#comapnyNameW2').text(data.result.companyName);
-				$('#companyAddW2').text(data.result.companyAddress);
-				$('#companyEmailW2').text(data.result.companyEmail);
-				$('#companyTpW2').text(data.result.companyTp1);
-				$('#companyWebW2').text(data.result.companyWebURl);
-				$('#companyFbW2').text(data.result.companyFbPage);
-				$('#priceW2').text(data.result.budget);
-				$('#companyOwnerW2').text(data.result.supplierPersonalDetailsFName);
+				$('#comapnyNameW2').text(data.result.companyDetails.companyName);
+				$('#companyAddW2').text(data.result.companyDetails.companyAddress);
+				$('#companyEmailW2').text(data.result.companyDetails.companyEmail);
+				$('#companyTpW2').text(data.result.companyDetails.companyTp1);
+				$('#companyWebW2').text(data.result.companyDetails.companyWebURl);
+				$('#companyFbW2').text(data.result.companyDetails.companyFbPage);
+				$('#priceW2').text(data.result.companyDetails.budget);
+				$('#companyOwnerW2').text(data.result.companyDetails.supplierPersonalDetailsFName);
+				$('#companyDescription').text(data.result.companyDetails.companyDescription);
+				
+				
+				if(data.result.packages.length > 0) {
+					$('#packageDetailsDivId').html('');
+					setPackageDetails(data.result.packages);
+				} else {
+					$('#packageDetailsDivId').html('');
+					$('#packageDetailsDivId').append("" +
+							"<tr>" +
+							"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>No Packages Available</label></div></td>" +
+							"</tr>");
+				}
+				if(data.result.offers.length > 0) {
+					$('#offerDetailsTableId').html('');
+					setOfferDetails(data.result.offers);
+				} else {
+					$('#offerDetailsTableId').html('');
+					$('#offerDetailsTableId').append("" +
+							"<tr>" +
+							"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>No Offers Available</label></div></td>" +
+							"</tr>");
+				}
 			}
 		} else {
 			console.log(data.status);
 		}
+	});
+}
+
+function setOfferDetails(offers){
+	$.each(offers, function(index, value){	
+		$('#offerDetailsTableId').append("" +
+			"<tr>" +
+			"<td><label class=control-label>"+value.offerName+"</label></td>" +
+			"<td><label class=control-label>"+value.offerDescription+"</label></td>" +
+			"<td style=align:right><label class=control-label>Until :"+value.offerEndDate+"</label></td>" +
+			"</tr>");
+	});
+}
+
+function setPackageDetails(packages) {
+	$.each(packages, function(index, value){	
+		$('#packageDetailsDivId').append("" +
+			"<tr>" +
+			"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>"+value.packageName+"</label></div></td>" +
+			"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>"+value.packageDescription+"</label></div></td>" +
+			"</tr>");
 	});
 }
 
@@ -199,33 +255,39 @@ function displayBudget() {
 				"<td id=total>"+totalBudget+".00</td>" +
 			"</tr>");
 }
-function saveSupplierDetailsW2(){
-	var hiddenSPDID = '';
-	var fname = $('#name').val().trim();
-	var lname = $('#lname').val().trim();
-	var tp1 = $('#phone').val().trim();
-	var email = $('#emailW2').val().trim();
-	var skype = $('#skype').val().trim();
+
+function saveAddDetailsW2(){
+	var hiddenAID = '';
+	var supplierName = $('#nameInAdd').val().trim();
+	var supplierTp = $('#phoneInAdd').val().trim();
+	var supplierEmail = $('#emailInAdd').val().trim();
 	var status = '2';
-	var type = $('#category-type').val();
-	var description = $('#message').val().trim().trim();
+	var activePeriod = '1';
+	var date =  moment().format('YYYY-MM-DD');
+	var addDescription = $('#descriptionInAdd').val().trim();
+	var registeredDate = date;
+	var activeDate = date;
 	
-	if(checkValidation()) {
-		$.post('supplierDetailsController/saveSupplierDetails', {
-			hiddenSPDID : hiddenSPDID,
-			fname : fname,
-			lname : lname,
-			tp1 : tp1,
-			email : email,
-			skype : skype,
+	if(checkValidationInAddDetails()) {
+		$.post('addDetailsController/saveAddDetailsW2', {
+			hiddenAID : hiddenAID,
+			supplierName : supplierName,
+			supplierTp : supplierTp,
+			supplierEmail : supplierEmail,
 			status : status,
-			type : type,
-			description : description
+			addDescription : addDescription,
+			registeredDate : registeredDate,
+			activeDate : activeDate,
+			activePeriod : activePeriod
 		}, function(data) {
 			if (data.status == 'saved') {
-				$('#successLB').text("Message Sent Successfully.");
-				clearValuesInSupplierDetails();
+				$('#successInAdd').show();
+				clearValuesInAddDetails();
 			} else {
+				$('#unsuccessInAdd').show();	
+				setTimeout(function(){
+					$('#unsuccessInAdd').hide();
+			    },10000);
 				console.log(data.status);
 			}
 		});
@@ -234,17 +296,107 @@ function saveSupplierDetailsW2(){
 	}
 }
 
-var checkValidation = function (){
+function clearValuesInAddDetails(){
+	$('#nameInAdd').val('');
+	$('#phoneInAdd').val('');
+	$('#emailInAdd').val('');
+	$('#descriptionInAdd').val('');
+	setTimeout(function(){
+		$('#successInAdd').hide();
+    },10000);
+}
+var checkValidationInAddDetails = function (){
 	var status = true;
 	
-	var fname = $('#name').val().trim();
-	var type = $('#category-type').val();
-	var tp1 = $('#phone').val().trim();
-	var email = $('#emailW2').val().trim();
+	var supplierName = $('#nameInAdd').val().trim();
+	var supplierTp = $('#phoneInAdd').val().trim();
+	var supplierEmail = $('#emailInAdd').val().trim();
+	
+	if(supplierEmail == ''){
+		$('#emailValidationInAdd').text("Please enter your email.");
+		$('#emailValidationInAdd').show();
+		status = false;
+	} else {
+		var regex ;
+		if(supplierEmail != ''){
+			//emailArrayList.push(candidateEmailAddress);
+			regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			
+			if(!regex.test(supplierEmail)) {
+				$('#emailValidationInAdd').text("Please enter valid email.");
+				$('#emailValidationInAdd').show();
+				status = false;
+			}
+		}
+	}
+	if(supplierName == ''){
+		$('#nameValidationInAdd').text("Please enter your first name.");
+		$('#nameValidationInAdd').show();
+		status = false;
+	}
+	if(supplierTp == ''){
+		$('#phoneValidationInAdd').text("Please enter your phone number.");
+		$('#phoneValidationInAdd').show();
+		status = false;
+	}
+	
+	return status;
+}
+
+function validationHideInAdd(){
+	$('#emailValidationInAdd').hide();
+	$('#nameValidationInAdd').hide();
+	$('#phoneValidationInAdd').hide();
+}
+
+function saveSupplierDetailsW2(){
+	var hiddenSPDID = '';
+	var fname = $('#firstNameInPS').val().trim();
+	var lname = $('#lastNameInPS').val().trim();
+	var tp1 = $('#phoneInPS').val().trim();
+	var email = $('#emailInPS').val().trim();
+	var status = '2';
+	var address = $('#addressInPS').val().trim();
+	var description = $('#messageInPS').val().trim();
+	
+	if(checkValidationInSupplierRegistration()) {
+		$.post('supplierDetailsController/saveSupplierDetails', {
+			hiddenSPDID : hiddenSPDID,
+			fname : fname,
+			lname : lname,
+			tp1 : tp1,
+			email : email,
+			status : status,
+			address : address,
+			description : description
+		}, function(data) {
+			if (data.status == 'saved') {
+				$('#success').show();
+				clearValuesInSupplierDetails();
+			} else {
+				$('#unsuccess').show();	
+				setTimeout(function(){
+					$('#unsuccess').hide();
+			    },10000);
+				console.log(data.status);
+			}
+		});
+	} else {
+		//alert("Fill required fields ");
+	}
+}
+
+var checkValidationInSupplierRegistration = function (){
+	var status = true;
+	
+	var fname = $('#firstNameInPS').val().trim();
+	var lname = $('#lastNameInPS').val().trim();
+	var tp1 = $('#phoneInPS').val().trim();
+	var email = $('#emailInPS').val().trim();
 	
 	if(email == ''){
-		$('#emailValidation').text("Please enter your email.");
-		$('#emailValidation').show();
+		$('#emailValidationInPs').text("Please enter your email.");
+		$('#emailValidationInPs').show();
 		status = false;
 	} else {
 		var regex ;
@@ -253,25 +405,30 @@ var checkValidation = function (){
 			regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 			
 			if(!regex.test(email)) {
-				$('#emailValidation').text("Please enter valid email.");
-				$('#emailValidation').show();
+				$('#emailValidationInPs').text("Please enter valid email.");
+				$('#emailValidationInPs').show();
 				status = false;
 			}
 		}
 	}
-	if(type == ''){
+/*	if(type == ''){
 		$('#categorylValidation').text("Please select your category.");
 		$('#categorylValidation').show();
 		status = false;
-	}
+	}*/
 	if(fname == ''){
-		$('#nameValidation').text("Please enter your name.");
-		$('#nameValidation').show();
+		$('#firstNameValidationInPs').text("Please enter your first name.");
+		$('#firstNameValidationInPs').show();
+		status = false;
+	}
+	if(lname == ''){
+		$('#lastNameValidationInPs').text("Please enter your last name.");
+		$('#lastNameValidationInPs').show();
 		status = false;
 	}
 	if(tp1 == ''){
-		$('#phoneValidation').text("Please enter your phone number.");
-		$('#phoneValidation').show();
+		$('#phoneValidationInPs').text("Please enter your phone number.");
+		$('#phoneValidationInPs').show();
 		status = false;
 	}
 	
@@ -279,23 +436,22 @@ var checkValidation = function (){
 }
 
 function clearValuesInSupplierDetails(){
-	$('#name').val('');
-	$('#lname').val('');
-	$('#phone').val('');
-	$('#emailW2').val('');
-	$('#skype').val('');
-	$('#category-type').val('');
-	$('#message').val('');
+	$('#firstNameInPS').val('');
+	$('#lastNameInPS').val('');
+	$('#phoneInPS').val('');
+	$('#emailInPS').val('');
+	$('#addressInPS').val('');
+	$('#messageInPS').val('');
 	setTimeout(function(){
-		$('#successLB').text('');
+		$('#success').hide();
     },10000);
 }
 
 function validationHide(){
-	$('#emailValidation').hide();
-	$('#categorylValidation').hide();
-	$('#phoneValidation').hide();
-	$('#nameValidation').hide();
+	$('#emailValidationInPs').hide();
+	$('#phoneValidationInPs').hide();
+	$('#firstNameValidationInPs').hide();
+	$('#lastNameValidationInPs').hide();
 }
 function hideValidation(id){
 	$('#'+id).hide();

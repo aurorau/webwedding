@@ -27,6 +27,7 @@ public class CompanyDetailsDTO {
 	private Long districtDetails;
 	private List<Long> companyImageIds;
 	private Long ITID;
+	private String companyDescription;
 	
 	public Long getSCDID() {
 		return SCDID;
@@ -154,6 +155,12 @@ public class CompanyDetailsDTO {
 	}
 	public void setITID(Long iTID) {
 		ITID = iTID;
+	}
+	public String getCompanyDescription() {
+		return companyDescription;
+	}
+	public void setCompanyDescription(String companyDescription) {
+		this.companyDescription = companyDescription;
 	}
 	
 }

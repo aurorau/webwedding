@@ -35,7 +35,7 @@ function clearValues() {
 	$('#supplierPDTp2Id').val('');
 	$('#supplierPDSkypeId').val('');
 	$('#supplierPDStatusId').val('');
-	$('#supplierPDTypeId').val('');
+	$('#supplierPDAddressId').val('');
 	$('#supplierPDDescriptionId').val('');
 	
 }
@@ -49,7 +49,7 @@ function supplierPDSave() {
 	var email = $('#supplierPDEmailId').val();
 	var skype = $('#supplierPDSkypeId').val();
 	var status = $('#supplierPDStatusId').val();
-	var type = $('#supplierPDTypeId').val();
+	var address = $('#supplierPDAddressId').val();
 	var description = $('#supplierPDDescriptionId').val().trim();
 	
 	if(fname != null && fname != '') {
@@ -62,7 +62,7 @@ function supplierPDSave() {
 			email : email,
 			skype : skype,
 			status : status,
-			type : type,
+			address : address,
 			description : description
 		}, function(data) {
 			if (data.status == 'saved' ||data.status == 'updated') {
@@ -95,7 +95,7 @@ function supplierDetailsEdit(spdid) {
 				$('#supplierPDEmailId').val(data.result.supplierEmail);
 				$('#supplierPDSkypeId').val(data.result.supplierSkypeAddress);
 				$('#supplierPDStatusId').val(data.result.status);
-				$('#supplierPDTypeId').val(data.result.supplierType);
+				$('#supplierPDAddressId').val(data.result.supplierAddress);
 				$('#supplierPDDescriptionId').val(data.result.description);
 			}
 		} else {

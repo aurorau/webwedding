@@ -21,11 +21,12 @@
 			<div>
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
-				<ul><a href="#">Company Comments</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
 				<ul><a href="imageCategoryController">Image Category</a></ul>
 				<ul><a href="addDetailsController">Add Details</a></ul>
 				<ul><a href="companyDetailsController">Supplier Company Details</a></ul>
+				<ul><a href="companyPackageDetailsController">Company Package Details</a></ul>
+				<ul><a href="companyOfferDetailsController">Company Offers Details</a></ul>
 				<ul><b>Supplier Personal Details</b></ul>
 				<ul><a href="fileUploadController">File Image Upload</a></ul>
 			</div>
@@ -84,12 +85,11 @@
 						</select></td>
 					</tr>	
 					<tr>
-						<td>Type :</td>
-						<td><select id="supplierPDTypeId">
-							<option value="">Select Type</option>
-							<option value="1">Be a Supplier</option>
-							<option value="2">Post a Add</option>
-						</select></td>
+						<td>Address :</td>
+						<td>
+							<textarea rows="5" cols="20" id="supplierPDAddressId" placeholder="Address">
+							</textarea>
+						</td>
 					</tr>	
 					<tr>
 						<td>Description :</td>

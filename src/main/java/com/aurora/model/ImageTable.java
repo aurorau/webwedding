@@ -1,19 +1,12 @@
 package com.aurora.model;
 
 import java.io.Serializable;
-import java.sql.Blob;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity(name="image_table")
 public class ImageTable implements Serializable {
@@ -50,6 +43,7 @@ public class ImageTable implements Serializable {
 	}
 	
 	@Column(name="image_content", nullable=true)
+	@Lob
 	public byte[] getImageContent() {
 		return imageContent;
 	}

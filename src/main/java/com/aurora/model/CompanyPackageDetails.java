@@ -2,6 +2,7 @@ package com.aurora.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,44 +15,27 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
-@Table(name="company_news")
-public class CompanyNews implements Serializable {
+@Table(name="company_package_details")
+public class CompanyPackageDetails implements Serializable {
 	
-	private Long CNID;
-	private String description;
-	private String imageUrl;
+	private Long CPDID;
+	private String packageName;
+	private String packageDescription;
+	private String status;
 	private CompanyDetails companyDetails;
-	private Date newsRegisteredDate;
-	private Date newsActiveDate;
-	private Long newsActivePeriod;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="CNID")
-	public Long getCNID() {
-		return CNID;
+	@Column(name="CPDID")
+	public Long getCPDID() {
+		return CPDID;
 	}
-	public void setCNID(Long cNID) {
-		CNID = cNID;
-	}
-	
-	@Column(name="news_description", nullable=true, length=500)
-	public String getDescription() {
-		return description;
-	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	@Column(name="news_image_url", nullable=true, length=200)
-	public String getImageUrl() {
-		return imageUrl;
-	}
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
+	public void setCPDID(Long cPDID) {
+		CPDID = cPDID;
 	}
 	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
@@ -64,29 +48,85 @@ public class CompanyNews implements Serializable {
 		this.companyDetails = companyDetails;
 	}
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name="news_active_date", nullable=true, length=20)
-	public Date getNewsActiveDate() {
-		return newsActiveDate;
+	@Column(name="package_name", length=100)
+	public String getPackageName() {
+		return packageName;
 	}
-	public void setNewsActiveDate(Date newsActiveDate) {
-		this.newsActiveDate = newsActiveDate;
+	public void setPackageName(String packageName) {
+		this.packageName = packageName;
 	}
-	
-	@Column(name="news_active_period", nullable=true, length=20)
-	public Long getNewsActivePeriod() {
-		return newsActivePeriod;
+	@Column(name="package_description", length=100)
+	public String getPackageDescription() {
+		return packageDescription;
 	}
-	public void setNewsActivePeriod(Long newsActivePeriod) {
-		this.newsActivePeriod = newsActivePeriod;
+	public void setPackageDescription(String packageDescription) {
+		this.packageDescription = packageDescription;
 	}
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name="news_registered_date", nullable=true, length=20)
-	public Date getNewsRegisteredDate() {
-		return newsRegisteredDate;
+	@Column(name="package_status", length=100)
+	public String getStatus() {
+		return status;
 	}
-	public void setNewsRegisteredDate(Date newsRegisteredDate) {
-		this.newsRegisteredDate = newsRegisteredDate;
+	public void setStatus(String status) {
+		this.status = status;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((CPDID == null) ? 0 : CPDID.hashCode());
+		result = prime * result
+				+ ((companyDetails == null) ? 0 : companyDetails.hashCode());
+		result = prime
+				* result
+				+ ((packageDescription == null) ? 0 : packageDescription
+						.hashCode());
+		result = prime * result
+				+ ((packageName == null) ? 0 : packageName.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CompanyPackageDetails other = (CompanyPackageDetails) obj;
+		if (CPDID == null) {
+			if (other.CPDID != null)
+				return false;
+		} else if (!CPDID.equals(other.CPDID))
+			return false;
+		if (companyDetails == null) {
+			if (other.companyDetails != null)
+				return false;
+		} else if (!companyDetails.equals(other.companyDetails))
+			return false;
+		if (packageDescription == null) {
+			if (other.packageDescription != null)
+				return false;
+		} else if (!packageDescription.equals(other.packageDescription))
+			return false;
+		if (packageName == null) {
+			if (other.packageName != null)
+				return false;
+		} else if (!packageName.equals(other.packageName))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		return true;
+	}
+	@Override
+	public String toString() {
+		return "CompanyPackageDetails [CPDID=" + CPDID + ", packageName="
+				+ packageName + ", packageDescription=" + packageDescription
+				+ ", status=" + status + ", companyDetails=" + companyDetails
+				+ "]";
+	}
+
 }

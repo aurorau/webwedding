@@ -64,6 +64,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.add(Projections.property("supplierPersonalDetails.supplierFirstName").as("supplierPersonalDetailsFName"))
 				.add(Projections.property("supplierCategory.SCID").as("supplierCategory"))
 				.add(Projections.property("imageTable.ITID").as("ITID"))
+				.add(Projections.property("companyDescription").as("companyDescription"))
 				.add(Projections.property("districtDetails.DDID").as("districtDetails")));
 		
 		list = (List<CompanyDetailsDTO>) criteria.setResultTransformer(Transformers.aliasToBean(CompanyDetailsDTO.class)).list();
@@ -142,6 +143,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 					.add(Projections.property("supplierPersonalDetails.supplierFirstName").as("supplierPersonalDetailsFName"))
 					.add(Projections.property("supplierCategory.SCID").as("supplierCategory"))
 					.add(Projections.property("imageTable.ITID").as("ITID"))
+					.add(Projections.property("companyDescription").as("companyDescription"))
 					.add(Projections.property("districtDetails.DDID").as("districtDetails")));
 			criteria.add(Restrictions.eq("SCDID", scdid));
 			criteria.addOrder(Order.asc("companyName"));
@@ -182,7 +184,6 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 
 	}
 
-	@Transactional
 	public List<CompanyDetails> getAllCompaniesByCategory(Long categoryId) {
 		List<CompanyDetails> list = null;
 		
@@ -199,7 +200,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		
 		return list;
 	}
-	@Transactional
+
 	public List<CompanyDetailsW2DTO> getCompanyDetailsTableW2(String sortField, int order, int start, int gridTableSize,Long serviceCategoryDD, Long districtDD, Long budget) {
 		Session session = getSession();
 		session.getTransaction().begin();
@@ -277,6 +278,23 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		session.close();
 		
 		return totalRowCount;
+	}
+
+	public List<CompanyDetails> getAllCompanies() {
+		List<CompanyDetails> list = null;
+		
+		Session session = getSession();
+		session.getTransaction().begin();
+		
+		Criteria criteria = session.createCriteria(CompanyDetails.class)
+				.add(Restrictions.eq("status", "1"));
+		criteria.addOrder(Order.asc("companyName"));
+		list = criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		return list;
 	}
 
 }

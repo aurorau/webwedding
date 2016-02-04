@@ -2,6 +2,7 @@ package com.aurora.model;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +11,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
@@ -66,24 +69,30 @@ public class UploadFiles implements Serializable {
 	public void setImageCategory(ImageCategory imageCategory) {
 		this.imageCategory = imageCategory;
 	}
+	@Column(name="image_name", nullable=true)
 	public String getImageName() {
 		return imageName;
 	}
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
+	
+	@Column(name="image_type", nullable=true)
 	public String getImageType() {
 		return imageType;
 	}
 	public void setImageType(String imageType) {
 		this.imageType = imageType;
 	}
+	@Column(name="image_size", nullable=true)
 	public String getImageSize() {
 		return imageSize;
 	}
 	public void setImageSize(String imageSize) {
 		this.imageSize = imageSize;
 	}
+	@Column(name="image_content", nullable=true)
+	@Lob
 	public byte[] getImageContent() {
 		return imageContent;
 	}

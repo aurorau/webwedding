@@ -1,15 +1,20 @@
 package com.aurora.daoImpl;
 
 import java.util.List;
+
 import javax.transaction.Transactional;
+
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.sql.JoinType;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
+
 import com.aurora.dao.AddDetailsDao;
 import com.aurora.model.AddDetails;
 import com.aurora.util.AddDetailsDTO;
@@ -26,7 +31,8 @@ public class AddDetailsDaoImpl extends HibernateBase implements AddDetailsDao {
 		
 		AddDetails addDetails = null;
 		
-		Criteria criteria = session.createCriteria(AddDetails.class);
+		Criteria criteria = session.createCriteria(AddDetails.class, "addDetails");
+				//.createAlias("addDetails.imageTable", "imageTable", JoinType.LEFT_OUTER_JOIN);
 			criteria.add(Restrictions.eq("AID", aid));
 			addDetails = (AddDetails) criteria.uniqueResult();
 		
@@ -63,7 +69,8 @@ public class AddDetailsDaoImpl extends HibernateBase implements AddDetailsDao {
 		List<AddDetailsDTO> list = null;
 		
 		Criteria criteria = session.createCriteria(AddDetails.class, "addDetails")
-				.createAlias("addDetails.imageTable", "imageTable")
+				.createAlias("addDetails.imageTable", "imageTable", JoinType.LEFT_OUTER_JOIN)
+				//.createAlias("addDetails.imageTable", "imageTable", JoinType.LEFT_OUTER_JOIN)
 				.setFirstResult(start)
 				.setMaxResults(gridTableSize);
 		criteria.addOrder(Order.asc("addSupplierName"));
@@ -130,6 +137,7 @@ public class AddDetailsDaoImpl extends HibernateBase implements AddDetailsDao {
 		Criteria criteria = session.createCriteria(AddDetails.class,"addDetails")
 				.createAlias("addDetails.imageTable", "imageTable");
 		criteria.addOrder(Order.asc("addSupplierName"));
+		criteria.add(Restrictions.ne("addStatus", "2"));
 		
 		criteria.setProjection(Projections.projectionList()
 				.add(Projections.property("AID").as("AID"))

@@ -96,6 +96,7 @@ function clearValues() {
 	$('#companyDetailsDistrictId').val('');
 	$('#companyDetailsRegdateId').val('');
 	$('#fileupload').val('');
+	$('#companyDetailsDescriptionId').val('');
 	globalEdit = false;
 }
 
@@ -120,6 +121,7 @@ function companyDetailsSave() {
 	var supplierCategory = $('#companyDetailsCategoryId').val();
 	var districtDetails = $('#companyDetailsDistrictId').val();
 	var fileName = $('#fileupload').val();
+	var companyDescription = $('#companyDetailsDescriptionId').val().trim();
 	
 	var formdata = new FormData();
 	formdata.append("file", fileupload.files[0]);
@@ -141,6 +143,7 @@ function companyDetailsSave() {
 	formdata.append("supplierPersonalDetails", supplierPersonalDetails);
 	formdata.append("supplierCategory", supplierCategory);
 	formdata.append("districtDetails", districtDetails);
+	formdata.append("companyDescription", companyDescription);
 	
 /*	if(districtDetails != '' && supplierCategory != '' && supplierPersonalDetails != '' && budget != '') {
 
@@ -240,32 +243,38 @@ function getCompanyDetails(scdid) {
 		hiddenSCDID : hiddenSCDID
 	}, function(data) {
 		if (data.status == 'success') {
-			if(data.result != null) {
-				$('#companyDetailsRegId').val(data.result.companyRegistrationNumber);
-				$('#companyDetailsNameId').val(data.result.companyName);
-				$('#companyDetailsAddressId').val(data.result.companyAddress);
-				$('#companyDetailsEmailId').val(data.result.companyEmail);
-				$('#companyDetailsLandId').val(data.result.companyTp1);
-				$('#companyDetailsMobileId').val(data.result.companyTp2);
-				$('#companyDetailsFaxId').val(data.result.companyFaxNo);
-				$('#companyDetailsWebId').val(data.result.companyWebURl);
-				$('#companyDetailsFbId').val(data.result.companyFbPage);
-				$('#companyDetailsBudgetId').val(data.result.budget);
-				$('#companyDetailsStatusId').val(data.result.status);
-				$('#companyDetailsActiveDateId').val(data.result.activeDate);
-				$('#companyDetailsActivePeriodId').val(data.result.activePeriod);
-				$('#companyDetailsOwnerId').val(data.result.supplierPersonalDetails);
-				$('#companyDetailsCategoryId').val(data.result.supplierCategory);
-				$('#companyDetailsDistrictId').val(data.result.districtDetails);
-				$('#companyDetailsRegdateId').val(data.result.companyRegisteredDate);
-				$('#fileHiddenUrl').val(data.result.logoUrl);
+			if(data.result.companyDetails != null) {
+				$('#companyDetailsRegId').val(data.result.companyDetails.companyRegistrationNumber);
+				$('#companyDetailsNameId').val(data.result.companyDetails.companyName);
+				$('#companyDetailsAddressId').val(data.result.companyDetails.companyAddress);
+				$('#companyDetailsEmailId').val(data.result.companyDetails.companyEmail);
+				$('#companyDetailsLandId').val(data.result.companyDetails.companyTp1);
+				$('#companyDetailsMobileId').val(data.result.companyDetails.companyTp2);
+				$('#companyDetailsFaxId').val(data.result.companyDetails.companyFaxNo);
+				$('#companyDetailsWebId').val(data.result.companyDetails.companyWebURl);
+				$('#companyDetailsFbId').val(data.result.companyDetails.companyFbPage);
+				$('#companyDetailsBudgetId').val(data.result.companyDetails.budget);
+				$('#companyDetailsStatusId').val(data.result.companyDetails.status);
+				$('#companyDetailsActiveDateId').val(data.result.companyDetails.activeDate);
+				$('#companyDetailsActivePeriodId').val(data.result.companyDetails.activePeriod);
+				$('#companyDetailsOwnerId').val(data.result.companyDetails.supplierPersonalDetails);
+				$('#companyDetailsCategoryId').val(data.result.companyDetails.supplierCategory);
+				$('#companyDetailsDistrictId').val(data.result.companyDetails.districtDetails);
+				$('#companyDetailsRegdateId').val(data.result.companyDetails.companyRegisteredDate);
+				$('#fileHiddenUrl').val(data.result.companyDetails.logoUrl);
+				$('#companyDetailsDescriptionId').val(data.result.companyDetails.companyDescription);
 			}
 		} else {
 			console.log(data.status);
 		}
 	});
 }
-
+function limitedLength(fieldId, value){
+	var text =$('#'+fieldId).val();
+	if(text.length>value){
+		$('#'+fieldId).val(text.substring(0, value));
+	}
+}
 /*$(function () {
 	var prefix = 'cd';
     $('#fileupload').fileupload({

@@ -15,8 +15,8 @@
      <display:column property="icName"   headerClass="text-left sortable sorted order1" class="text-left" title="Name"/>
      <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
 		<div class="text-center">
-			<button onclick="imageCategoryEdit('${imageCategoryTable.ICID}','${imageCategoryTable.ITID}')" class="edit-btn"><span class="fa fa-edit"> </span>Edit</button>
-			<button  onclick="imageCategoryDelete('${imageCategoryTable.ICID}','${imageCategoryTable.ITID}')" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
+			<button onclick="imageCategoryEdit('${imageCategoryTable.ICID}','${imageCategoryTable.ITID}')" class="edit-btn btn btn-primary"><span class="fa fa-edit"> </span>Edit</button>
+			<button  onclick="imageCategoryDelete('${imageCategoryTable.ICID}','${imageCategoryTable.ITID}')" class="delete-btn btn btn-danger"><span class="fa fa-close"></span>Delete</button>
 		</div>
 	</display:column>
 	<display:setProperty name="basic.empty.showtable" value="true" />

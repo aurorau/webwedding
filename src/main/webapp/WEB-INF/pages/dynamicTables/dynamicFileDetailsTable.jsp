@@ -17,7 +17,7 @@
      
      <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
 		<div class="text-center">
-			<button onclick="fileDetailsDelete(${fileDetailsTable.UFID})" class="delete-btn"><span class="fa fa-close"></span>Delete</button>
+			<button onclick="fileDetailsDelete(${fileDetailsTable.UFID})" class="delete-btn btn btn-danger"><span class="fa fa-close"></span>Delete</button>
 		</div>
 	</display:column>
 	<display:setProperty name="basic.empty.showtable" value="true" />

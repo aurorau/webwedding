@@ -30,7 +30,10 @@
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lobster+Two' rel='stylesheet' type='text/css'>
     <link href='css/common-style.css' rel='stylesheet' type='text/css'>
+    
+    <link rel="shortcut icon" href="img/shortcut.png">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -55,7 +58,44 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a></br>
+<!--                 <div class="budget-topbar pull-right">
+                    <a href="#tab" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" id="nav-cart">
+                    <span class="fa fa-calculator fa-2x"></span>
+                    <label class="badge" id="cart-value"></label>
+                    </a>
+
+                    <ul class="dropdown-menu show-budget">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Selected Services</th>
+                                    <th>Budget Rs.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Hilton</td>
+                                    <td>300000</td>
+                                </tr>
+                                <tr>
+                                    <td>Lassana Flora</td>
+                                    <td>100000</td>
+                                </tr>
+                                <tr>
+                                    <td>Studio 3000</td>
+                                    <td>100000</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Budget</td>
+                                    <td id="total">500000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </ul>
+                </div> -->
+                <!-- <a class="navbar-brand page-scroll" href="#page-top">Start Bootstrap</a> -->
+                <a class="navbar-brand page-scroll" href="#page-top">webwedding.lk</a>
+                <br>
                 
             </div>
 
@@ -68,18 +108,6 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-haspopup="true">Services <span class="caret"></span></a>
                         <ul class="dropdown-menu" id="categoryMainDropDown">
-<!--                             <li><a href="#portfolio">Wedding Attire</a></li>
-                            <li><a href="#portfolio">Wedding Dress Designers</a></li>
-                            <li><a href="#portfolio">Beautician</a></li>
-                            <li><a href="#portfolio">Jewelary</a></li>
-                            <li><a href="#portfolio">Cultural Requirement</a></li>
-                            <li><a href="#portfolio">Photography</a></li>
-                            <li><a href="#portfolio">Wedding Planning</a></li>
-                            <li><a href="#portfolio">Wedding Venues</a></li>
-                            <li><a href="#portfolio">Food</a></li>
-                            <li><a href="#portfolio">Invitation Cards</a></li>
-                            <li><a href="#portfolio">Cake Boxes</a></li>
-                            <li><a href="#portfolio">Transport</a></li> -->
                          </ul>
                     </li>
                     
@@ -95,7 +123,7 @@
                     <li>
                        <div class="budget">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" id="nav-cart" onclick="displayBudget()">
-                        	<span class="fa fa-shopping-cart fa-2x"></span>
+                        	<span class="fa fa-calculator fa-2x"></span>
                         		<label class="badge" id="cart-value"></label>
                         </a>
                         
@@ -157,50 +185,10 @@
                     <table class="table table-responsive" id="category">
                         <thead>
                             <tr>
-                                <th colspan=3>Browse Our Categories</th>
+                                <th colspan=3>Browse Our Services</th>
                             </tr>
                         </thead>
                         <tbody id="serviceCategoryDynamicTableW2">
-<!--                             <tr>
-                                <td><a href="#portfolio">Wedding Attire</a>
-                                </td>
-                                <td><a href="#portfolio">Dress Designers</a>
-                                </td>
-                                <td><a href="#portfolio">Beauticians</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Jewelary</a>
-                                </td>
-                                <td><a href="#portfolio">Cultural Requirement</a>
-                                </td>
-                                <td><a href="#portfolio">Photography</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Wedding Planning</a>
-                                </td>
-                                <td><a href="#portfolio">Wedding Venues</a>
-                                </td>
-                                <td><a href="#portfolio">Food</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Invitation Cards</a>
-                                </td>
-                                <td><a href="#portfolio">Cake Boxes</a>
-                                </td>
-                                <td><a href="#portfolio">Transport</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><a href="#portfolio">Floral</a>
-                                </td>
-                                <td><a href="#portfolio">Dowry</a>
-                                </td>
-                                <td><a href="#portfolio">Honeymoon</a>
-                                </td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -245,168 +233,17 @@
             </div>
             <div class="clearfix"></div>
             <div class="col-md-10 col-sm-12 category-box">
-            <table id="dynamicCompanyTableW2">
-            
-            </table>
-                <div class="clearfix"></div>
-<!--                 <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#service1" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/hilton.png" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                    <span>100,000 upwards</span>
-                        <a href="#portfolio" id="add-to-cart1" class="add-to-cart" data-toggle="tooltip" title="Add to Cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/taj.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal3" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/cinnamon.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div> 
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/citrus.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/Galle-Face.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/imperial-hotel.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/kingsburry.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-sm-4 col-xs-6 portfolio-item">
-                    <a href="#portfolioModal4" class="portfolio-link" data-toggle="modal">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content">
-                                <i class="fa fa-plus fa-3x"></i>
-                            </div>
-                        </div>
-                        <img src="img/portfolio/royal.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                    <div class="portfolio-caption">
-                        <span>100,000 upwards</span>
-                        <a href="#portfolio" id="" class="add-to-cart"><span class="fa fa-shopping-cart fa-2x"></span></a>
-                    </div>
-                </div> -->
-                <div class="clearfix"></div>
-<!--                 <div class="col-lg-12 portfolio-item">
-                    <nav class="">
-                        <ul class="pagination">
-                            <li>
-                                <a href="#" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            </li>
-                            <li><a href="#">1</a>
-                            </li>
-                            <li><a href="#">2</a>
-                            </li>
-                            <li><a href="#">3</a>
-                            </li>
-                            <li><a href="#">4</a>
-                            </li>
-                            <li><a href="#">5</a>
-                            </li>
-                            <li>
-                                <a href="#" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> -->
+            <div class="col-lg-10 col-lg-offset-1 scrollxonly margin-bottom10">
+	           <div id="dynamicCompanyTableW2">
+<!-- 	          		<tbody id="dynamicCompanyTableW2">
+	          		
+	          		</tbody> -->
+	           </div>
+            </div>
+            <div class="clearfix"></div>
             </div>
             <div class="col-md-2 col-sm-12 padding-right0" id="ads">
-<!--                 <div class="ads">
-                    <a href="#portfolioModal5" class="portfolio-link" data-toggle="modal">
-                        <img src="img/portfolio/hotel-ad1.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                </div>
 
-                <div class="ads">
-                    <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
-                        <img src="img/portfolio/hotel-ad2.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                </div>
-
-                <div class="ads">
-                    <a href="#portfolioModal6" class="portfolio-link" data-toggle="modal">
-                        <img src="img/portfolio/hotel-ad3.jpg" class="img-responsive" alt="" width="300">
-                    </a>
-                </div> -->
             </div>
         </div>
     </section>
@@ -421,106 +258,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12" id="imageCategoryTableW2">
-<!--                     <div class="portfolio-item">
-                        <a href="#gallery-sinhala" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Sinhala Wedding Culture</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/sinhala-culture.jpg" alt="sinhala-wedding" class="gallery">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-tamil" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Hindu Wedding Culture</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/hindu-culture.jpg" class="gallery" alt="hindu-wedding">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-muslim" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Muslim Wedding Culture</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/muslim-culture.jpg" class="gallery" alt="muslim-wedding">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-bouquet" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Bridal Flower Bouquets</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/bouquet.jpg" class="gallery" alt="bouquet">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-poruwa" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Sinhala Wedding Poru</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/poruwa.jpg" class="gallery" alt="poruwa">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-cake" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Wedding Cake Structures</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/cake.jpg" class="gallery" alt="wedding-cake">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-hair" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Bridal Hair Designs</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/hair-style.jpg" class="gallery" alt="bridal-hair-dress">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-card" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Wedding Invitation cards</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/invitation-card.jpg" class="gallery" alt="invitation-cards">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-cakebox" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Wedding Cake Boxes</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/cake-box.jpg" class="gallery" alt="wedding-cake-box">
-                        </a>
-                    </div>
-                    <div class="portfolio-item">
-                        <a href="#gallery-mehendi" class="portfolio-link" data-toggle="modal">
-                            <div class="portfolio-hover">
-                                <div class="portfolio-hover-content">
-                                    <h4>Hindu Bridal Mehendi Designs</h4>
-                                </div>
-                            </div>
-                            <img src="img/gallery/profile/mehendi.jpg" class="gallery" alt="mehendi">
-                        </a>
-                    </div> -->
+
                 </div>
             </div>
 
@@ -588,7 +326,110 @@
     </section>
     
     <!-- Post your ad Section -->
-    <section id="post-ad">
+    
+     <section id="post-ad" class="bg-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                   <h3 class="section-heading">Expand your Business with us.</h3>
+<!--                    <h4 class="section-subheading text-muted">Expand your Business with us.</h4>-->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                   <!--  <form name="sentMessage" id="contactForm" novalidate> -->
+                        <div class="row">
+<!--
+                            <div class="col-xs-12 margin-top10 margin-bottom10">
+                                <span class="web-info">We are offering 100% free discount for all our registerd Wedding Suppliers from Jan 2016 to 31st March 2016.Register NOW and be a part of our Loyalty Customer.</span>
+                            </div>
+-->
+
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="panel">
+                                    <div class="panel-heading">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active"><a href="#tab1" data-toggle="tab">Sell My Product/Service</a></li>
+                                            <li><a href="#tab2" data-toggle="tab">Publish My Advertisement</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="panel-body tab-content">
+                                        <!--START TAB 1-->
+                                        <div class="tab-pane active" id="tab1">
+                                            <div class="col-xs-12 form-group">
+                                                <input type="text" class="form-control" placeholder="First Name *" id="firstNameInPS" required data-validation-required-message="Please enter your first name." onkeyup="hideValidation('firstNameValidationInPs')" onkeydown="limitedLength('firstNameInPS',98)">
+                                                <span class="help-block text-danger" id="firstNameValidationInPs"></span>
+                                            </div>
+                                            <div class="col-xs-12 form-group">
+                                                <input type="text" class="form-control" placeholder="Last Name *" id="lastNameInPS" required data-validation-required-message="Please enter your last name." onkeyup="hideValidation('lastNameValidationInPs')" onkeydown="limitedLength('lastNameInPS',98)">
+                                                <span class="help-block text-danger" id="lastNameValidationInPs"></span>
+                                            </div>   
+                                            <div class="col-xs-12 col-md-6 form-group">
+                                                <input type="tel" class="form-control" placeholder="Contact No. *" id="phoneInPS" required data-validation-required-message="Please enter your phone number." onkeyup="hideValidation('phoneValidationInPs')" onKeyPress="return checkedInputTypeNumberic(this, event)" onkeydown="limitedLength('phoneInPS',12)">
+                                                <span class="help-block text-danger" id="phoneValidationInPs"></span>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6 form-group">
+                                                <input type="text" class="form-control" placeholder="Email Address *" id="emailInPS" required data-validation-required-message="Please enter your email address" onkeyup="hideValidation('emailValidationInPs')" onkeydown="limitedLength('emailInPS',98)">
+                                                <span class="help-block text-danger" id="emailValidationInPs"></span>
+                                            </div>
+                                            <div class="col-xs-12 form-group">
+	                                            <textarea class="form-control" placeholder="Company Address" id="addressInPS" onkeydown="limitedLength('addressInPS',325)"></textarea>
+	                                            <span class="help-block text-danger"></span>
+                                            </div>
+                                            <div class="col-xs-12 form-group">
+	                                            <textarea class="form-control" placeholder="Your Message" id="messageInPS" onkeydown="limitedLength('messageInPS',425)"></textarea>
+	                                            <span class="help-block text-danger"></span>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <span class="label danger submit-label pull-right" id="unsuccess"><span class="fa fa-close"> </span>Form is not sumbitted properly.</span>
+                                                <span class="label success submit-label pull-right" id="success"><span class="fa fa-thumbs-o-up margin-right3"></span>Form is sumbitted properly.</span>
+                                            </div>
+                                            <div class="col-xs-12 form-group">
+                                                <button class="btn btn-primary pull-right" onclick="saveSupplierDetailsW2()">Send Message</button>
+                                            </div>
+                                        </div>
+                                         <!--END TAB 1--> 
+                                        <!--START TAB 2-->
+                                        <div class="tab-pane" id="tab2">                                           
+                                            <div class="col-xs-12 form-group">
+                                                <input type="text" class="form-control" placeholder="Full Name *" id="nameInAdd" required data-validation-required-message="Please enter your name." onkeyup="hideValidation('nameValidationInAdd')" onkeydown="limitedLength('nameInAdd',148)">
+                                                <span class="help-block text-danger" id="nameValidationInAdd"></span>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6 form-group">
+                                                <input type="tel" class="form-control" placeholder="Contact No. *" id="phoneInAdd" required data-validation-required-message="Please enter your phone number." onkeyup="hideValidation('phoneValidationInAdd')" onKeyPress="return checkedInputTypeNumberic(this, event)" onkeydown="limitedLength('phoneInAdd',12)">
+                                                <span class="help-block text-danger" id="phoneValidationInAdd"></span>
+                                            </div>
+                                            <div class="col-xs-12 col-md-6 form-group">
+                                                <input type="text" class="form-control" placeholder="Email Address *" id="emailInAdd" required data-validation-required-message="Please enter your email address" onkeyup="hideValidation('emailValidationInAdd')">
+                                                <span class="help-block text-danger" id="emailValidationInAdd"></span>
+                                            </div>
+                                            <div class="col-xs-12 form-group">
+                                                <textarea class="form-control" placeholder="Add Description " id="descriptionInAdd" onkeydown="limitedLength('descriptionInAdd',425)"></textarea>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <span class="label danger submit-label pull-right" id="unsuccessInAdd"><span class="fa fa-close"> </span>Form is not sumbitted properly.</span>
+                                                <span class="label success submit-label pull-right" id="successInAdd"><span class="fa fa-thumbs-o-up margin-right3"></span>Form is sumbitted properly.</span>
+                                            </div>
+                                            <div class="col-xs-12 form-group">
+                                                <button type="submit" class="btn btn-primary pull-right" onclick="saveAddDetailsW2()">Submit</button>
+                                            </div>
+                                        </div>                                      
+                                        <!--END TAB 2-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    
+    <!-- <section id="post-ad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -620,14 +461,14 @@
                                     <input type="text" class="form-control" placeholder="Your Last Name " id="lname">
                                     <p class="help-block text-danger"></p>
                                 </div>
- <!--                                <div class="col-xs-12 col-sm-6 form-group">
+                                <div class="col-xs-12 col-sm-6 form-group">
                                     <input type="email" class="form-control" placeholder="Your Company Address *" id="address" required data-validation-required-message="Please enter your Company Address.">
                                     <p class="help-block text-danger"></p>
                                 </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
                                     <input type="text" class="form-control" placeholder="Cities of Branches (if you have any)" id="branches" >
                                     <p class="help-block text-danger"></p>
-                                </div> -->
+                                </div>
                                 
                                 <div class="col-xs-12 col-sm-6 form-group">
                                     <input type="tel" class="form-control" placeholder="Your Contact No. *" id="phone" onkeyup="hideValidation('phoneValidation')" onKeyPress="return checkedInputTypeNumberic(this, event)" onkeydown="limitedLength('phone',12)">
@@ -641,10 +482,10 @@
                                     <input type="text" class="form-control" placeholder="Your Skype No." id="skype">
                                     <p class="help-block text-danger"></p>
                                 </div>
-<!--                                 <div class="col-xs-12 col-sm-6 form-group">
+                                <div class="col-xs-12 col-sm-6 form-group">
                                    <input type="text" class="form-control"  placeholder="Your Official Company Web Site URL (if you have any)" id="url">
                                     <p class="help-block text-danger"></p>
-                                </div> -->
+                                </div>
                                 <div class="col-xs-12 col-sm-6 form-group">
                                     <textarea class="form-control" placeholder="Your Message " id="message"></textarea>
                                     <p class="help-block text-danger"></p>
@@ -660,7 +501,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
 
     <footer>
@@ -703,8 +544,8 @@
                                 <ol class="carousel-indicators">
                                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                                     <li data-target="#myCarousel" data-slide-to="1"></li>
-                                    <li data-target="#myCarousel" data-slide-to="2"></li>
-                                    <li data-target="#myCarousel" data-slide-to="3"></li>
+<!--                                     <li data-target="#myCarousel" data-slide-to="2"></li>
+                                    <li data-target="#myCarousel" data-slide-to="3"></li> -->
                                 </ol>
 
 
@@ -721,13 +562,99 @@
                                     <span class="sr-only">Next</span>
                                 </a>
                             </div>
-                            <p>Awarded the title of Sri Lanka’s Leading Hotel and Sri Lanka’s Leading Business Hotel at the World Travel Awards, this Colombo hotel is centrally located in Colombo’s business district. With a range of accommodation, from guest rooms and executive rooms to suites, this hotel in Colombo offers stunning views over the Indian Ocean. For relaxation and business alike, Guests will enjoy the endless luxurious accommodations we have to offer.</p>
+                            <p id="companyDescription">
+                            <!-- Awarded the title of Sri Lanka’s Leading Hotel and Sri Lanka’s Leading Business Hotel at the World Travel Awards, this Colombo hotel is centrally located in Colombo’s business district. With a range of accommodation, from guest rooms and executive rooms to suites, this hotel in Colombo offers stunning views over the Indian Ocean. For relaxation and business alike, Guests will enjoy the endless luxurious accommodations we have to offer. -->
+                            </p>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 margin-top40">
+                            <div class="col-sm-2 col-lg-2 text-left">
+                                <label class="control-label info">Price</label>
+                            </div>
+                            <div class="col-sm-10 col-lg-10 text-left">
+                                <span>Rs.</span>
+                                <span id="priceW2"></span>
+                                <span>*</span>
+                                <span>&nbsp;upwards&nbsp;(Negotiable)</span>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 margin-top10" >
+                             <div class="col-xs-12 col-sm-2 col-lg-2 text-left" >
+                                <label class="control-label info">Packages</label>
+                            </div>
+                            <div>
+                            	<table id="packageDetailsDivId">
+                            	</table>
+                            </div>
+<!--                            <div class="col-xs-6 col-sm-3 col-lg-3 text-left">
+                                <label class="control-label" id="p1">Packages1</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-3 text-left">
+                                <label class="control-label" id="p2">Packages2</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-3 text-left">
+                                <label class="control-label" id="p3">Packages3</label>
+                            </div>
+                            <div class="col-sm-2 col-lg-2 text-left hide-xs">
+                                <label class="control-label"></label>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-3 text-left">
+                                <label class="control-label" id="p4">Packages4</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-3 text-left">
+                                <label class="control-label" id="p5">Packages5</label>
+                            </div>
+                            <div class="col-xs-6 col-sm-3 col-lg-3 text-left">
+                                <label class="control-label" id="p6">Packages6</label>
+                            </div> -->
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-lg-12 margin-top10 margin-bottom40">
+                            <div class="col-xs-12 col-sm-2 col-lg-2 text-left">
+                                <label class="control-label info">Special Offers</label>
+                            </div>
+<!--                             <div class="col-xs-12 col-sm-10 col-lg-10 text-left">
+                                <label class="control-label" id="sp1">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</label>
+                            </div> -->
+                            <div class="col-xs-12 col-sm-10 col-lg-10 text-left">
+                            	<table id="offerDetailsTableId">
+                            	</table>
+                            </div>
+                        </div>   
+                        <div class="clearfix"></div>
+                        <div class="col-xs-12 col-md-6 contact-details">
+                            <div class="col-xs-12">
+                                <h4 class="text-center">
+                                <!-- <span>Mr.</span> -->
+                                <span id="companyOwnerW2"></span> </h4>
+                               <!--  <p class="text-center">Sales Manager</p> -->
+                                <p class="text-center" id="companyAddW2"></p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <span class="fa fa-phone" id="companyTpW2"></span>
+                            </div>
+                            <div class="col-xs-12 col-sm-6">
+                                <span class="fa fa-envelope"></span><a href="mailto:hilton@gmail.com"><span id="companyEmailW2"></span></a>
+                            </div>
+<!--                             <div class="col-xs-12 col-sm-6">
+                                <span class="fa fa-sitemap"></span>Kandy,Trincomalee
+                            </div> -->
+                            <div class="col-xs-12 col-sm-6">
+                                <span class="fa fa-globe"></span><a href="hilton.com" target="_blank"><span id="companyWebW2"></span></a>
+                            </div>
+<!--                             <div class="col-xs-12 col-sm-6">
+                                <span class="fa fa-skype"></span><span id="companySkypW2"></span>
+                            </div> -->
+                            <div class="col-xs-12 col-sm-6">
+                                <span class="fa fa-facebook"></span><a href="https://www.facebook.com/hilton/" target="_blank"><span id="companyFbW2"></span></a>
+                            </div>
+
+                        </div>                                             
+<!--                         <div class="col-lg-12">
                             <span class="price-tag label" id="priceW2"></span>
                             <div class="clearfix"></div>
                             <span class="pull-left">Negotiable</span>
-                        </div>
+                        </div> 
                         <div class="clearfix"></div>
                         <div class="col-md-6">
                             <div class=" contact-details">
@@ -747,7 +674,7 @@
                                 <div class="clearfix"></div>
                                 <span class="fa fa-globe"></span><a href="hilton.com" target="_blank"><span id="companyWebW2"></span></a>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-6">
                             <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?hl=en&q=hilton hotel 2 SIR CHITTAMPALAM A GARDINER MW, COLOMBO 2, 02, SRI LANKA&ie=UTF8&t=roadmap&z=16&iwloc=B&output=embed">
                                 <div><small><a href="http://embedgooglemaps.com">embedgooglemaps.com</a></small>
@@ -797,253 +724,6 @@
         </div>
     </div>
 
- <!--    <div class="portfolio-modal modal fade" id="gallery-tamil" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/hindu/hindu5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hindu/hindu3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hindu/hindu4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hindu/hindu1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hindu/hindu6.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hindu/hindu7.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-muslim" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/muslim/muslim1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/muslim/muslim2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/muslim/muslim3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/muslim/muslim4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/muslim/muslim5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/muslim/muslim6.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-bouquet" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/bouquet/flower1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/bouquet/flower2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/bouquet/flower3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/bouquet/flower4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/bouquet/flower5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/bouquet/flower6.jpg" class="gallery" alt="">
-
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-poruwa" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/poru/poru1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/poru/poru2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/poru/poru3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/poru/poru4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/poru/poru5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/poru/poru6.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-cake" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/cake/cake1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cake/cake2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cake/cake3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cake/cake4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cake/cake5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cake/cake6.jpg" class="gallery" alt="">
-
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-hair" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/hair-style/hair1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hair-style/hair2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hair-style/hair3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hair-style/hair4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hair-style/hair5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/hair-style/hair6.jpg" class="gallery" alt="">
-
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-card" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/cards/cards1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cards/cards2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cards/cards3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cards/cards4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/cards/cards5.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-cakebox" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/box/box1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/box/box2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/box/box3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/box/box4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/box/box5.jpg" class="gallery" alt="">
-                        <img src="img/gallery/box/box6.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="portfolio-modal modal fade" id="gallery-mehendi" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-content">
-            <div class="close-modal" data-dismiss="modal">
-                <div class="lr">
-                    <div class="rl">
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="modal-body">
-                        <img src="img/gallery/mehendi/mehendi1.jpg" class="gallery" alt="">
-                        <img src="img/gallery/mehendi/mehendi2.jpg" class="gallery" alt="">
-                        <img src="img/gallery/mehendi/mehendi3.jpg" class="gallery" alt="">
-                        <img src="img/gallery/mehendi/mehendi4.jpg" class="gallery" alt="">
-                        <img src="img/gallery/mehendi/mehendi5.jpg" class="gallery" alt="">
-                        <div class="clearfix"></div>
-                        <div class="col-xs-12 margin-top20">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -1063,6 +743,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/agency.js"></script>
     <script src="js/site.js"></script>
+    <script src="js/moment.min.js"></script>
     <script src="js/webwedding.js"></script>
     <script src="js/jquery.displaytag-ajax-1.2.js"></script>
 	<script src="js/common.js"></script>

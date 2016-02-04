@@ -1,5 +1,7 @@
 package com.aurora.util;
 
+import java.util.List;
+
 public class CompanyDetailsW2DTO {
 	private Long SCDID;
 	private String companyName;
@@ -15,6 +17,8 @@ public class CompanyDetailsW2DTO {
 	private String supplierPersonalDetailsSkype;
 	private Long ITID;
 	private Long budget;
+	private Long packageCount;
+	private Boolean offerAvailable;
 	
 	public Long getSCDID() {
 		return SCDID;
@@ -101,4 +105,18 @@ public class CompanyDetailsW2DTO {
 	public void setSupplierPersonalDetailsSkype(String supplierPersonalDetailsSkype) {
 		this.supplierPersonalDetailsSkype = supplierPersonalDetailsSkype;
 	}
+
+	public Long getPackageCount() {
+		return packageCount;
+	}
+	public void setPackageCount(Long packageCount) {
+		this.packageCount = packageCount;
+	}
+	public Boolean getOfferAvailable() {
+		return offerAvailable;
+	}
+	public void setOfferAvailable(Boolean offerAvailable) {
+		this.offerAvailable = offerAvailable;
+	}
+	
 }

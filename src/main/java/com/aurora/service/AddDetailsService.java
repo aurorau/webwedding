@@ -12,6 +12,7 @@ import com.aurora.util.AddDetailsDTO;
 public interface AddDetailsService {
 
 	String saveAddDetails(MultipartHttpServletRequest request);
+	String saveAddDetailsW2(HttpServletRequest request);
 	List<AddDetailsDTO> getAllAdds();
 	AddDetails getAddDetailsByAID(HttpServletRequest request);
 	String addDetailsDelete(HttpServletRequest request);
