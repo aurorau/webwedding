@@ -12,9 +12,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.io.IOUtils;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
@@ -32,6 +34,7 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.aurora.dao.ImageTableDao;
 import com.aurora.model.FileMeta;
 import com.aurora.model.ImageTable;
@@ -177,12 +180,12 @@ public class FileController implements ServletContextAware{
         	 //System.out.println("File Name :"+fileName);
         	 
         	 String deleteStatus = fileUploadService.deleteImage(fileId);
+        	 //status = true;
         	// String uploadPath = servletContext.getRealPath("") +UPLOAD_DIRECTORY;
         	 
-      /*  	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
-            	 File file = new File(fileName);
-            	 status = file.delete();
-        	 }*/
+        	 if(deleteStatus.equalsIgnoreCase(Constant.SUCCESS)) {
+            	 status = true;
+        	 }
         	 if(status){
         		 fstatus = Constant.SUCCESS;
         		//System.out.println("Deleted :"+fileName); 

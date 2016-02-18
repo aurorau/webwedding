@@ -12,7 +12,7 @@ $(document).ready(function() {
 	loadCompanyDetailsTableW2();
 	map = new Map();
 	colorMap = new Map();
-	$('#cart-value').text(0);
+	$('.cart-value').text(0);
 	validationHide();
 	validationHideInAdd();
 	loadAdds();
@@ -22,6 +22,7 @@ $(document).ready(function() {
 	$('#districtDD').val('');
 	$('#budgetId').val('');
 	successMsgHide();
+
 });
 
 function successMsgHide(){
@@ -60,10 +61,17 @@ function setViewServiceTable(categoryList){
 					"<tr id=tr_"+index+">" +
 						"<td onclick='setSetviceType("+category.scid+")'><a href=#portfolio>"+category.scName+"</a></td>" +
 					"</tr>");
+			
+			$('#serviceCategoryDynamicTableW2Phone').append(
+					"<tr id=tr_p"+index+">" +
+						"<td onclick='setSetviceType("+category.scid+")'><a href=#portfolio>"+category.scName+"</a></td>" +
+					"</tr>");
 		} else {
 			var y = index%3;
 			var t= (index-y);
 			$('#tr_'+t).append(
+					"<td onclick='setSetviceType("+category.scid+")'><a href=#portfolio>"+category.scName+"</a></td>");
+			$('#tr_p'+t).append(
 					"<td onclick='setSetviceType("+category.scid+")'><a href=#portfolio>"+category.scName+"</a></td>");
 					
 		}
@@ -107,9 +115,7 @@ function loadCompanyDetailsTableW2() {
           $("#dynamicCompanyTableW2").html(data);
        	  $("#dynamicCompanyTableW2").displayTagAjax();
        	  removeTableText('dynamicCompanyTableW2');
-       	  setTimeout(function(){
-    		$('.pagebanner').hide();
-       	  }, 2000);
+      	  $('.pagebanner').hide();
        	  //companyColor();
         }
 	});
@@ -147,7 +153,7 @@ function getCompanyDetailsW2(scid) {
 					$('#packageDetailsDivId').html('');
 					$('#packageDetailsDivId').append("" +
 							"<tr>" +
-							"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>No Packages Available</label></div></td>" +
+							"<td style=text-align:left>No Packages Available</td>" +
 							"</tr>");
 				}
 				if(data.result.offers.length > 0) {
@@ -157,7 +163,7 @@ function getCompanyDetailsW2(scid) {
 					$('#offerDetailsTableId').html('');
 					$('#offerDetailsTableId').append("" +
 							"<tr>" +
-							"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>No Offers Available</label></div></td>" +
+							"<td style=text-align:left>No Offers Available</td>" +
 							"</tr>");
 				}
 			}
@@ -171,9 +177,9 @@ function setOfferDetails(offers){
 	$.each(offers, function(index, value){	
 		$('#offerDetailsTableId').append("" +
 			"<tr>" +
-			"<td><label class=control-label>"+value.offerName+"</label></td>" +
-			"<td><label class=control-label>"+value.offerDescription+"</label></td>" +
-			"<td style=align:right><label class=control-label>Until :"+value.offerEndDate+"</label></td>" +
+			"<td>"+value.offerName+"</td>" +
+			"<td style=padding-left:10px;padding-right:10px;>"+value.offerDescription+"</td>" +
+			"<td style=padding-left:10px;>Until :"+value.offerEndDate+"</td>" +
 			"</tr>");
 	});
 }
@@ -182,8 +188,8 @@ function setPackageDetails(packages) {
 	$.each(packages, function(index, value){	
 		$('#packageDetailsDivId').append("" +
 			"<tr>" +
-			"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>"+value.packageName+"</label></div></td>" +
-			"<td><div class=col-xs-6 col-sm-3 col-lg-3 text-left><label class=control-label>"+value.packageDescription+"</label></div></td>" +
+			"<td>"+value.packageName+"</td>" +
+			"<td style=padding-left:10px;>"+value.packageDescription+"</td>" +
 			"</tr>");
 	});
 }
@@ -210,22 +216,27 @@ function addToCart(id, companyName, budget){
 		map.set(companyName,budget);
 	}
 	var mapSize = map.size;
-	$('#cart-value').text(mapSize);
+	$('.cart-value').text(mapSize);
 	
 	if(mapSize > 0 ) {
-		$('#cart-value').addClass('add-to-cart-click');
+		$('.cart-value').addClass('add-to-cart-click');
 	}
 	if(mapSize == 0 ) {
-		$('#cart-value').removeClass('add-to-cart-click');
+		$('.cart-value').removeClass('add-to-cart-click');
 	}
 	
-	if(colorMap.has(companyName)) {
+/*	if(colorMap.has(companyName)) {
 		colorMap.delete(companyName);
-		$('#'+id).removeClass('add-to-cart-click').addClass('add-to-cart');
+		//$('#'+id).removeClass('add-to-cart-click').addClass('add-to-cart');
 	} else {
 		colorMap.set(companyName,id);
-		$('#'+id).removeClass('add-to-cart').addClass('add-to-cart-click');
-	}
+		//$('#'+id).removeClass('add-to-cart').addClass('add-to-cart-click');
+	}*/
+/*    setTimeout(function() {
+    	$('.show-budget').slideDown('slow').delay(3000).slideUp('slow');
+    	displayBudget();
+    }, 300);*/
+	displayBudget();
 }
 
 function companyColor() {
@@ -235,21 +246,22 @@ function companyColor() {
 }
 
 function displayBudget() {
+	$('.show-budget').slideDown('slow').delay(3000).slideUp('slow');
 	var totalBudget = 0;
 	var arr = new Array();
 	//clear();
 	var mapSize = map.size;
-	$('#budgetTableId').html('');
+	$('.budgetTableId').html('');
 	
 	map.forEach(function (value, key) {
 		totalBudget += parseInt(value);
-		$('#budgetTableId').append(
+		$('.budgetTableId').append(
 			"<tr>" +
 				"<td>"+key+"</td>" +
 				"<td>"+value+".00</td>" +
 			"</tr>");
 	});
-	$('#budgetTableId').append(
+	$('.budgetTableId').append(
 			"<tr>" +
 				"<td>Total Budget</td>" +
 				"<td id=total>"+totalBudget+".00</td>" +

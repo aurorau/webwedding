@@ -64,3 +64,11 @@
 	<display:setProperty name="basic.empty.showtable" value="true" />
 	<display:setProperty name="basic.msg.empty_list" value="" />
 </display:table>
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		$('.pagebanner').hide();
+		//alert($('.pagebanner').text());
+	});
+     	 
+</script>

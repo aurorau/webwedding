@@ -92,7 +92,7 @@ public class UploadFiles implements Serializable {
 		this.imageSize = imageSize;
 	}
 	@Column(name="image_content", nullable=true)
-	@Lob
+	//@Lob
 	public byte[] getImageContent() {
 		return imageContent;
 	}

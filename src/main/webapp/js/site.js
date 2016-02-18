@@ -12,8 +12,8 @@
 });*/
 
 // ads column
-if ($(window).width() < 991) {
-   $(".ads").addClass("col-sm-4");
+if ($(window).width() <= 991) {
+   $(".ads").addClass("col-sm-4 col-xs-6");
 }
 
 // translate
@@ -33,7 +33,20 @@ $("#translate-english").click(function(){
 
 $(document).ready(function(e) {
     //e.preventDefault();
+	//open calculator dropdown when click calculator budget button
+
 });
+//close topbar when select an item (991px below)
+var window_width = $(window).width();
+if(window_width < 768) {
+    $('.dropdown-menu,.dropdown .caret').hide();
+    $('.navbar-collapse a, .nav-cart, .btn-ad-top').click(function(){
+        $(".navbar-collapse").collapse('hide');
+    });  
+    $('.change-link').click(function(){
+        $(this).attr('href','#portfolio').removeAttr('data-toggle aria-haspopup'); 
+    });
+}
 
 
 

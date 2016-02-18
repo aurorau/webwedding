@@ -214,8 +214,8 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 				.createAlias("companyDetails.imageTable", "imageTable")
 				.setFirstResult(start)
 				.setMaxResults(gridTableSize);
-		//criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
-		criteria.addOrder(Order.asc("companyName"));
+		criteria.add(Restrictions.eq("status","1"));
+		criteria.addOrder(Order.asc("budget"));
 		
 		if(serviceCategoryDD != 0) {
 			criteria.add(Restrictions.eq("supplierCategory.SCID",serviceCategoryDD));
@@ -257,7 +257,7 @@ public class CompanyDetailsDaoImpl extends HibernateBase implements CompanyDetai
 		int totalRowCount =0;
 		Criteria criteria = session.createCriteria(CompanyDetails.class,"companyDetails")
 				.setProjection(Projections.count("SCDID"));
-		//criteria.add(Restrictions.neOrIsNotNull("logoUrl",""));
+		criteria.add(Restrictions.eq("status","1"));
 		
 		if(serviceCategoryDD != 0) {
 			criteria.createAlias("companyDetails.supplierCategory", "supplierCategory");
