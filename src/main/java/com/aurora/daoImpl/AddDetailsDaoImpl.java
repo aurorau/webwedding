@@ -70,7 +70,6 @@ public class AddDetailsDaoImpl extends HibernateBase implements AddDetailsDao {
 		
 		Criteria criteria = session.createCriteria(AddDetails.class, "addDetails")
 				.createAlias("addDetails.imageTable", "imageTable", JoinType.LEFT_OUTER_JOIN)
-				//.createAlias("addDetails.imageTable", "imageTable", JoinType.LEFT_OUTER_JOIN)
 				.setFirstResult(start)
 				.setMaxResults(gridTableSize);
 		criteria.addOrder(Order.asc("addSupplierName"));

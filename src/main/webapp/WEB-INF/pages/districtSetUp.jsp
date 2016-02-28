@@ -45,7 +45,7 @@
 			
 			<div id="districtTableDivId" >
 				<button id="addNewDistrict" onclick="newDistrictDetails()">Add new</button>
-					<table id="dristrictDynamicTable">
+					<table id="dristrictDynamicTable" class="dynamic-table">
 				
 					</table>
 			</div>

@@ -185,7 +185,6 @@ public class AddDetailsServiceImpl implements AddDetailsService {
 		
 		return count;
 	}
-	@Transactional
 	public Date setStringToDateFormat(String date1) throws ParseException{
 		
         DateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd");
