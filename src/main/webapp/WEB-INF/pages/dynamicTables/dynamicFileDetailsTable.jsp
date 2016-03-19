@@ -7,7 +7,7 @@
 	 <display:column title="Image" headerClass="text-center">	 
 		<div class="col-md-12">
 			<div class="col-md-2">
-				<img src="./fileUploadController/fileDownloader?UFID=${fileDetailsTable.UFID}" width="80" height="60" alt="Profile image">
+				<img src="./fileUploadController/fileDownloader?UFID=${fileDetailsTable.UFID}" width="80" height="60" alt="Profile image" class="img-margin">
 			</div>
 		</div>
 	 </display:column>
@@ -15,7 +15,7 @@
      <display:column property="fileUploadDate"  headerClass="text-left " class="text-left" title="Uploaded Date"/>
      <display:column property="imageSize" headerClass="text-left" class="text-left" title="Image Size"/>
      
-     <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
+     <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html" class="action">
 		<div class="text-center">
 			<button onclick="fileDetailsDelete(${fileDetailsTable.UFID})" class="delete-btn btn btn-danger"><span class="fa fa-close"></span>Delete</button>
 		</div>

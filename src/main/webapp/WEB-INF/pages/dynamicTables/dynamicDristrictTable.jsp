@@ -6,7 +6,7 @@
 
 	 <display:column property="districtCode"  headerClass="text-left" class="text-left dynamic-tr" title="District Code"/>
      <display:column property="districtName"  headerClass="text-left" class="text-left dynamic-tr" title="District Name"/>
-     <display:column  sortable="false" headerClass="text-center" title="Action" media="html">
+     <display:column  sortable="false" headerClass="text-center" title="Action" media="html" class="action">
 		<div class="text-center">
 			<button onclick="districtDetailsEdit(${districtTable.DDID})"  class="edit-btn btn btn-primary"><span class="fa fa-edit"> </span>Edit</button>
 			<button  onclick="districtDetailsDelete(${districtTable.DDID})" class="delete-btn btn btn-danger"><span class="fa fa-close"></span>Delete</button>

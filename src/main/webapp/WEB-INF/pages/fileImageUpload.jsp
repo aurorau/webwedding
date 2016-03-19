@@ -16,8 +16,9 @@
  
 <!-- bootstrap just to have good looking page -->
 <script src="js/bootstrap.min.js"></script>
-<link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
-<link href='css/common-style.css' rel='stylesheet' type='text/css'>
+ <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<!--<link href='css/common-style.css' rel='stylesheet' type='text/css'> -->
+<link href='css/backoffice.css' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
  
 <!-- we code these -->
@@ -29,7 +30,7 @@
 	<div>
 		<div style="width:20%;float: left">
 		<h3><a href="backOffice">W2-Back Office</a></h3>
-			<div>
+			<div class="menu">
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
@@ -53,24 +54,26 @@
 					<br><button onclick="selectCategory()"> Go</button>
 				</div>
 				<table style="float: left" id="searchTableId">
-					<tr>
-						<td>
-							<select id="fileCategoryId" onchange="categoryChange()">
-								<option value="">Select Supplier Category</option>
-							</select>
-						</td>
-						<td>
-							<select id="fileCompanyId">
-								<option value="">Select Company</option>
-							</select>
-						</td>
-						<td>
-							<select id="fileImageCategoryId">
-								<option value="">Select Image Category</option>
-							</select>
-						</td>
-						<td><button onclick="loadFileDetailsTable()">Search</button></td>
-					</tr>
+					<tbody class="search-body">
+						<tr>
+							<td>
+								<select id="fileCategoryId" onchange="categoryChange()"  class="search-input">
+									<option value="">Select Supplier Category</option>
+								</select>
+							</td>
+							<td>
+								<select id="fileCompanyId"  class="search-input">
+									<option value="">Select Company</option>
+								</select>
+							</td>
+							<td>
+								<select id="fileImageCategoryId"  class="search-input">
+									<option value="">Select Image Category</option>
+								</select>
+							</td>
+							<td><button onclick="loadFileDetailsTable()" class="search-btn">Search</button></td>
+						</tr>
+					</tbody>
 				</table>
 <!-- 				<table style="float: right">
 					<tr>

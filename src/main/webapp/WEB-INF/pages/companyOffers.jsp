@@ -4,7 +4,8 @@
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href='css/common-style.css' rel='stylesheet' type='text/css'>
+<link href='css/backoffice.css' rel='stylesheet' type='text/css'>
+<!-- <link href='css/common-style.css' rel='stylesheet' type='text/css'> -->
 
 <!-- Date Picker -->
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
@@ -22,7 +23,7 @@
 	<div>
 		<div style="width:20%;float: left">
 		<h3><a href="backOffice">W2-Back Office</a></h3>
-			<div>
+			<div class="menu">
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
@@ -40,14 +41,16 @@
 			<div style="float: left; width:100%">
 			<h3>Company Offer Details</h3>	
 				<table style="float: left">
-					<tr>			
-					<td>
-						<select id="companyDetailsId" onchange="hideBelow()">
-							<option value="">Select Company</option>
-						</select>
-					</td>
-					<td><button onclick="loadCompanyOfferTable()">Search</button></td>
-					</tr>
+					<tbody class="search-body">
+						<tr>			
+						<td>
+							<select id="companyDetailsId" onchange="hideBelow()" class="search-input">
+								<option value="">Select Company</option>
+							</select>
+						</td>
+						<td><button onclick="loadCompanyOfferTable()" class="search-btn">Search</button></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			

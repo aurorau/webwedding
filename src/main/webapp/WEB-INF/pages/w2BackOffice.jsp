@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
+<!-- Bootstrap Core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet"> 
+<!-- <link href='css/common-style.css' rel='stylesheet' type='text/css'> -->
+<link href='css/backoffice.css' rel='stylesheet' type='text/css'>
 <html lang="en">
 <script src="js/jquery.js"></script>
 <head>
@@ -12,7 +15,7 @@
 	<div>
 		<div style="width:20%;float: left">
 		<h3>W2-Back Office</h3>
-			<div>
+			<div class="menu">
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>

@@ -8,7 +8,7 @@
 	 <display:column title="Image" headerClass="text-left">	 
 		<div class="col-md-12">
 			<div class="col-md-2">
-			<img src="./fileUploadController/imageDownloader1?ITID=${companyDetailsTable.ITID}" width="80" height="60" alt="Logo">
+			<img src="./fileUploadController/imageDownloader1?ITID=${companyDetailsTable.ITID}" width="80" height="60" alt="Logo" class="img-margin">
 <%-- 				<c:if test="${companyDetailsTable.logoUrl != 'No Logo'}">
 					<img src="./fileUploadController/imageDownloader?fileName=${companyDetailsTable.logoUrl}" width="80" height="60" alt="Logo">
 				</c:if>
@@ -19,13 +19,13 @@
 		</div>
 	 </display:column>
 
-	 <display:column property="companyName" sortable="true" sortName="companyName" headerClass="text-left sortable sorted order1" class="text-left" title="Company Name"/>
-     <display:column property="companyEmail" sortable="true" sortName="companyEmail" headerClass="text-left sortable sorted order1" class="text-left" title="Company Email"/>
-     <display:column property="budget" sortable="true" sortName="budget" headerClass="text-left sortable sorted order1" class="text-left" title="Budget"/>
-     <display:column property="status" sortable="true" sortName="status" headerClass="text-left sortable sorted order1" class="text-left" title="Status"/>
+	 <display:column property="companyName" headerClass="text-left sortable sorted order1" class="text-left" title="Company Name"/>
+     <display:column property="companyEmail" headerClass="text-left sortable sorted order1" class="text-left" title="Company Email"/>
+     <display:column property="budget"  headerClass="text-left sortable sorted order1" class="text-left" title="Budget"/>
+     <display:column property="status"  headerClass="text-left sortable sorted order1" class="text-left" title="Status"/>
 <%--      <display:column property="supplierTp2" sortable="true" sortName="supplierTp2" headerClass="text-left sortable sorted order1" class="text-left" title="TP 2"/>
      <display:column property="supplierSkypeAddress" sortable="true" sortName="supplierSkypeAddress" headerClass="text-left sortable sorted order1" class="text-left" title="Skype"/> --%>
-     <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html">
+     <display:column  sortable="false" headerClass="text-center sortable sorted order1" title="Action" media="html" class="action">
 		<div class="text-center">
 			<%-- <button  onclick="companyDetailsView(${companyDetailsTable.SCDID})" class="view-btn"><span class="fa fa-view"></span>View</button> --%>
 			<button onclick="companyDetailsEdit(${companyDetailsTable.SCDID})" class="edit-btn btn btn-primary"><span class="fa fa-edit"> </span>Edit</button>

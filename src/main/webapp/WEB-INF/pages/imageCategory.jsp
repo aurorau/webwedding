@@ -4,7 +4,8 @@
 
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link href='css/common-style.css' rel='stylesheet' type='text/css'>
+<!-- <link href='css/common-style.css' rel='stylesheet' type='text/css'> -->
+<link href='css/backoffice.css' rel='stylesheet' type='text/css'>
 
 <script src="js/jquery.js"></script>
 <script src="js/common.js"></script>
@@ -21,7 +22,7 @@
 	<div>
 		<div style="width:20%;float: left">
 		<h3><a href="backOffice">W2-Back Office</a></h3>
-			<div>
+			<div class="menu">
 				<ul><a href="#">Article Details</a></ul>
 				<ul><a href="districtSetUp">District Details</a></ul>
 				<ul><a href="supplierCategorySetUp">Supplier Category</a></ul>
@@ -39,10 +40,12 @@
 			<div style="float: left; width:100%">
 			<h3>Image Category</h3>	
 				<table style="float: right">
-					<tr>
-						<td><input type="text" id="imageCategorySearchId" placeholder="Search and Filter"/></td>
-						<td><button onclick="loadImageCategoryTable()">Search</button></td>
-					</tr>
+					<tbody class="search-body">
+						<tr>
+							<td><input type="text" id="imageCategorySearchId" placeholder="Search and Filter" class="search-input"/></td>
+							<td><button onclick="loadImageCategoryTable()" class="search-btn">Search</button></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			

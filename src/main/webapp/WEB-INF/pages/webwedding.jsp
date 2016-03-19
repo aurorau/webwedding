@@ -628,7 +628,7 @@
     <script src="js/jquery.displaytag-ajax-1.2.js"></script>
 	<script src="js/common.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <script src="js/rtiNew2.js"></script>
+    <script src="js/rtiNew3.js"></script>
     <script>
     </script>
 
