@@ -44,7 +44,7 @@ function heartBeat(){
 	var sessionID = -1;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('http://aurorarti.herokuapp.com/heartBeat', {
+	$.get('http://192.168.1.2:8080/RTI/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {
@@ -390,7 +390,7 @@ function sendEventDetailsToController () {
 	
 	//console.log("Hidden Session Id :"+$('#hiddenSessionId').val());
 	
-	$.post('http://aurorarti.herokuapp.com/postEventDetails', {
+	$.post('http://192.168.1.2:8080/RTI/postEventDetails', {
 		eventType : eventType,
 		coordinateX : coordinateX,
 		coordinateY : coordinateY,
