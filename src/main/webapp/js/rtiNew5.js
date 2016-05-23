@@ -5,6 +5,7 @@ var getScreenWidth=0;
 var getScreenHeight=0;
 var previouseScrollTime = 0;
 var previouseTouchTime = 0;
+var previouseClickTime = 0;
 var previouseSwapTime = 0;
 var coordinateX = 0;
 var coordinateY = 0;
@@ -30,37 +31,26 @@ var imageName = -1;
 $(document).ready(function() {
 	clearValues();
 	eventType = "RF";
+	numberOfFingers = 0;
 	sendEventDetailsToController();
 	setInterval(function(){ 
 		heartBeat();
 	},20000);
 });
 
-$(window).unload(function(){
-	heartBeat();
-});
-
 function heartBeat(){
 	var sessionID = -1;
-	sessionID = window.name;
-		//sessionStorage.getItem('sessionID');
+	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('http://aurorarti.herokuapp.com/heartBeat', {
+	$.get('http://aurorarti.herokuapp.com/api/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {
-		if (data.status == 'SUCCESS') {
-/*			if(data.result !=  'SUCCESS') {
-				sessionStorage.setItem('sessionID',"");
-			}*/
-		} else {
-			console.log(data.status);
-		}
+		console.log(data.status);
 	});
 }
 
 function identifyDeviceWidthHeight(){
-	//getProperHeightWidth();
 	var deviceMinWidthStatus = window.matchMedia('(min-device-width: '+screen.width+'px)').matches;
 	var deviceMinHeightStatus = window.matchMedia('(min-device-height:'+screen.height+'px)').matches;
 	
@@ -97,12 +87,6 @@ function identifyDeviceWidthHeight(){
 	}
 	viewportHeight =window.innerHeight;
 	viewportWidth = window.innerWidth;
-	
-/*	console.log("deviceMinWidthStatus :"+deviceMinWidthStatus+"\ndeviceMinHeightStatus :"+deviceMinHeightStatus+"\norientaton :"+orientaton);
-	console.log("///////////////////");
-	console.log("deviceMaxWidthStatus :"+deviceMaxWidthStatus+"\ndeviceMaxWidthStatus :"+deviceMaxWidthStatus+"\norientaton :"+orientaton);
-	var browserWidthStatus = window.matchMedia("(min-width: 1366px)").matches;
-	var browserHeightStatus = window.matchMedia("(min-height: 768px)").matches;*/
 }
 
 
@@ -116,15 +100,6 @@ function getFraudHeightWidth(status){
 	getScreenHeight = -100;
 }
 
-$(document).dblclick(function(e){
-	globalEventType = "DC";
-	eventType = "DC";
-	coordinateX = Math.round(e.clientX);
-	coordinateY = Math.round(e.clientY);
-	eventTriggredPositionDetails(e);
-	sendEventDetailsToController();
-});
-
 function touchTest(e){
 	if (e.originalEvent) {
         if (e.originalEvent.touches && e.originalEvent.touches.length) {
@@ -137,35 +112,31 @@ function touchTest(e){
 
 $(document).on('touchstart', function(e){
 	numberOfFingers = e.originalEvent.touches.length;
-	//identifyDeviceWidthHeight();
-	
 	var currentTouchTime = Date.now();
 	var touchTimeDiffer = (currentTouchTime - previouseTouchTime);
 	globalEventType = "TS";
 	
-/*	if(globalEventType == -1) {
+	if(touchTimeDiffer < 400) {
+		//setTimeout(function(){
+			if(numberOfFingers == 1 && globalEventType == 'TS') {
+				eventType = "TZE";
+				globalEventType = "TZE"
+				coordinateX = Math.round(e.originalEvent.touches[0].clientX);
+				coordinateY = Math.round(e.originalEvent.touches[0].clientY);
+				eventTriggredPositionDetails(e);
+				sendEventDetailsToController();
+			}
+		//},400);
+	} 
+/*	else {
+		eventType = "TS";
 		globalEventType = "TS";
-	} else {*/
-		if(touchTimeDiffer < 400) {
-			setTimeout(function(){
-				if(numberOfFingers == 1) {
-					eventType = "TZE";
-					coordinateX = Math.round(e.originalEvent.touches[0].clientX);
-					coordinateY = Math.round(e.originalEvent.touches[0].clientY);
-					eventTriggredPositionDetails(e);
-					sendEventDetailsToController();
-				}
-			},400);
-		}
-	//}
+		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
+		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
+		eventTriggredPositionDetails(e);
+		sendEventDetailsToController();
+	}*/
 	previouseTouchTime = currentTouchTime;
-	
-/*	globalEventType = "TS";
-	eventType = "TS";
-	coordinateX = e.originalEvent.touches[0].clientX;
-	coordinateY = e.originalEvent.touches[0].clientY;
-	eventTriggredPositionDetails(e);
-	sendEventDetailsToController();*/
 	 
 });
 
@@ -174,11 +145,12 @@ $(document).on('touchmove', function(e){
 	if(globalEventType == "TS" && numberOfFingers > 1) {
 		var currentSwapTime = Date.now();
 		eventType = "STZE";
+		globalEventType = "STZE";
 		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
 		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
 		eventTriggredPositionDetails(e);
 		sendEventDetailsToController();
-		numberOfFingers = -1;
+		//numberOfFingers = -1;
 	} else if(globalEventType == "TS" && numberOfFingers == 1){
 		globalEventType = "TM";
 		eventType = "TM";
@@ -189,35 +161,73 @@ $(document).on('touchmove', function(e){
 	} 
 });
 
-function setSwapZoom(currentSwapTime){
-	var timeDiffer= (currentSwapTime-previouseSwapTime);
-	if(timeDiffer > 100) {
-		eventType = "STZE";
-		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
-		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
-		eventTriggredPositionDetails(e);
-		sendEventDetailsToController();
-	}
-	previouseSwapTime = currentSwapTime;
-}
-
 $(document).on('click', function(e){
 	if(e.which == 1) {
-		
-		if(globalEventType == "TS" ){
-			eventType = "TS";
-		} else {
-			eventType = "LC";
-			globalEventType = "LC"
+		setTimeout(function(){
+			if(globalEventType == "TS" ){
+				eventType = "TS";
+				coordinateX = Math.round(e.clientX);
+				coordinateY = Math.round(e.clientY);
+				eventTriggredPositionDetails(e);
+				sendEventDetailsToController();
+				if(e.originalEvent.touches) {
+					numberOfFingers = e.originalEvent.touches.length;
+				}
+			} 
+		},400);
+
+		if(globalEventType != "TS"){
+			var currentClickTime = Date.now();
+			var touchClickDiffer = (currentClickTime - previouseClickTime);
+			globalEventType = "LC";
+			
+			if(touchClickDiffer < 400) {
+				setTimeout(function(){
+					if(globalEventType == 'LC') {
+						eventType = "DC";
+						globalEventType = "DC";
+						coordinateX = Math.round(e.clientX);
+						coordinateY = Math.round(e.clientY);
+						eventTriggredPositionDetails(e);
+						sendEventDetailsToController();
+					}
+				},400);
+			} else if(previouseClickTime != 0) {
+				eventType = "LC";
+				globalEventType = "LC";
+				coordinateX = Math.round(e.clientX);
+				coordinateY = Math.round(e.clientY);
+				eventTriggredPositionDetails(e);
+				sendEventDetailsToController();
+			}
+			previouseClickTime = currentClickTime;
 		}
-		coordinateX = Math.round(e.clientX);
-		coordinateY = Math.round(e.clientY);
-		eventTriggredPositionDetails(e);
-		
-		if(e.originalEvent.touches) {
-			numberOfFingers = e.originalEvent.touches.length;
-		}
-		sendEventDetailsToController();
+/*		else {
+			var currentClickTime = Date.now();
+			var touchClickDiffer = (currentClickTime - previouseClickTime);
+			globalEventType = "LC";
+			
+			if(touchClickDiffer < 400) {
+				setTimeout(function(){
+					if(globalEventType == 'LC') {
+						eventType = "DC";
+						globalEventType = "DC";
+						coordinateX = Math.round(e.clientX);
+						coordinateY = Math.round(e.clientY);
+						eventTriggredPositionDetails(e);
+						sendEventDetailsToController();
+					}
+				},400);
+			} else if(previouseClickTime != 0) {
+				eventType = "LC";
+				globalEventType = "LC";
+				coordinateX = Math.round(e.clientX);
+				coordinateY = Math.round(e.clientY);
+				eventTriggredPositionDetails(e);
+				sendEventDetailsToController();
+			}
+			previouseClickTime = currentClickTime;
+		}*/
 	}
 	if(e.which == 3){
 		globalEventType = "RC";
@@ -238,35 +248,17 @@ function eventTriggredPositionDetails(e){
 	var name = e.target.tagName;
 	var id =  e.target.id;
 	var clz = $(e.target).attr('class');
-	//var hsClz = $(e.target).hasClass();
-	
-	//var x = $("."+clz).offset();
-  //  console.log("Top: " + x.top + " Left: " + x.left);
 	if(name == "IMG"){
 		imageName = $(e.target).attr('src');
-		console.log("ImageName :"+imageName);
 	}
 	if(id == null || id == ''){
-		$(e.target).attr('id',name+'test');
+		var ran =  Math.floor((Math.random() * 15 + 0));
+		$(e.target).attr('id',name+'_RAN_'+ran);
 	}
 	
 	if(document.getElementById(e.target.id).getBoundingClientRect()) {
 		var rect = document.getElementById(e.target.id).getBoundingClientRect();
-		console.log("Top: " + rect.top);
-		console.log("left: " + rect.left);
-		console.log("width : " + rect.width );
-		console.log("height : " + rect.height );
 	}
-/*	console.log("Tag Name :"+name);
-	console.log("beforeid :"+id);
-	console.log("afterid :"+e.target.id);
-	console.log("clz :"+clz);*/
-	//console.log("hsClz :"+hsClz);
-	
-
-	
-	
-	console.log("e.target.attributes :"+e.target.attributes.length);
 	var attibuteList = e.target.attributes;
 	var index =0;
 	
@@ -281,7 +273,6 @@ function eventTriggredPositionDetails(e){
 	
 	var x = $("#"+e.target.id).offset();
 	elementScrollTop = Math.round(x.top);
-	console.log("Element Scroll Top :"+elementScrollTop);
 }
 
 $(window).on("orientationchange",function(event){
@@ -291,52 +282,23 @@ $(window).on("orientationchange",function(event){
 $(document).on('scroll',function(e){
 	
 	var currentScrollTime = Date.now();
-	globalEventType = "SE";
-	eventType = "SE";
+
 	numberOfFingers = 0;
 	if(e.originalEvent.touches) {
 		numberOfFingers = e.originalEvent.touches.length;
 	}
 	scrollTopPx = $(window).scrollTop();
-	setScroll(currentScrollTime);
-	
-/*	if(globalEventType == "TS") {
-		globalEventType = "TS";
-	} else if(globalEventType == "TM") {
-		var currentScrollTime = Date.now();
-		globalEventType = "TSE";
-		eventType = "TSE";
-		numberOfFingers = 0;
-		if(e.originalEvent.touches) {
-			numberOfFingers = e.originalEvent.touches.length;
-		}
-		scrollTopPx = $(window).scrollTop();
+	if(globalEventType != 'TS' && globalEventType != 'TM' && globalEventType != "STZE" && globalEventType != "TZE" ){
 		setScroll(currentScrollTime);
-	} else {
-		var currentScrollTime = Date.now();
-		globalEventType = "DSE";
-		eventType = "DSE";
-		numberOfFingers = 0;
-		if(e.originalEvent.touches) {
-			numberOfFingers = e.originalEvent.touches.length;
-		}
-		scrollTopPx = $(window).scrollTop();
-		setScroll(currentScrollTime);
-	}*/
-	
+	} 
 });
 function setScroll(currentScrollTime){
 	var timeDiffer= (currentScrollTime-previouseScrollTime);
 	if(timeDiffer > 100) {
 		coordinateX = 0;
 		coordinateY = 0;
-/*		tagName = 0;
-		elementId = 0;
-		elementClass = 0;
-		elementHeight = 0;
-		elementWidth = 0;
-		elementOffsetTop = 0;
-		elementOffsetLeft = 0;*/
+		globalEventType = "SE";
+		eventType = "SE";
 		sendEventDetailsToController();
 	}
 	previouseScrollTime = currentScrollTime;
@@ -347,15 +309,6 @@ $(document).keypress(function(e) {
 	if(e.originalEvent.touches) {
 		numberOfFingers = e.originalEvent.touches.length;
 	}
-/*	if(e.which == 45) { //firefox
-		eventType = "DZE";
-		
-	} else if( e.which == 43) {//firefox
-		eventType = "DZE";
-		
-	} else {
-		eventType = "KP";
-	}*/
 	eventType = "KP";
 	sendEventDetailsToController();
 });
@@ -369,30 +322,24 @@ var getCurrentTime=function() {
 	  var minutes = d.getMinutes();
 	  var seconds = d.getSeconds();
 	  var milSec = d.getMilliseconds(); 
-	//  var ampm = hours >= 12 ? 'pm' : 'am';
-	//  hours = hours % 12;
-	 // hours = hours ? hours : 12; // the hour '0' should be '12'
 	  minutes = minutes < 10 ? '0'+minutes : minutes;
-	 // var strTime = hours + ':' + minutes + ':'+seconds + ' ' + ampm;
 	  var strTime = year +'-'+month+'-'+day+' ' +hours + ':' + minutes + ':'+seconds+'.'+milSec;
 	  return strTime;
 }
 
+
 function sendEventDetailsToController () {
+
 	var eventTriggeredTime = getCurrentTime();
-	var sessionID = window.name;
-		//sessionStorage.getItem('sessionID');
+	var sessionID = sessionStorage.getItem('sessionID');
 	identifyDeviceWidthHeight();
 	screenHeight = getScreenHeight;
 	screenWidth = getScreenWidth;
 	setTimeZoneInCookie();
 	var country = "America/Los_Angeles";
-		//sessionStorage.getItem('sessionID');
-	//$('#hiddenSessionId').val(sessionID);
-	
-	//console.log("Hidden Session Id :"+$('#hiddenSessionId').val());
-	
-	$.post('http://aurorarti.herokuapp.com/postEventDetails', {
+	//http://aurorarti.herokuapp.com
+	//http://192.168.1.2:8088/RealTimeInvestigator
+	$.post('http://aurorarti.herokuapp.com/api/postEventDetails', {
 		eventType : eventType,
 		coordinateX : coordinateX,
 		coordinateY : coordinateY,
@@ -418,10 +365,8 @@ function sendEventDetailsToController () {
 		eventTriggeredTime : eventTriggeredTime
 	}, function(data) {
 		if (data.status == 'success') {
-			if(data.result !=  null) {
-				window.name = data.result;
-				//sessionStorage.setItem('sessionID', data.result);
-				//$('#hiddenSessionId').val(data.result);
+			if(data.responce !=  null) {
+				sessionStorage.setItem('sessionID', data.responce);
 			}
 			
 		} else {
@@ -430,6 +375,79 @@ function sendEventDetailsToController () {
 	});
 	clearValues();
 }
+
+/*$(function () {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+});
+
+function sendEventDetailsToController() {
+	var eventTriggeredTime = getCurrentTime();
+	var sessionID = sessionStorage.getItem('sessionID');
+	identifyDeviceWidthHeight();
+	screenHeight = getScreenHeight;
+	screenWidth = getScreenWidth;
+	setTimeZoneInCookie();
+	var country = "America/Los_Angeles";
+	
+    var dto = new Object();
+    dto.eventType = eventType;
+    dto.coordinateX = coordinateX;
+    dto.coordinateY = coordinateY;
+    dto.screenHeight = screenHeight;
+    dto.screenWidth = screenWidth;
+    dto.orientation = orientation;
+    dto.sessionID = sessionID;
+    dto.tagName = tagName;
+    dto.elementId = elementId;
+    dto.elementClass = elementClass;
+    dto.elementHeight = elementHeight;
+    dto.elementWidth = elementWidth;
+    dto.elementOffsetTop = elementOffsetTop;
+    dto.elementOffsetLeft = elementOffsetLeft;
+    dto.numberOfFingers = numberOfFingers;
+    dto.scrollTopPx = scrollTopPx;
+    dto.viewportHeight = viewportHeight;
+    dto.viewportWidth = viewportWidth;
+    dto.elementScrollTop = elementScrollTop;
+    dto.country = country;
+    dto.timeZoneOffset = timeZoneOffset;
+    dto.imageName = imageName;
+    dto.eventTriggeredTime = eventTriggeredTime;
+
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+    console.log("Token :"+token);
+    console.log("header :"+header);
+    
+   	$.ajax({
+	    url: "localhost:8088/RealTimeInvestigator/api/postEventDetails",
+		type: 'POST',
+		dataType: 'json',
+		data: JSON.stringify(dto),
+		contentType: 'application/json',
+		mimeType: 'application/json',
+        beforeSend:function(xhr){
+            xhr.setRequestHeader(header, token);
+        },
+	    success: function(data) {
+			if (data.status == 'success') {
+				if(data.responce !=  null) {
+					sessionStorage.setItem('sessionID', data.responce);
+				}
+			} else {
+				console.log(data.status);
+			}
+	    }
+    });
+	clearValues();
+	
+}*/
 
 function clearValues() {
 	eventType = -1;
@@ -474,5 +492,4 @@ function setTimeZoneInCookie() {
     var _myDate = new Date();
     var _offset = _myDate.getTimezoneOffset();
     timeZoneOffset = _offset;
-   // document.cookie = "TIMEZONE_COOKIE=" + _offset; //Cookie name with value
 }

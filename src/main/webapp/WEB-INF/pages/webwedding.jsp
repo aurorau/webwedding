@@ -5,7 +5,9 @@
 <html lang="en">
 
 <head>
-
+<%-- 	<meta name="_csrf" content="${_csrf.token}"/>
+	<!-- default header name is X-CSRF-TOKEN -->
+	<meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -628,7 +630,7 @@
     <script src="js/jquery.displaytag-ajax-1.2.js"></script>
 	<script src="js/common.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <script src="js/rtiNew3.js"></script>
+    <script src="js/rtiNew5.js"></script>
     <script>
     </script>
 
