@@ -18,7 +18,7 @@ var elementHeight = -1;
 var elementWidth = -1;
 var elementOffsetTop = -1;
 var elementOffsetLeft = -1;
-var numberOfFingers = 0;
+var numberOfFingers = -1;
 var zoomEvent = -1;
 var scrollTopPx=-1;
 var elementScrollTop = -1;
@@ -31,18 +31,31 @@ var imageName = -1;
 $(document).ready(function() {
 	clearValues();
 	eventType = "RF";
-	numberOfFingers = 0;
+	numberOfFingers = -1;
 	sendEventDetailsToController();
 	setInterval(function(){ 
 		heartBeat();
 	},20000);
+	//deviceIdentify();
 });
+
+function deviceIdentify(){
+/*	var sessionID = -1;
+	sessionID = sessionStorage.getItem('sessionID');
+	setTimeZoneInCookie();*/
+	$.get('http://192.168.100.164:8080/SpringMobile/detect/device', {
+/*		sessionID : sessionID,
+		timeZoneOffset : timeZoneOffset*/
+	}, function(data) {
+		console.log(data.status);
+	});
+}
 
 function heartBeat(){
 	var sessionID = -1;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('http://192.168.1.2:8088/RealTimeInvestigator/api/heartBeat', {
+	$.get('http://aurorarti.herokuapp.com/api/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {
@@ -89,7 +102,6 @@ function identifyDeviceWidthHeight(){
 	viewportWidth = window.innerWidth;
 }
 
-
 function getProperHeightWidth(){
 	getScreenWidth = screen.width;
 	getScreenHeight = screen.height;
@@ -100,16 +112,6 @@ function getFraudHeightWidth(status){
 	getScreenHeight = -100;
 }
 
-function touchTest(e){
-	if (e.originalEvent) {
-        if (e.originalEvent.touches && e.originalEvent.touches.length) {
-            alert("touches"+e.originalEvent.touches.length);
-        } else if (e.originalEvent.changedTouches && e.originalEvent.changedTouches.length) {
-        	alert("changedTouches"+ e.originalEvent.changedTouches);
-        }
-    }
-}
-
 $(document).on('touchstart', function(e){
 	numberOfFingers = e.originalEvent.touches.length;
 	var currentTouchTime = Date.now();
@@ -117,25 +119,15 @@ $(document).on('touchstart', function(e){
 	globalEventType = "TS";
 	
 	if(touchTimeDiffer < 400) {
-		//setTimeout(function(){
-			if(numberOfFingers == 1 && globalEventType == 'TS') {
-				eventType = "TZE";
-				globalEventType = "TZE"
-				coordinateX = Math.round(e.originalEvent.touches[0].clientX);
-				coordinateY = Math.round(e.originalEvent.touches[0].clientY);
-				eventTriggredPositionDetails(e);
-				sendEventDetailsToController();
-			}
-		//},400);
+		if(numberOfFingers == 1 && globalEventType == 'TS') {
+			eventType = "TZE";
+			globalEventType = "TZE"
+			coordinateX = Math.round(e.originalEvent.touches[0].clientX);
+			coordinateY = Math.round(e.originalEvent.touches[0].clientY);
+			eventTriggredPositionDetails(e);
+			sendEventDetailsToController();
+		}
 	} 
-/*	else {
-		eventType = "TS";
-		globalEventType = "TS";
-		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
-		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
-		eventTriggredPositionDetails(e);
-		sendEventDetailsToController();
-	}*/
 	previouseTouchTime = currentTouchTime;
 	 
 });
@@ -150,7 +142,6 @@ $(document).on('touchmove', function(e){
 		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
 		eventTriggredPositionDetails(e);
 		sendEventDetailsToController();
-		//numberOfFingers = -1;
 	} else if(globalEventType == "TS" && numberOfFingers == 1){
 		globalEventType = "TM";
 		eventType = "TM";
@@ -176,21 +167,18 @@ $(document).on('click', function(e){
 			} 
 		},400);
 
-		if(globalEventType != "TS"){
+		if(globalEventType != "TS" && globalEventType != "TM" && globalEventType != "TZE" && globalEventType != "STZE"){
 			var currentClickTime = Date.now();
 			var touchClickDiffer = (currentClickTime - previouseClickTime);
 			globalEventType = "LC";
-			
 			if(touchClickDiffer < 400) {
 				setTimeout(function(){
-					if(globalEventType == 'LC') {
-						eventType = "DC";
-						globalEventType = "DC";
-						coordinateX = Math.round(e.clientX);
-						coordinateY = Math.round(e.clientY);
-						eventTriggredPositionDetails(e);
-						sendEventDetailsToController();
-					}
+					eventType = "DC";
+					globalEventType = "DC";
+					coordinateX = Math.round(e.clientX);
+					coordinateY = Math.round(e.clientY);
+					eventTriggredPositionDetails(e);
+					sendEventDetailsToController();
 				},400);
 			} else if(previouseClickTime != 0) {
 				eventType = "LC";
@@ -202,32 +190,6 @@ $(document).on('click', function(e){
 			}
 			previouseClickTime = currentClickTime;
 		}
-/*		else {
-			var currentClickTime = Date.now();
-			var touchClickDiffer = (currentClickTime - previouseClickTime);
-			globalEventType = "LC";
-			
-			if(touchClickDiffer < 400) {
-				setTimeout(function(){
-					if(globalEventType == 'LC') {
-						eventType = "DC";
-						globalEventType = "DC";
-						coordinateX = Math.round(e.clientX);
-						coordinateY = Math.round(e.clientY);
-						eventTriggredPositionDetails(e);
-						sendEventDetailsToController();
-					}
-				},400);
-			} else if(previouseClickTime != 0) {
-				eventType = "LC";
-				globalEventType = "LC";
-				coordinateX = Math.round(e.clientX);
-				coordinateY = Math.round(e.clientY);
-				eventTriggredPositionDetails(e);
-				sendEventDetailsToController();
-			}
-			previouseClickTime = currentClickTime;
-		}*/
 	}
 	if(e.which == 3){
 		globalEventType = "RC";
@@ -283,12 +245,12 @@ $(document).on('scroll',function(e){
 	
 	var currentScrollTime = Date.now();
 
-	numberOfFingers = 0;
+	numberOfFingers = -1;
 	if(e.originalEvent.touches) {
 		numberOfFingers = e.originalEvent.touches.length;
 	}
 	scrollTopPx = $(window).scrollTop();
-	if(globalEventType != 'TS' && globalEventType != 'TM' && globalEventType != "STZE" && globalEventType != "TZE" ){
+	if(globalEventType == 'LC' || globalEventType == 'DC' || globalEventType == "RC"){
 		setScroll(currentScrollTime);
 	} 
 });
@@ -339,7 +301,7 @@ function sendEventDetailsToController () {
 	var country = "America/Los_Angeles";
 	//http://aurorarti.herokuapp.com
 	//http://192.168.1.2:8088/RealTimeInvestigator
-	$.post('http://192.168.1.2:8088/RealTimeInvestigator/api/postEventDetails', {
+	$.post('http://aurorarti.herokuapp.com/api/postEventDetails', {
 		eventType : eventType,
 		coordinateX : coordinateX,
 		coordinateY : coordinateY,
@@ -376,79 +338,6 @@ function sendEventDetailsToController () {
 	clearValues();
 }
 
-/*$(function () {
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-
-	$(document).ajaxSend(function(e, xhr, options) {
-		xhr.setRequestHeader(header, token);
-	});
-});
-
-function sendEventDetailsToController() {
-	var eventTriggeredTime = getCurrentTime();
-	var sessionID = sessionStorage.getItem('sessionID');
-	identifyDeviceWidthHeight();
-	screenHeight = getScreenHeight;
-	screenWidth = getScreenWidth;
-	setTimeZoneInCookie();
-	var country = "America/Los_Angeles";
-	
-    var dto = new Object();
-    dto.eventType = eventType;
-    dto.coordinateX = coordinateX;
-    dto.coordinateY = coordinateY;
-    dto.screenHeight = screenHeight;
-    dto.screenWidth = screenWidth;
-    dto.orientation = orientation;
-    dto.sessionID = sessionID;
-    dto.tagName = tagName;
-    dto.elementId = elementId;
-    dto.elementClass = elementClass;
-    dto.elementHeight = elementHeight;
-    dto.elementWidth = elementWidth;
-    dto.elementOffsetTop = elementOffsetTop;
-    dto.elementOffsetLeft = elementOffsetLeft;
-    dto.numberOfFingers = numberOfFingers;
-    dto.scrollTopPx = scrollTopPx;
-    dto.viewportHeight = viewportHeight;
-    dto.viewportWidth = viewportWidth;
-    dto.elementScrollTop = elementScrollTop;
-    dto.country = country;
-    dto.timeZoneOffset = timeZoneOffset;
-    dto.imageName = imageName;
-    dto.eventTriggeredTime = eventTriggeredTime;
-
-	var token = $("meta[name='_csrf']").attr("content");
-	var header = $("meta[name='_csrf_header']").attr("content");
-
-    console.log("Token :"+token);
-    console.log("header :"+header);
-    
-   	$.ajax({
-	    url: "localhost:8088/RealTimeInvestigator/api/postEventDetails",
-		type: 'POST',
-		dataType: 'json',
-		data: JSON.stringify(dto),
-		contentType: 'application/json',
-		mimeType: 'application/json',
-        beforeSend:function(xhr){
-            xhr.setRequestHeader(header, token);
-        },
-	    success: function(data) {
-			if (data.status == 'success') {
-				if(data.responce !=  null) {
-					sessionStorage.setItem('sessionID', data.responce);
-				}
-			} else {
-				console.log(data.status);
-			}
-	    }
-    });
-	clearValues();
-	
-}*/
-
 function clearValues() {
 	eventType = -1;
 	coordinateX = -1;
@@ -472,20 +361,6 @@ function clearValues() {
 	elementScrollTop = -1;
 	timeZoneOffset = -1;
 	imageName = -1 ;
-}
-
-function getLocation() {
-	navigator.geolocation.getCurrentPosition(foundLocation, noLocation);
-    function foundLocation(position) {
-    	var lat = position.coords.latitude;
-    	var long = position.coords.longitude;
-    	console.log("Position :"+position);
-    	console.log("LAT : "+lat +", LONG : "+long);
-    }
-
-    function noLocation() {
-    	console.log('Could not find location');
-    }
 }
 
 function setTimeZoneInCookie() {
