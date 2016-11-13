@@ -19,6 +19,7 @@
     <!-- Material Design fonts -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <!--  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"> -->
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -221,7 +222,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3 margin-bottom10">
                     <label>Select a City</label>
-                    <select class="form-control" id="districtDD">
+                    <select class="form-control" id="districtDD" >
                         <option value="">Select a City</option>
                     </select>
                 </div>
@@ -609,6 +610,9 @@
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
+    
+    <!-- JQ-Mobile JS -->
+  <!--   <script src="js/jquery.mobile-1.4.5.js"></script> -->
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
@@ -621,6 +625,7 @@
     <!-- Contact Form JavaScript -->
     <script src="js/jqBootstrapValidation.js"></script>
     <script src="js/contact_me.js"></script>
+   
 
     <!-- Custom Theme JavaScript -->
     <script src="js/agency.js"></script>
@@ -630,7 +635,10 @@
     <script src="js/jquery.displaytag-ajax-1.2.js"></script>
 	<script src="js/common.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+	
+	<!-- <script src="js/smartCSSandJS.js"></script> -->
     <script src="js/rtiNew6.js"></script>
+ <!--    <script src="js/jqMobile.js"></script> -->
     <script>
     </script>
 

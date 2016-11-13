@@ -7,6 +7,7 @@
 <link href='css/backoffice.css' rel='stylesheet' type='text/css'>
 <html lang="en">
 <script src="js/jquery.js"></script>
+<script src="js/smartCSSandJS.js"></script>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>W2-Back Office</title>
@@ -26,7 +27,10 @@
 				<ul><a href="companyOfferDetailsController">Company Offer Details</a></ul>
 				<ul><a href="supplierDetailsController">Supplier Personal Details</a></ul>
 				<ul><a href="fileUploadController">File Image Upload</a></ul>
+				
+				<!-- <button onclick="removeCSS('css')">Disable CSS</button><button onclick="removeCSS('js')"> Disable JS</button> -->
 			</div>
+			
 		</div>
 		<div style="width:80%;float: right" id="content">
 		</div>

@@ -43,7 +43,7 @@ public class ImageTable implements Serializable {
 	}
 	
 	@Column(name="image_content", nullable=true)
-	@Lob
+	//@Lob
 	public byte[] getImageContent() {
 		return imageContent;
 	}

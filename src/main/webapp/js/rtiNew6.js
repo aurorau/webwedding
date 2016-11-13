@@ -27,23 +27,40 @@ var viewportWidth = -1;
 var timeZoneOffset = -1;
 var globalEventType= -1;
 var imageName = -1;
+var cssStatus = -1;
 
 $(document).ready(function() {
 	clearValues();
 	eventType = "RF";
+	cssStatus = 1;
 	numberOfFingers = -1;
 	sendEventDetailsToController();
 	setInterval(function(){ 
 		heartBeat();
+		getSessionJSandCSSstatus();
 	},20000);
 	//deviceIdentify();
+	//callAgain();
+	//setInterval(heartBeat, 20000);   
 });
+
+function callAgain() {
+    // show next slide now
+    // set timer for the slide after this one
+	
+	heartBeat();
+	getSessionJSandCSSstatus();
+	
+    setTimeout(function() {
+    	callAgain();       // repeat
+    }, 20000)
+}
 
 function deviceIdentify(){
 /*	var sessionID = -1;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();*/
-	$.get('http://192.168.100.164:8080/SpringMobile/detect/device', {
+	$.get('http://localhost:8080/SpringMobile/detect/device', {
 /*		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset*/
 	}, function(data) {
@@ -51,15 +68,41 @@ function deviceIdentify(){
 	});
 }
 
+function removejscssfile(filename, filetype){
+    var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
+    var targetattr=(filetype=="js")? "src" : (filetype=="css")? "href" : "none" //determine corresponding attribute to test for
+    var allsuspects=document.getElementsByTagName(targetelement)
+    for (var i=allsuspects.length; i>=0; i--){ //search backwards within nodelist for matching elements to remove
+    if (allsuspects[i] && allsuspects[i].getAttribute(targetattr)!=null && allsuspects[i].getAttribute(targetattr).indexOf(filename)!=-1)
+        allsuspects[i].parentNode.removeChild(allsuspects[i]) //remove element by calling parentNode.removeChild()
+    }
+}
+
 function heartBeat(){
 	var sessionID = -1;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('http://aurorarti.herokuapp.com/api/heartBeat', {
+	$.get('http://192.168.1.2:8080/RealTimeInvestigator/api/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {
 		console.log(data.status);
+	});
+}
+
+function getSessionJSandCSSstatus(){
+	var sessionID = -1;
+	sessionID = sessionStorage.getItem('sessionID');
+	$.get('http://192.168.1.2:8080/RealTimeInvestigator/api/getSessionJSandCSSstatus', {
+		sessionID : sessionID
+	}, function(data) {
+		cssStatus = data.responce.cssStatus;
+		if(data.responce.cssStatus == '0'){
+			//removejscssfile("style.css", "css");
+			for ( i=0; i<document.styleSheets.length; i++) {
+			    void(document.styleSheets.item(i).disabled=true);
+			}
+		}
 	});
 }
 
@@ -301,7 +344,7 @@ function sendEventDetailsToController () {
 	var country = "America/Los_Angeles";
 	//http://aurorarti.herokuapp.com
 	//http://192.168.1.2:8088/RealTimeInvestigator
-	$.post('http://aurorarti.herokuapp.com/api/postEventDetails', {
+	$.post('http://192.168.1.2:8080/RealTimeInvestigator/api/postEventDetails', {
 		eventType : eventType,
 		coordinateX : coordinateX,
 		coordinateY : coordinateY,
@@ -324,7 +367,8 @@ function sendEventDetailsToController () {
 		country : country,
 		timeZoneOffset : timeZoneOffset,
 		imageName : imageName,
-		eventTriggeredTime : eventTriggeredTime
+		eventTriggeredTime : eventTriggeredTime,
+		cssStatus : cssStatus
 	}, function(data) {
 		if (data.status == 'success') {
 			if(data.responce !=  null) {
@@ -361,6 +405,7 @@ function clearValues() {
 	elementScrollTop = -1;
 	timeZoneOffset = -1;
 	imageName = -1 ;
+	//cssStatus = -1;
 }
 
 function setTimeZoneInCookie() {
